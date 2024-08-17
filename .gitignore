@@ -1,0 +1,11 @@
+image-edit
+
+
+*.o
+*.so
+*.dylib
+*. dll
+
+
+bin/*
+build/*
