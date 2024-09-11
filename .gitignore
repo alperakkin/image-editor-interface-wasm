@@ -1,1 +1,15 @@
+<<<<<<< HEAD
 .wasm
+=======
+image-edit
+
+
+*.o
+*.so
+*.dylib
+*. dll
+
+
+bin/*
+build/*
+>>>>>>> 50290331554aec1ffe7d5cae834e540bcc3003c2
