@@ -1,13 +1,13 @@
 #include <math.h>
 #include <float.h>
 #include <stdlib.h>
-
+#include <stdint.h>
 #include "helpers.h"
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
-void grayscale(int* pixels, int width, int height);
+void grayscale(uint8_t* pixels, int width, int height);
 Image  contrast(Image image, float f);
 Image brightness(Image image, float ratio);
 Image gaussian(Image image, int kernel_size, float sigma);

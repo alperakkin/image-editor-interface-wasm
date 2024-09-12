@@ -1,9 +1,9 @@
 #include <emscripten.h>
+#include <stdint.h>
 #include "editor.h"
 
-
 EMSCRIPTEN_KEEPALIVE
-void grayscale(int* pixels, int width, int height)
+void grayscale(uint8_t* pixels, int width, int height)
 {
     for (int y = 0; y < height; y++)
     {
