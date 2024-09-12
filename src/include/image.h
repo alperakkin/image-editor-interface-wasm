@@ -33,7 +33,7 @@ Image open_image(char* FILENAME);
 void save_image(char* FILENAME, Image image);
 
 
-Image alloc_image(int image_width, int image_height);
+
 void free_image(Image image);
 
 Color hex_to_rgb(char* hex_code);

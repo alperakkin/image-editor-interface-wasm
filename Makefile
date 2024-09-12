@@ -1,30 +1,11 @@
-CC = gcc
-CFLAGS = -I./src/include
+all: clean compile
 
-SRC = src/main.c
-OBJ = $(SRC:src/%.c=build/%.o)
-
-
-TARGET = bin/main.exe
-
-all: clean build compile
-
-build:
-	powershell -Command "New-Item -ItemType Directory -Path 'build'"
-	powershell -Command "New-Item -ItemType Directory -Path 'bin'"
-	
-compile: $(TARGET)
-
-$(TARGET): $(OBJ)
-	$(CC) -o $@ $^ $(EXTERNAL)
-
-build/%.o: src/%.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+compile:
+	emcc -I./src/include src/editor.c src/image.c src/helpers.c src/utils.c -o src/web-interface/editor.wasm -s EXPORTED_FUNCTIONS="['_grayscale']" -s STANDALONE_WASM -s ALLOW_TABLE_GROWTH -Iinclude -s USE_LIBPNG=1 -s EXPORTED_RUNTIME_METHODS='["cwrap", "ccall"]' --no-entry
 
 
 .PHONY: clean
 
 clean:
-	powershell -Command "Remove-Item -Path 'bin' -Recurse -ErrorAction SilentlyContinue; exit 0"
-	powershell -Command "Remove-Item -Path 'build' -Recurse -ErrorAction SilentlyContinue; exit 0"
+	rm -rf web-interface/*.wasm
 

@@ -7,7 +7,7 @@
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
 
-Image grayscale(Image image);
+void grayscale(int* pixels, int width, int height);
 Image  contrast(Image image, float f);
 Image brightness(Image image, float ratio);
 Image gaussian(Image image, int kernel_size, float sigma);

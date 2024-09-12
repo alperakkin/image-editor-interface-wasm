@@ -71,26 +71,6 @@ Image open_image(char* FILENAME) {
 }
 
 
-Image alloc_image(int image_width, int image_height){
-  Image image;
-  image.width = image_width;
-  image.height = image_height;
-  image.pixels = (png_bytep*) malloc(sizeof(png_bytep) * image_height);
-  for(int y = 0; y < image_height; y++) {
-        image.pixels[y] = (png_byte*) malloc(sizeof(png_byte) * image_width * 4 );
-        for (int x = 0; x < image.width; x++)
-        {
-            png_bytep px = &(image.pixels[y][x * 4]);
-            px[0] = 0;
-            px[1] = 0;
-            px[2] = 0;
-            px[3] = 0;
-        }
-  }
-
-
-  return image;
-}
 
 void free_image(Image image)
 {
