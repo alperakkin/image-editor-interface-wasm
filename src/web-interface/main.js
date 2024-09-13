@@ -2,32 +2,44 @@ let Module;
 let grayscale;
 let result;
 
+
 const importObject = {
-    editor: { grayscale: (arg) => console.log(arg), alloc_image: (arg) => console.log(arg) },
-};
-
-WebAssembly.instantiateStreaming(fetch("editor.wasm")).then(
-    (obj) => {
-        console.log(obj);
-        Module = obj.instance.exports;
-        grayscale = Module.grayscale;
-
-
-
+    env: {
+        memory: new WebAssembly.Memory({ initial: 1024, maximum: 65536 }),
+        table: new WebAssembly.Table({ initial: 0, element: 'anyfunc' }),
+        console_log_int: console.log,
+        segfault: console.log,
+        alignfault: console.log
 
     }
-);
+};
+
+
+
+
+WebAssembly.instantiateStreaming(fetch("editor.wasm"), importObject)
+    .then(
+        (obj) => {
+            console.log(obj);
+            Module = obj.instance.exports;
+            grayscale = Module.grayscale_wrapper;
+
+        }
+    );
 
 
 function to_grayscale(pixels, width, height) {
+    let Heap = new Uint8Array(Module.memory.buffer, 0, width * height * 4);
+    Heap.set(pixels);
 
-    let buffer = new Uint8Array(Module.memory.buffer, 0, width * height * 4);
-    buffer.set(pixels);
 
-    grayscale(buffer.byteOffset, width, height);
+    //grayscale(Heap.byteOffset, width, height);
+    grayscale(Heap.byteOffset, 123, height);
+
+
 
     let result = new Uint8Array(Module.memory.buffer, 0, width * height * 4);
-
+    console.log("Afft", result);
     return result;
 }
 
@@ -69,7 +81,6 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
             let pixels = imageData.data;
 
             console.log("before", pixels);
-
 
             result = to_grayscale(pixels, img.width, img.height);
 
