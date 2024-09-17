@@ -1,47 +1,10 @@
-let Module;
-let grayscale;
-let result;
+import ImageWrapper from './wrapper.js';
 
-
-const importObject = {
-    env: {
-        memory: new WebAssembly.Memory({ initial: 1024, maximum: 65536 }),
-        table: new WebAssembly.Table({ initial: 0, element: 'anyfunc' }),
-        console_log_int: console.log,
-        segfault: console.log,
-        alignfault: console.log
-
-    }
-};
+const wrapper = new ImageWrapper();
 
 
 
 
-WebAssembly.instantiateStreaming(fetch("editor.wasm"), importObject)
-    .then(
-        (obj) => {
-            console.log(obj);
-            Module = obj.instance.exports;
-            grayscale = Module.grayscale_wrapper;
-
-        }
-    );
-
-
-function to_grayscale(pixels, width, height) {
-    let Heap = new Uint8Array(Module.memory.buffer, 0, width * height * 4);
-    Heap.set(pixels);
-
-
-    //grayscale(Heap.byteOffset, width, height);
-    grayscale(Heap.byteOffset, 123, height);
-
-
-
-    let result = new Uint8Array(Module.memory.buffer, 0, width * height * 4);
-    console.log("Afft", result);
-    return result;
-}
 
 document.getElementById('imageUploader').addEventListener('change', function (event) {
     const file = event.target.files[0];
@@ -80,13 +43,8 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
 
             let pixels = imageData.data;
 
-            console.log("before", pixels);
 
-            result = to_grayscale(pixels, img.width, img.height);
-
-
-
-
+            let result = wrapper.grayscale(pixels, img.width, img.height);
 
             imgAfter.width = width;
             imgAfter.height = height;
@@ -103,12 +61,12 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
 
 
 
-            newImgData = new ImageData(pixelArray, imgAfter.width, imgAfter.height);
-            newImgData.data = pixelArray;
+            let newImgData = new ImageData(pixelArray, imgAfter.width, imgAfter.height);
+
 
             contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
             contextAfter.putImageData(newImgData, 0, 0);
-            console.log("after", newImgData.data);
+
 
 
         };

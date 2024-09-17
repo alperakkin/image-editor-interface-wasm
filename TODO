@@ -1,2 +1,0 @@
-[] optimize image editor methods (with flat arrays) to minimize array calculations in wrapper
-[] alloc image method may have predefined pixel values
