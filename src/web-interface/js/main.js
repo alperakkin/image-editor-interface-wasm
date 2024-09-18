@@ -1,9 +1,58 @@
-import ImageWrapper from './wrapper.js';
+import Editor from './editor.js';
 
-const wrapper = new ImageWrapper();
+const canvasBefore = document.getElementById('imageCanvasBefore');
+const canvasAfter = document.getElementById('imageCanvasAfter');
+const contextBefore = canvasBefore.getContext('2d');
+const contextAfter = canvasAfter.getContext('2d');
+
+
+const editor = new Editor();
+
+
+document.getElementById("options").addEventListener('change',
+
+    function (event) {
+        let option = event.target.value;
+        if (option === "contrast") {
+            let factorElement = document.getElementById("factor");
+            factorElement.style.display = "block";
+
+        }
+
+    }
+)
+
+document.getElementById("apply").addEventListener('click',
+    function (event) {
+
+        let method = document.getElementById("options").value;
+
+        const imgAfter = new Image();
+        const imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
+        let pixels = imageData.data;
+
+        let result = editor[method](pixels, canvasBefore.width,
+            canvasBefore.height);
+        imgAfter.src = canvasAfter.toDataURL();
+
+        let pixelArray = new Uint8ClampedArray(result.length);
+        pixelArray.set(result, 0);
+        imgAfter.width = canvasBefore.width;
+        imgAfter.height = canvasBefore.height;
+        canvasAfter.width = imgAfter.width;
+        canvasAfter.height = imgAfter.height;
 
 
 
+        let newImgData = new ImageData(pixelArray, imgAfter.width, imgAfter.height);
+
+
+        contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
+        contextAfter.putImageData(newImgData, 0, 0);
+
+
+    }
+)
 
 
 document.getElementById('imageUploader').addEventListener('change', function (event) {
@@ -15,12 +64,10 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
 
 
     reader.onload = function (e) {
-        const canvasBefore = document.getElementById('imageCanvasBefore');
-        const canvasAfter = document.getElementById('imageCanvasAfter');
-        const contextBefore = canvasBefore.getContext('2d');
-        const contextAfter = canvasAfter.getContext('2d');
+        contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
+
         const img = new Image();
-        const imgAfter = new Image();
+
         let width;
         let height;
         img.src = e.target.result;
@@ -29,50 +76,14 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
         img.onload = function () {
             width = img.width;
             height = img.height;
+
             canvasBefore.width = img.width;
             canvasBefore.height = img.height;
-
-
-            imgAfter.width = width;
-            imgAfter.height = height;
 
             contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
             contextBefore.drawImage(img, 0, 0, canvasBefore.width, canvasBefore.height);
 
-            const imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
-
-            let pixels = imageData.data;
-
-
-            let result = wrapper.grayscale(pixels, img.width, img.height);
-
-            imgAfter.width = width;
-            imgAfter.height = height;
-            canvasAfter.width = imgAfter.width;
-            canvasAfter.height = imgAfter.height;
-
-
-
-
-            imgAfter.src = canvasAfter.toDataURL();
-
-            let pixelArray = new Uint8ClampedArray(result.length);
-            pixelArray.set(result, 0);
-
-
-
-            let newImgData = new ImageData(pixelArray, imgAfter.width, imgAfter.height);
-
-
-            contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
-            contextAfter.putImageData(newImgData, 0, 0);
-
-
-
         };
-
-
-
 
 
 

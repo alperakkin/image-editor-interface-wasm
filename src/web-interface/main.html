@@ -12,6 +12,15 @@
 
             </div>
             <p id="pixelData"></p>
+            <select id="options">
+                <option value="">Select Filter</option>
+                <option value="grayscale">GrayScale</option>
+                <option value="contrast">Contrast</option>
+            </select>
+            <div id="Args">
+                <input id="factor" type="range" style="display: none;" min="1" max="200" value="100" class="slider">
+            </div>
+            <button id="apply">Apply</button>
         </div>
 
     </body>

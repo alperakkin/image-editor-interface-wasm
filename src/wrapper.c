@@ -54,3 +54,12 @@ void grayscale_wrapper(uint8_t* pixels, int width, int height)
   img = grayscale(img);
   flatten_pixels(img, pixels);
 }
+
+
+void contrast_wrapper(uint8_t* pixels, int width, int height, float f)
+{
+
+  Image img = create_image(pixels, width, height);
+  img = contrast(img, f);
+  flatten_pixels(img, pixels);
+}
