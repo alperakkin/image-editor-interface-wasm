@@ -77,6 +77,19 @@ document.getElementById("undo").addEventListener('click',
     }
 )
 
+document.getElementById("reset").addEventListener('click',
+    function (event) {
+        if (wrapper.stack.length == 0) return;
+
+        contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
+        contextBefore.putImageData(wrapper.stack[0], 0, 0);
+
+        wrapper.stack = [];
+
+
+    }
+)
+
 
 document.getElementById('imageUploader').addEventListener('change', function (event) {
     const file = event.target.files[0];
