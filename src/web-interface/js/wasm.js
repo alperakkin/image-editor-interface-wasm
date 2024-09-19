@@ -1,4 +1,5 @@
-
+import ImageWrapper from './wrapper.js';
+import Editor from './editor.js';
 
 const importObject = {
     env: {
@@ -21,5 +22,10 @@ WebAssembly.instantiateStreaming(fetch("editor.wasm"), importObject)
             window.Module = obj.instance.exports;
 
         }
+    )
+    .then(wasmInstance => {
+        window.wrapper = new ImageWrapper();
+        window.editor = new Editor();
+    }
     );
 

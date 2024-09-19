@@ -1,4 +1,4 @@
-import Editor from './editor.js';
+
 
 const canvasBefore = document.getElementById('imageCanvasBefore');
 const canvasAfter = document.getElementById('imageCanvasAfter');
@@ -6,49 +6,51 @@ const contextBefore = canvasBefore.getContext('2d');
 const contextAfter = canvasAfter.getContext('2d');
 
 
-const editor = new Editor();
+Array.from(document.getElementsByClassName("arguments")).forEach(
+    function (elem) {
+        elem.addEventListener('input',
+            function (event) {
+                console.log("hello");
+                wrapper.execute(canvasBefore, canvasAfter,
+                    contextBefore, contextAfter);
+
+            }
+
+        )
+    }
+)
+
+
+
 
 
 document.getElementById("options").addEventListener('change',
 
     function (event) {
+        let options = document.getElementsByClassName('arguments');
+        Array.from(options).forEach(el => {
+            el.style.display = "none";
+
+        });
         let option = event.target.value;
         if (option === "contrast") {
             let factorElement = document.getElementById("factor");
             factorElement.style.display = "block";
 
         }
+        if (option === "grayscale") wrapper.execute(canvasBefore, canvasAfter,
+            contextBefore, contextAfter);
 
     }
+
 )
 
 document.getElementById("apply").addEventListener('click',
     function (event) {
 
-        let method = document.getElementById("options").value;
-
-        const imgAfter = new Image();
-        const imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
-        let pixels = imageData.data;
-
-        let result = editor[method](pixels, canvasBefore.width,
-            canvasBefore.height);
-        imgAfter.src = canvasAfter.toDataURL();
-
-        let pixelArray = new Uint8ClampedArray(result.length);
-        pixelArray.set(result, 0);
-        imgAfter.width = canvasBefore.width;
-        imgAfter.height = canvasBefore.height;
-        canvasAfter.width = imgAfter.width;
-        canvasAfter.height = imgAfter.height;
-
-
-
-        let newImgData = new ImageData(pixelArray, imgAfter.width, imgAfter.height);
-
-
-        contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
-        contextAfter.putImageData(newImgData, 0, 0);
+        const imageData = contextAfter.getImageData(0, 0, canvasAfter.width, canvasAfter.height);
+        contextBefore.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
+        contextBefore.putImageData(imageData, 0, 0);
 
 
     }
