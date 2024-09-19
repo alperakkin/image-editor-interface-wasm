@@ -20,22 +20,11 @@ Array.from(document.getElementsByClassName("arguments")).forEach(
     }
 )
 
-
-
-
-
-
-
-
 document.getElementById("options").addEventListener('change',
 
     function (event) {
-        let options = document.getElementsByClassName('arguments');
-        Array.from(options).forEach(el => {
-            el.style.display = "none";
-
-        });
         let option = event.target.value;
+        editor.displayItems(option);
         editor.actions[option](canvasBefore, canvasAfter,
             contextBefore, contextAfter);
 

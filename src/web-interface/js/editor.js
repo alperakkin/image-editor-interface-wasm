@@ -4,26 +4,33 @@
 export default class Editor {
     actions = {
         "contrast": (...args) => {
-            this.displayItems("factor");
+            return;
         },
         "grayscale": (...args) => {
             wrapper.execute(...args);
         },
 
         "brightness": (...args) => {
-            this.displayItems("ratio");
+            return;
 
         },
         "gaussian": (...args) => {
-            this.displayItems("kernel_size", "sigma");
+            return;
         }
 
     }
 
     displayItems(...itemIDs) {
+        let options = document.getElementsByClassName('arguments');
+
+        Array.from(options).forEach(el => {
+            el.style.display = "none";
+
+        });
+
         Array.from(itemIDs).forEach(itemID => {
             let element = document.getElementById(itemID);
-            element.style.display = "block";
+            if (element) element.style.display = "block";
         })
 
     }
