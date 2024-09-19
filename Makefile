@@ -27,4 +27,3 @@ compile:
 
 clean:
 	rm -rf web-interface/*.wasm
-
