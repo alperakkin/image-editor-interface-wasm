@@ -63,3 +63,18 @@ void contrast_wrapper(uint8_t* pixels, int width, int height, float f)
   img = contrast(img, f);
   flatten_pixels(img, pixels);
 }
+
+void brightness_wrapper(uint8_t* pixels, int width, int height, float ratio)
+{
+  Image img = create_image(pixels, width, height);
+  img = brightness(img, ratio);
+  flatten_pixels(img, pixels);
+
+}
+
+void gaussian_wrapper(uint8_t* pixels, int width, int height, int kernel_size, float sigma)
+{
+    Image img = create_image(pixels, width, height);
+    img = gaussian(img, kernel_size, sigma);
+    flatten_pixels(img, pixels);
+}

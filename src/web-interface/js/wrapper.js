@@ -16,6 +16,8 @@ export default class ImageWrapper {
 
         this.contrast = applyFilter(Module.contrast_wrapper);
         this.grayscale = applyFilter(Module.grayscale_wrapper);
+        this.brightness = applyFilter(Module.brightness_wrapper);
+        this.gaussian = applyFilter(Module.gaussian_wrapper);
         this.stack = [];
 
     }

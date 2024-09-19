@@ -7,6 +7,8 @@ OUTPUT = src/web-interface/editor.wasm
 EXPORTED_FUNCTIONS = [\
 	'_grayscale_wrapper',\
 	'_contrast_wrapper',\
+	'_gaussian_wrapper',\
+	'_brightness_wrapper',\
 	'_malloc'\
 	]
 MEM_FLAGS = -sSTACK_SIZE=5MB -s TOTAL_MEMORY=512MB

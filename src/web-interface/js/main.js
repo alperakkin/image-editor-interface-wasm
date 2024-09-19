@@ -24,6 +24,9 @@ Array.from(document.getElementsByClassName("arguments")).forEach(
 
 
 
+
+
+
 document.getElementById("options").addEventListener('change',
 
     function (event) {
@@ -33,12 +36,7 @@ document.getElementById("options").addEventListener('change',
 
         });
         let option = event.target.value;
-        if (option === "contrast") {
-            let factorElement = document.getElementById("factor");
-            factorElement.style.display = "block";
-
-        }
-        if (option === "grayscale") wrapper.execute(canvasBefore, canvasAfter,
+        editor.actions[option](canvasBefore, canvasAfter,
             contextBefore, contextAfter);
 
     }
