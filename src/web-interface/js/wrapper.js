@@ -16,14 +16,23 @@ export default class ImageWrapper {
 
         this.contrast = applyFilter(Module.contrast_wrapper);
         this.grayscale = applyFilter(Module.grayscale_wrapper);
+        this.stack = [];
 
     }
 
     execute(canvasBefore, canvasAfter, contextBefore, contextAfter) {
         let method = document.getElementById("options").value;
-
+        let imageData;
         const imgAfter = new Image();
-        const imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
+        if (this.stack.length == 0) {
+            imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
+        }
+        else {
+            imageData = this.stack[this.stack.length - 1];
+        }
+
+
+
         let pixels = imageData.data;
 
         let result = editor[method](pixels, canvasBefore.width,
@@ -46,7 +55,6 @@ export default class ImageWrapper {
         contextAfter.putImageData(newImgData, 0, 0);
 
     }
-
 
 
 }
