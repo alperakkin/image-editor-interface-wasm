@@ -1,12 +1,15 @@
 function applyFilter(fn) {
-    return function (...args) {
-        let pixels = args[0];
-        let width = args[1];
-        let height = args[2];
-        let Heap = new Uint8Array(Module.memory.buffer, 0, width * height * 4);
-        Heap.set(pixels);
-        fn(...args);
-        let result = new Uint8Array(Module.memory.buffer, 0, width * height * 4);
+    return function (imageInfo, ...args) {
+        let imageData = imageInfo.imageData;
+        let inputSize = imageData.width * imageData.height;
+        let outputSize = imageInfo.newWidth * imageInfo.newHeight;
+        let extra = outputSize - inputSize;
+        if (extra > 0) imageData.data.push(Array(extra * 4));
+        let Heap = new Uint8Array(Module.memory.buffer, 0, inputSize * 4);
+        Heap.set(imageData.data);
+
+        fn(imageData.data, imageData.width, imageData.height, ...args);
+        let result = new Uint8Array(Module.memory.buffer, 0, outputSize * 4);
         return result;
     };
 }
@@ -34,11 +37,13 @@ export default class ImageWrapper {
         }
 
 
+        let info = {
+            'imageData': imageData,
+            'newWidth': imageData.width,
+            'newHeight': imageData.height
+        }
 
-        let pixels = imageData.data;
-
-        let result = editor[method](pixels, canvasBefore.width,
-            canvasBefore.height);
+        let result = editor[method](info);
         imgAfter.src = canvasAfter.toDataURL();
 
         let pixelArray = new Uint8ClampedArray(result.length);

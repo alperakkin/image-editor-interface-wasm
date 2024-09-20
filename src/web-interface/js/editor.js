@@ -34,27 +34,27 @@ export default class Editor {
         })
 
     }
-    grayscale(pixels, width, height) {
-        return wrapper.grayscale(pixels, width, height);
+    grayscale(info) {
+
+        return wrapper.grayscale(info);
 
     }
-    contrast(pixels, width, height) {
+    contrast(info) {
         let factor = parseFloat(document.getElementById('factor').value / 100);
-
-        return wrapper.contrast(pixels, width, height, factor);
+        return wrapper.contrast(info, factor);
 
     }
-    brightness(pixels, width, height) {
+    brightness(info) {
         let ratio = parseFloat(document.getElementById('ratio').value / 100);
 
-        return wrapper.brightness(pixels, width, height, ratio);
+        return wrapper.brightness(info, ratio);
 
     }
-    gaussian(pixels, width, height) {
+    gaussian(info) {
         let kernel_size = parseInt(document.getElementById('kernel_size').value);
         let sigma = parseFloat(document.getElementById('sigma').value / 100);
 
-        return wrapper.gaussian(pixels, width, height, kernel_size, sigma);
+        return wrapper.gaussian(info, kernel_size, sigma);
 
     }
 }
