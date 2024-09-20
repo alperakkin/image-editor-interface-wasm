@@ -19,6 +19,7 @@
             <p id="pixelData"></p>
             <select id="options">
                 <option value="">Select Filter</option>
+                <option value="resize">Resize Image</option>
                 <option value="grayscale">GrayScale</option>
                 <option value="contrast">Contrast</option>
                 <option value="brightness">Brightness</option>
@@ -42,6 +43,22 @@
                         <label for="sigma">Sigma</label>
                         <input id="sigma" type="range" min="0" max="200" value="10" class="slider">
                     </div>
+
+                </div>
+                <div class="col-6 arguments" id="resize" style="display: none;">
+                    <div class="row">
+                        <label for="aspect_ratio">Keep Aspect Ratio</label>
+                        <input id="aspect_ratio" type="checkbox">
+                    </div>
+                    <div class="row">
+                        <label for="width">Width</label>
+                        <input id="width">
+                        <label for="height">Height</label>
+                        <input id="height">
+                    </div>
+
+
+
 
                 </div>
             </div>

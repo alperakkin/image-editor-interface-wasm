@@ -1,3 +1,4 @@
+[x] use image data to adjust canvas sizes
 [] resize
 [] histogram
 [] filter
@@ -12,6 +13,6 @@
 [] match template
 [] check color
 [] vignette
-[] use image data to adjust canvas sizes
+[] display image info
 [] use wrapper stack to display images
 [] add layer system

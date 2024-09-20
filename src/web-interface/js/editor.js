@@ -19,6 +19,9 @@ export default class Editor {
         },
         "gaussian": (...args) => {
             return;
+        },
+        "resize": (...args) => {
+            return;
         }
 
     }
@@ -41,20 +44,13 @@ export default class Editor {
             'newHeight': imageData.height
         }
 
-        let result = editor[method](info);
+        let newImgData = editor[method](info);
         imgAfter.src = canvasAfter.toDataURL();
 
-        let pixelArray = new Uint8ClampedArray(result.length);
-        pixelArray.set(result, 0);
         imgAfter.width = canvasBefore.width;
         imgAfter.height = canvasBefore.height;
-        canvasAfter.width = imgAfter.width;
-        canvasAfter.height = imgAfter.height;
-
-
-
-        let newImgData = new ImageData(pixelArray, imgAfter.width, imgAfter.height);
-
+        canvasAfter.width = newImgData.width;
+        canvasAfter.height = newImgData.height;
 
         contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
         contextAfter.putImageData(newImgData, 0, 0);
@@ -95,6 +91,24 @@ export default class Editor {
         let sigma = parseFloat(document.getElementById('sigma').value / 100);
 
         return wrapper.gaussian(info, kernel_size, sigma);
+    }
 
+    resize(info) {
+        let aspect = document.getElementById('aspect_ratio').checked;
+
+        info.newWidth = parseInt(document.getElementById('width').value);
+        info.newHeight = parseInt(document.getElementById('height').value);
+
+        let ratio = info.imageData.height / info.imageData.width;
+
+        info.newWidth = info.newWidth ? info.newWidth : info.imageData.width;
+        info.newHeight = info.newHeight ? info.newHeight : info.imageData.height;
+
+        if (aspect) {
+            info.newHeight = info.newWidth * ratio;
+            document.getElementById('height').value = info.newHeight;
+        }
+
+        return wrapper.resize(info, info.newWidth, info.newHeight);
     }
 }

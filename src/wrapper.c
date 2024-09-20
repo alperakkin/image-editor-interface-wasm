@@ -79,4 +79,10 @@ void gaussian_wrapper(uint8_t* pixels, int width, int height, int kernel_size, f
     flatten_pixels(img, pixels);
 }
 
+void resize_wrapper(uint8_t* pixels, int width, int height, int new_width, int new_height)
+{
+    Image img = create_image(pixels, width, height);
+    img = resize(img, new_width, new_height);
+    flatten_pixels(img, pixels);
+}
 
