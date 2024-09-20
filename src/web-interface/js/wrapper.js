@@ -21,45 +21,7 @@ export default class ImageWrapper {
         this.grayscale = applyFilter(Module.grayscale_wrapper);
         this.brightness = applyFilter(Module.brightness_wrapper);
         this.gaussian = applyFilter(Module.gaussian_wrapper);
-        this.stack = [];
 
-    }
-
-    execute(canvasBefore, canvasAfter, contextBefore, contextAfter) {
-        let method = document.getElementById("options").value;
-        let imageData;
-        const imgAfter = new Image();
-        if (this.stack.length == 0) {
-            imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
-        }
-        else {
-            imageData = this.stack[this.stack.length - 1];
-        }
-
-
-        let info = {
-            'imageData': imageData,
-            'newWidth': imageData.width,
-            'newHeight': imageData.height
-        }
-
-        let result = editor[method](info);
-        imgAfter.src = canvasAfter.toDataURL();
-
-        let pixelArray = new Uint8ClampedArray(result.length);
-        pixelArray.set(result, 0);
-        imgAfter.width = canvasBefore.width;
-        imgAfter.height = canvasBefore.height;
-        canvasAfter.width = imgAfter.width;
-        canvasAfter.height = imgAfter.height;
-
-
-
-        let newImgData = new ImageData(pixelArray, imgAfter.width, imgAfter.height);
-
-
-        contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
-        contextAfter.putImageData(newImgData, 0, 0);
 
     }
 

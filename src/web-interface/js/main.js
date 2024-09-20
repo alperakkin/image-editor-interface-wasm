@@ -11,7 +11,7 @@ Array.from(document.getElementsByClassName("arguments")).forEach(
     function (elem) {
         elem.addEventListener('input',
             function (event) {
-                wrapper.execute(canvasBefore, canvasAfter,
+                editor.execute(canvasBefore, canvasAfter,
                     contextBefore, contextAfter);
 
             }
@@ -35,17 +35,17 @@ document.getElementById("options").addEventListener('change',
 document.getElementById("apply").addEventListener('click',
     function (event) {
 
-        if (wrapper.stack.length == 0) {
+        if (editor.stack.length == 0) {
             const beforeData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
-            wrapper.stack.push(beforeData);
+            editor.stack.push(beforeData);
         }
 
         const imageData = contextAfter.getImageData(0, 0, canvasAfter.width, canvasAfter.height);
         contextBefore.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
         contextBefore.putImageData(imageData, 0, 0);
 
-        if (wrapper.stack.length <= 5) {
-            wrapper.stack.push(imageData);
+        if (editor.stack.length <= 5) {
+            editor.stack.push(imageData);
         }
 
 
@@ -55,10 +55,10 @@ document.getElementById("apply").addEventListener('click',
 
 document.getElementById("undo").addEventListener('click',
     function (event) {
-        if (wrapper.stack.length == 0) return;
+        if (editor.stack.length == 0) return;
 
         contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
-        contextBefore.putImageData(wrapper.stack.pop(), 0, 0);
+        contextBefore.putImageData(editor.stack.pop(), 0, 0);
 
 
     }
@@ -66,12 +66,12 @@ document.getElementById("undo").addEventListener('click',
 
 document.getElementById("reset").addEventListener('click',
     function (event) {
-        if (wrapper.stack.length == 0) return;
+        if (editor.stack.length == 0) return;
 
         contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
-        contextBefore.putImageData(wrapper.stack[0], 0, 0);
+        contextBefore.putImageData(editor.stack[0], 0, 0);
 
-        wrapper.stack = [];
+        editor.stack = [];
 
 
     }
