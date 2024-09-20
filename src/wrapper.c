@@ -78,3 +78,5 @@ void gaussian_wrapper(uint8_t* pixels, int width, int height, int kernel_size, f
     img = gaussian(img, kernel_size, sigma);
     flatten_pixels(img, pixels);
 }
+
+

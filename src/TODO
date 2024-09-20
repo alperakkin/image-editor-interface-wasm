@@ -1,0 +1,17 @@
+[] resize
+[] histogram
+[] filter
+[] opacity
+[] add layer
+[] crop
+[] rotate
+[] invert
+[] add border
+[] mask
+[] edge
+[] match template
+[] check color
+[] vignette
+[] use image data to adjust canvas sizes
+[] use wrapper stack to display images
+[] add layer system
