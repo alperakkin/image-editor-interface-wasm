@@ -1,6 +1,6 @@
 [x] use image data to adjust canvas sizes
 [x] resize
-[] histogram
+[x] histogram
 [] filter
 [] opacity
 [] add layer
