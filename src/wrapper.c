@@ -86,3 +86,58 @@ void resize_wrapper(uint8_t* pixels, int width, int height, int new_width, int n
     flatten_pixels(img, pixels);
 }
 
+void histogram_wrapper(uint8_t* pixels, int width, int height, uint16_t* red, uint16_t* green, uint16_t* blue)
+{
+      ColorMode red_mode = {
+        .name = "red",
+        .value = "31",
+        .min = 1000000,
+        .max = 0,
+        .histogram = {
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0
+        }
+    };
+    ColorMode green_mode = {
+        .name = "green",
+        .value = "32",
+        .min = 1000000,
+        .max = 0,
+        .histogram = {
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0
+        }
+    };
+    ColorMode blue_mode = {
+        .name = "blue",
+        .value = "34",
+        .min = 1000000,
+        .max = 0,
+        .histogram = {
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0,
+        0,0,0,0,0
+        }
+    };
+    Image img = create_image(pixels, width, height);
+    histogram(img, &red_mode, &green_mode, &blue_mode);
+
+    for (int i=0; i<25; i++)
+    {
+      red[i] = red_mode.histogram[i];
+      green[i] = green_mode.histogram[i];
+      blue[i] = blue_mode.histogram[i];
+
+    }
+
+
+
+}

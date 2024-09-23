@@ -1,4 +1,4 @@
-
+import { displayHistogram } from './graph.js';
 
 
 export default class Editor {
@@ -10,7 +10,8 @@ export default class Editor {
             return;
         },
         "grayscale": (...args) => {
-            this.execute(...args);
+            this.displayResult(...args);
+
         },
 
         "brightness": (...args) => {
@@ -22,14 +23,15 @@ export default class Editor {
         },
         "resize": (...args) => {
             return;
+        },
+        "histogram": (...args) => {
+            this.execute(...args);
         }
-
     }
 
     execute(canvasBefore, canvasAfter, contextBefore, contextAfter) {
-        let method = document.getElementById("options").value;
         let imageData;
-        const imgAfter = new Image();
+        let method = document.getElementById("options").value;
         if (this.stack.length == 0) {
             imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
         }
@@ -43,8 +45,16 @@ export default class Editor {
             'newWidth': imageData.width,
             'newHeight': imageData.height
         }
-
         let newImgData = editor[method](info);
+        return newImgData;
+
+    }
+    displayResult(canvasBefore, canvasAfter, contextBefore, contextAfter) {
+
+        const imgAfter = new Image();
+
+        let newImgData = this.execute(canvasBefore, canvasAfter,
+            contextBefore, contextAfter);
         imgAfter.src = canvasAfter.toDataURL();
 
         imgAfter.width = canvasBefore.width;
@@ -110,5 +120,26 @@ export default class Editor {
         }
 
         return wrapper.resize(info, info.newWidth, info.newHeight);
+    }
+
+    histogram(info) {
+        let imageSize = info.imageData.width * info.imageData.height * 4;
+        let red_ptr = imageSize;
+        let green_ptr = red_ptr + (25 * 2);
+        let blue_ptr = green_ptr + (25 * 2);
+        let red = new Uint16Array(Module.memory.buffer, red_ptr, 25);
+        let green = new Uint16Array(Module.memory.buffer, green_ptr, 25);
+        let blue = new Uint16Array(Module.memory.buffer, blue_ptr, 25);
+
+
+        wrapper.histogram(info, red_ptr, green_ptr, blue_ptr);
+        console.log('r', red, 'g', green, 'b', blue);
+        const data = {
+            red: { 'values': red, 'css': '#be002d' },
+            green: { 'values': green, 'css': '#008825' },
+            blue: { 'values': blue, 'css': '#007be6' }
+        };
+
+        displayHistogram(data);
     }
 }

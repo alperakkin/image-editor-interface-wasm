@@ -11,7 +11,7 @@ Array.from(document.getElementsByClassName("arguments")).forEach(
     function (elem) {
         elem.addEventListener('input',
             function (event) {
-                editor.execute(canvasBefore, canvasAfter,
+                editor.displayResult(canvasBefore, canvasAfter,
                     contextBefore, contextAfter);
 
             }

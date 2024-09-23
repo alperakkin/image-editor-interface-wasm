@@ -1,5 +1,5 @@
 [x] use image data to adjust canvas sizes
-[] resize
+[x] resize
 [] histogram
 [] filter
 [] opacity
@@ -15,4 +15,5 @@
 [] vignette
 [] display image info
 [] use wrapper stack to display images
+[] move print functions outside of the histogram in editor.c
 [] add layer system

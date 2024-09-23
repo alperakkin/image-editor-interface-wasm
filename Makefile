@@ -10,6 +10,7 @@ EXPORTED_FUNCTIONS = [\
 	'_gaussian_wrapper',\
 	'_brightness_wrapper',\
 	'_resize_wrapper',\
+	'_histogram_wrapper',\
 	'_malloc'\
 	]
 MEM_FLAGS = -sSTACK_SIZE=5MB -s TOTAL_MEMORY=512MB
