@@ -23,22 +23,25 @@ export default class Editor {
         },
         "resize": (...args) => {
             return;
-        },
-        "histogram": (...args) => {
-            this.execute(...args);
         }
     }
 
-    execute(canvasBefore, canvasAfter, contextBefore, contextAfter) {
+    getLatestImageData(contextBefore, canvasBefore) {
         let imageData;
-        let method = document.getElementById("options").value;
+
         if (this.stack.length == 0) {
             imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
         }
         else {
             imageData = this.stack[this.stack.length - 1];
         }
+        return imageData;
 
+    }
+
+    execute(method, canvasBefore, contextBefore) {
+
+        let imageData = this.getLatestImageData(contextBefore, canvasBefore);
 
         let info = {
             'imageData': imageData,
@@ -52,8 +55,8 @@ export default class Editor {
     displayResult(canvasBefore, canvasAfter, contextBefore, contextAfter) {
 
         const imgAfter = new Image();
-
-        let newImgData = this.execute(canvasBefore, canvasAfter,
+        let method = document.getElementById("options").value;
+        let newImgData = this.execute(method, canvasBefore, canvasAfter,
             contextBefore, contextAfter);
         imgAfter.src = canvasAfter.toDataURL();
 
@@ -122,7 +125,7 @@ export default class Editor {
         return wrapper.resize(info, info.newWidth, info.newHeight);
     }
 
-    histogram(info) {
+    histogram(info, ...colors) {
         let imageSize = info.imageData.width * info.imageData.height * 4;
         let red_ptr = imageSize;
         let green_ptr = red_ptr + (255 * 2);
@@ -139,7 +142,24 @@ export default class Editor {
             green: { 'values': green, 'css': '#008825' },
             blue: { 'values': blue, 'css': '#007be6' }
         };
+        localStorage.setItem('histogram', JSON.stringify(data));
+        displayHistogram(data, ...colors);
+    }
 
-        displayHistogram(data);
+    selectHistogramColors() {
+        let colors = [];
+        Array.from(document.getElementsByClassName("histogramColor")).forEach(
+            colorElement => {
+                if (colorElement.checked) colors.push(colorElement.id);
+            }
+        )
+
+        let data = localStorage.getItem('histogram');
+        data = JSON.parse(data);
+        Array.from(colors).forEach(
+            color => data[color]["values"] = Object.values(data[color]["values"])
+        )
+
+        displayHistogram(data, ...colors);
     }
 }

@@ -25,7 +25,7 @@
                 <option value="contrast">Contrast</option>
                 <option value="brightness">Brightness</option>
                 <option value="gaussian">Gaussian Blur</option>
-                <option value="histogram">Histogram</option>
+
             </select>
             <div id="Args">
                 <div  class="col-6 arguments" id="contrast" style="display: none;">
@@ -68,7 +68,23 @@
             <button id="undo">Undo</button>
             <button id="reset">Reset</button>
         </div>
-        <div id="container"></div>
+        <div id="histogram">
+            <div id="container">
+
+            </div>
+            <div>
+                <input class="form-check-input histogramColor"  id="red" type="checkbox"
+                 style="background-color: red;" checked/>
+                <label for="red">Red</label>
+                <input class="form-check-input histogramColor"  id="green" type="checkbox"
+                style="background-color: green;" checked/>
+                <label for="green">Green</label>
+                <input class="form-check-input histogramColor"  id="blue" type="checkbox"
+                style="background-color: blue;" checked/>
+                <label for="blue">Blue</label>
+            </div>
+
+        </div>
 
     </body>
 

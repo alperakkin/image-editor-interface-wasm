@@ -24,31 +24,34 @@ function setAxis() {
 }
 
 
-function displayHistogram(data) {
+function displayHistogram(data, ...colors) {
     svg.selectAll("*").remove();
     let x = setAxis();
 
-    const maxValue = d3.max([
-        Object.values(data.red['values']).flat(),
-        Object.values(data.green['values']).flat(),
-        Object.values(data.blue['values']).flat()
-    ].flat());
+    let dataValues = [];
+
+    Array.from(colors).forEach(color => {
+        dataValues = dataValues.concat(Object.values(data[color]['values']).flat())
+    }
+    );
+    const maxValue = d3.max(dataValues);
+
 
     const y = d3.scaleLinear()
         .domain([0, maxValue])
         .range([height - margin.bottom, margin.top]);
 
-    Object.keys(data).forEach(item => {
+    Array.from(colors).forEach(color => {
         svg.append('g')
             .selectAll('rect')
-            .data(data[item]['values'])
+            .data(data[color]['values'])
             .join('rect')
             .attr('x', (d, i) => x(i))
             .attr('y', d => y(d))
             .attr('height', d => y(0) - y(d))
             .attr('width', (width - margin.left - margin.right) / 255)
-            .attr('fill', data[item]['css'])
-            .attr('id', item)
+            .attr('fill', data[color]['css'])
+            .attr('id', color)
     });
 }
 

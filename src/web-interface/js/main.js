@@ -32,6 +32,18 @@ document.getElementById("options").addEventListener('change',
 
 )
 
+Array.from(document.getElementsByClassName("histogramColor")).forEach(
+    function (elem) {
+        elem.addEventListener('click',
+            function (event) {
+                editor.selectHistogramColors();
+
+            }
+
+        )
+    }
+)
+
 document.getElementById("apply").addEventListener('click',
     function (event) {
 
@@ -106,7 +118,20 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
             contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
             contextBefore.drawImage(img, 0, 0, canvasBefore.width, canvasBefore.height);
 
-        };
+            let imageData = editor.getLatestImageData(contextBefore, canvasBefore);
+            editor.histogram(
+                {
+                    'imageData': imageData,
+                    'newWidth': imageData.width,
+                    'newHeight': imageData.height
+                },
+                "red", "green", "blue"
+            )
+
+        }
+
+
+
 
 
 
