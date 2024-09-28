@@ -10,18 +10,23 @@ const svg = d3.select("#container")
     .attr('viewBox', [0, 0, width, height]);
 
 
-const x = d3.scaleLinear()
-    .domain([0, 255])
-    .range([margin.left, width - margin.right]);
+function setAxis() {
+    const x = d3.scaleLinear()
+        .domain([0, 255])
+        .range([margin.left, width - margin.right]);
 
+    svg.append('g')
+        .attr('transform', `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(x)
+            .tickValues(d3.range(0, 256, 50))
+            .tickFormat(d => d));
+    return x;
+}
 
-svg.append('g')
-    .attr('transform', `translate(0,${height - margin.bottom})`)
-    .call(d3.axisBottom(x)
-        .tickValues(d3.range(0, 256, 50))
-        .tickFormat(d => d));
 
 function displayHistogram(data) {
+    svg.selectAll("*").remove();
+    let x = setAxis();
 
     const maxValue = d3.max([
         Object.values(data.red['values']).flat(),
@@ -38,10 +43,10 @@ function displayHistogram(data) {
             .selectAll('rect')
             .data(data[item]['values'])
             .join('rect')
-            .attr('x', (d, i) => x(i * 25))
+            .attr('x', (d, i) => x(i))
             .attr('y', d => y(d))
             .attr('height', d => y(0) - y(d))
-            .attr('width', (width - margin.left - margin.right) / (255 / 25))
+            .attr('width', (width - margin.left - margin.right) / 255)
             .attr('fill', data[item]['css'])
             .attr('id', item)
     });

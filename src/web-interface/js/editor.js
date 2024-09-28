@@ -125,15 +125,15 @@ export default class Editor {
     histogram(info) {
         let imageSize = info.imageData.width * info.imageData.height * 4;
         let red_ptr = imageSize;
-        let green_ptr = red_ptr + (25 * 2);
-        let blue_ptr = green_ptr + (25 * 2);
-        let red = new Uint16Array(Module.memory.buffer, red_ptr, 25);
-        let green = new Uint16Array(Module.memory.buffer, green_ptr, 25);
-        let blue = new Uint16Array(Module.memory.buffer, blue_ptr, 25);
+        let green_ptr = red_ptr + (255 * 2);
+        let blue_ptr = green_ptr + (255 * 2);
+        let red = new Uint16Array(Module.memory.buffer, red_ptr, 255);
+        let green = new Uint16Array(Module.memory.buffer, green_ptr, 255);
+        let blue = new Uint16Array(Module.memory.buffer, blue_ptr, 255);
 
 
         wrapper.histogram(info, red_ptr, green_ptr, blue_ptr);
-        console.log('r', red, 'g', green, 'b', blue);
+
         const data = {
             red: { 'values': red, 'css': '#be002d' },
             green: { 'values': green, 'css': '#008825' },
