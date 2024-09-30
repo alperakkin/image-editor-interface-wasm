@@ -100,7 +100,7 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
 
     reader.onload = function (e) {
         contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
-
+        editor.stack = [];
         const img = new Image();
 
         let width;
@@ -127,6 +127,7 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
                 },
                 "red", "green", "blue"
             )
+
 
         }
 

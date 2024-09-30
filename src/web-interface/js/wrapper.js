@@ -39,6 +39,7 @@ export default class ImageWrapper {
         this.gaussian = applyFilter(Module.gaussian_wrapper);
         this.resize = applyFilter(Module.resize_wrapper);
         this.histogram = applyFilter(Module.histogram_wrapper);
+        this.filter = applyFilter(Module.filter_wrapper);
 
 
     }

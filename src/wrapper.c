@@ -111,3 +111,14 @@ void histogram_wrapper(uint8_t *pixels, int width, int height, uint16_t *red, ui
     blue[i] = blue_mode.histogram[i];
   }
 }
+
+void filter_wrapper(uint8_t *pixels,
+                    int width,
+                    int height,
+                    char *color,
+                    float strength)
+{
+  Image img = create_image(pixels, width, height);
+  img = filter(img, color, strength);
+  flatten_pixels(img, pixels);
+}

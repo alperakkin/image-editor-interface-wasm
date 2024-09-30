@@ -11,23 +11,24 @@ export default class Editor {
         },
         "grayscale": (...args) => {
             this.displayResult(...args);
-
         },
-
         "brightness": (...args) => {
             return;
-
         },
         "gaussian": (...args) => {
             return;
         },
         "resize": (...args) => {
             return;
+        },
+        "filter": (...args) => {
+            return;
         }
     }
 
     getLatestImageData(contextBefore, canvasBefore) {
         let imageData;
+
 
         if (this.stack.length == 0) {
             imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
@@ -56,8 +57,7 @@ export default class Editor {
 
         const imgAfter = new Image();
         let method = document.getElementById("options").value;
-        let newImgData = this.execute(method, canvasBefore, canvasAfter,
-            contextBefore, contextAfter);
+        let newImgData = this.execute(method, canvasBefore, contextBefore);
         imgAfter.src = canvasAfter.toDataURL();
 
         imgAfter.width = canvasBefore.width;
@@ -161,5 +161,31 @@ export default class Editor {
         )
 
         displayHistogram(data, ...colors);
+    }
+
+    filter(info) {
+        let imageSize = info.imageData.width * info.imageData.height * 4;
+
+
+        let colorHex = document.getElementById('color').value;
+        let colorAscii = []
+
+        Array.from(colorHex).forEach(item => {
+            colorAscii.push(item.charCodeAt(0))
+        });
+
+        colorAscii.push(0); // char* termination
+        let color_ptr = imageSize;
+        let color = new Uint8Array(
+            Module.memory.buffer,
+            color_ptr,
+            colorAscii.length
+        );
+
+        color.set(colorAscii);
+        let strength = parseFloat(document.getElementById('strength').value);
+
+        return wrapper.filter(info, color_ptr, strength);
+
     }
 }

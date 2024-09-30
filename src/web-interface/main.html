@@ -25,6 +25,7 @@
                 <option value="contrast">Contrast</option>
                 <option value="brightness">Brightness</option>
                 <option value="gaussian">Gaussian Blur</option>
+                <option value="filter">Color Filter</option>
 
             </select>
             <div id="Args">
@@ -58,11 +59,16 @@
                         <label for="height">Height</label>
                         <input id="height">
                     </div>
-
-
-
-
                 </div>
+                <div class="col-6 arguments" id="filter" style="display: none;">
+                    <div class="row">
+                        <label for="color">Color</label>
+                        <input id="color" type="color" style="width: 50px;">
+                    </div>
+                    <div class="row">
+                        <label for="strength">Strength</label>
+                        <input id="strength"  type="range" min="0" max="100" value="0" class="slider">>
+                    </div>
             </div>
             <button id="apply">Apply</button>
             <button id="undo">Undo</button>
@@ -72,7 +78,7 @@
             <div id="container">
 
             </div>
-            <div>
+            <div class="color-picker" id="color-picker" style="display: none;">
                 <input class="form-check-input histogramColor"  id="red" type="checkbox"
                  style="background-color: red;" checked/>
                 <label for="red">Red</label>
