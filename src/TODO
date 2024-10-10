@@ -4,7 +4,7 @@
 [x] histogram
 [x] move print functions outside of the histogram in editor.c
 [] add color palette
-[] filter
+[x] filter
 [] opacity
 [] add layer
 [] crop
@@ -21,3 +21,4 @@
 [] add drawing in canvas
 [] add text
 [] save edited image
+[] re-calculate histogram after apply

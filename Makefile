@@ -11,7 +11,7 @@ IMAGE_EDITOR =\
  external/image-editor/src/helpers.c \
  external/image-editor/src/utils.c
 
-OUTPUT = src/web-interface/editor.wasm
+OUTPUT = src/web-interface/wasm/editor.wasm
 
 EXPORTED_FUNCTIONS = [\
 	'_grayscale_wrapper',\

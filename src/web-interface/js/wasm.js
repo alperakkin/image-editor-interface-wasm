@@ -20,7 +20,7 @@ const importObject = {
 
 
 
-WebAssembly.instantiateStreaming(fetch("editor.wasm"), importObject)
+WebAssembly.instantiateStreaming(fetch("wasm/editor.wasm"), importObject)
     .then(
         (obj) => {
             console.log(obj);
