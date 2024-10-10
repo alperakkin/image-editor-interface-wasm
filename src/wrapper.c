@@ -1,6 +1,8 @@
 #include <emscripten.h>
 #include <stdint.h>
 #include "editor.h"
+int debug_width;
+int debug_height;
 
 void flatten_pixels(Image image, uint8_t *pixels)
 {
@@ -80,6 +82,7 @@ void resize_wrapper(uint8_t *pixels, int width, int height, int new_width, int n
 
 void histogram_wrapper(uint8_t *pixels, int width, int height, uint16_t *red, uint16_t *green, uint16_t *blue)
 {
+
   ColorMode red_mode = {
       .name = "red",
       .value = "31",
@@ -101,6 +104,7 @@ void histogram_wrapper(uint8_t *pixels, int width, int height, uint16_t *red, ui
 
   };
   int bin_size = 255;
+
   Image img = create_image(pixels, width, height);
   histogram(img, &red_mode, &green_mode, &blue_mode, bin_size);
 

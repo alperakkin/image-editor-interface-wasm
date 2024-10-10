@@ -183,7 +183,8 @@ export default class Editor {
         );
 
         color.set(colorAscii);
-        let strength = parseFloat(document.getElementById('strength').value);
+        let strength = parseFloat(document.getElementById('strength').value / 100);
+        console.log('strength', strength);
 
         return wrapper.filter(info, color_ptr, strength);
 
