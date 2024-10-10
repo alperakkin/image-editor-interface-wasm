@@ -59,13 +59,13 @@ Open a browser and type localhost:8000/index.html to address bar
 
 You can play with the implemented features as shown below:
 
-![](https://github.com/alperakkin/image-editor/blob/main/resources/example.png)
+![](https://github.com/alperakkin/image-editor-interface-wasm/blob/main/resources/example.png)
 
 
 
 # References
-https://github.com/alperakkin/image-editor
-https://emscripten.org/docs/compiling/WebAssembly.html
-https://developer.mozilla.org/en-US/docs/WebAssembly/Using_the_JavaScript_API
-https://developer.mozilla.org/en-US/docs/Web/API/ImageData
-https://d3js.org/getting-started
+https://github.com/alperakkin/image-editor  
+https://emscripten.org/docs/compiling/WebAssembly.html  
+https://developer.mozilla.org/en-US/docs/WebAssembly/Using_the_JavaScript_API  
+https://developer.mozilla.org/en-US/docs/Web/API/ImageData  
+https://d3js.org/getting-started  
