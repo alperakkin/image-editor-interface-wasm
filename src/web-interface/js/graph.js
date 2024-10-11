@@ -3,14 +3,24 @@ const width = 300;
 const height = 300;
 const margin = { top: 50, bottom: 50, left: 50, right: 50 };
 
-const svg = d3.select("#container")
-    .append('svg')
-    .attr('height', height)
-    .attr('width', width)
-    .attr('viewBox', [0, 0, width, height]);
 
 
-function setAxis() {
+function createOrGetSvg() {
+    const preCreatedSvg = document.getElementById("container").getElementsByTagName('svg');
+    if (preCreatedSvg.length == 0 || preCreatedSvg == undefined) {
+        return d3.select("#container")
+            .append('svg')
+            .attr('height', height)
+            .attr('width', width)
+            .attr('viewBox', [0, 0, width, height]);
+    }
+    return d3.select('#container').select('svg');
+
+}
+
+
+
+function setAxis(svg) {
     const x = d3.scaleLinear()
         .domain([0, 255])
         .range([margin.left, width - margin.right]);
@@ -25,8 +35,10 @@ function setAxis() {
 
 
 function displayHistogram(data, ...colors) {
+    const svg = createOrGetSvg();
+
     svg.selectAll("*").remove();
-    let x = setAxis();
+    let x = setAxis(svg);
 
     let dataValues = [];
 

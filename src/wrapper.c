@@ -126,3 +126,10 @@ void filter_wrapper(uint8_t *pixels,
   img = filter(img, color, strength);
   flatten_pixels(img, pixels);
 }
+
+void opacity_wrapper(uint8_t *pixels, int width, int height, float factor)
+{
+  Image img = create_image(pixels, width, height);
+  img = opacity(img, factor);
+  flatten_pixels(img, pixels);
+}
