@@ -23,6 +23,9 @@ export default class Editor {
         },
         "filter": (...args) => {
             return;
+        },
+        "opacity": (...args) => {
+            return;
         }
     }
 
@@ -187,5 +190,10 @@ export default class Editor {
 
         return wrapper.filter(info, color_ptr, strength);
 
+    }
+
+    opacity(info) {
+        let factor = parseFloat(document.getElementById('opacityFactor').value / 100);
+        return wrapper.opacity(info, factor);
     }
 }

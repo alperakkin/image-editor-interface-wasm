@@ -6,8 +6,7 @@
 [x] add color palette
 [x] filter
 [] opacity
-[] make features as components
-[] add layer
+[x] make features as components
 [] crop
 [] rotate
 [] invert
@@ -18,8 +17,10 @@
 [] check color
 [] vignette
 [] display image info
+[] add layer
 [] add layer system
 [] add drawing in canvas
 [] add text
 [] save edited image
 [] re-calculate histogram after apply
+[] design ui
