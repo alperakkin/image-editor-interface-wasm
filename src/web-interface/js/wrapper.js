@@ -41,6 +41,7 @@ export default class ImageWrapper {
         this.histogram = applyFilter(Module.histogram_wrapper);
         this.filter = applyFilter(Module.filter_wrapper);
         this.opacity = applyFilter(Module.opacity_wrapper);
+        this.crop = applyFilter(Module.crop_wrapper);
 
 
     }

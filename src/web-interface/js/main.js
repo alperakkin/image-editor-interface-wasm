@@ -1,9 +1,9 @@
-
-
 window.canvasBefore = document.getElementById('imageCanvasBefore');
 window.canvasAfter = document.getElementById('imageCanvasAfter');
 window.contextBefore = canvasBefore.getContext('2d', { willReadFrequently: true });
 window.contextAfter = canvasAfter.getContext('2d', { willReadFrequently: true });
+
+
 
 function listenInputs() {
     Array.from(document.getElementsByClassName("arguments")).forEach(
@@ -55,7 +55,7 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
             contextBefore.drawImage(img, 0, 0, canvasBefore.width, canvasBefore.height);
 
             let imageData = editor.getLatestImageData(contextBefore, canvasBefore);
-            console.log("---");
+
             editor.histogram(
                 {
                     'imageData': imageData,

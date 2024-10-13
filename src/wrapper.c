@@ -133,3 +133,10 @@ void opacity_wrapper(uint8_t *pixels, int width, int height, float factor)
   img = opacity(img, factor);
   flatten_pixels(img, pixels);
 }
+
+void crop_wrapper(uint8_t *pixels, int width, int height)
+{
+  Image img = create_image(pixels, width, height);
+
+  flatten_pixels(img, pixels);
+}

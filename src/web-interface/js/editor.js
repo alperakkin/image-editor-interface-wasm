@@ -1,5 +1,5 @@
 import { displayHistogram } from './graph.js';
-
+import { displayCropCanvas } from './components/features/crop.js';
 
 export default class Editor {
     constructor() {
@@ -10,7 +10,7 @@ export default class Editor {
             return;
         },
         "grayscale": (...args) => {
-            this.displayResult(...args);
+            this.displayGrayScale();
         },
         "brightness": (...args) => {
             return;
@@ -26,6 +26,14 @@ export default class Editor {
         },
         "opacity": (...args) => {
             return;
+        },
+        "crop": (...args) => {
+            displayCropCanvas().then(resp => {
+                this.crop(...args);
+            })
+
+
+
         }
     }
 
@@ -56,20 +64,29 @@ export default class Editor {
         return newImgData;
 
     }
-    displayResult(canvasBefore, canvasAfter, contextBefore, contextAfter) {
+
+
+
+    displayResult(newImageData) {
 
         const imgAfter = new Image();
-        let method = document.getElementById("options").value;
-        let newImgData = this.execute(method, canvasBefore, contextBefore);
         imgAfter.src = canvasAfter.toDataURL();
 
-        imgAfter.width = canvasBefore.width;
-        imgAfter.height = canvasBefore.height;
-        canvasAfter.width = newImgData.width;
-        canvasAfter.height = newImgData.height;
+        imgAfter.width = newImageData.width;
+        imgAfter.height = newImageData.height;
+        canvasAfter.width = newImageData.width;
+        canvasAfter.height = newImageData.height;
 
         contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
-        contextAfter.putImageData(newImgData, 0, 0);
+        contextAfter.putImageData(newImageData, 0, 0);
+
+    }
+
+    displayGrayScale() {
+
+        let newImgData = this.execute('grayscale', canvasBefore, contextBefore);
+        this.displayResult(newImgData);
+
 
     }
 
@@ -195,5 +212,27 @@ export default class Editor {
     opacity(info) {
         let factor = parseFloat(document.getElementById('opacityFactor').value / 100);
         return wrapper.opacity(info, factor);
+    }
+
+    crop(canvasBefore, canvasAfter, contextBefore, contextAfter) {
+        let coords = []
+        let cropRegion = document.getElementById('cropRegion').value
+
+        Array.from(cropRegion.split(":")).forEach(item => coords.push(parseInt(item)));
+
+        let imageData = this.getLatestImageData(contextBefore, canvasBefore);
+
+        console.log(coords);
+
+        let info = {
+            'imageData': imageData,
+            'newWidth': coords[2] - coords[0],
+            'newHeight': coords[3] - coords[1]
+
+        }
+
+        let newImageData = wrapper.crop(info);
+        this.displayResult(newImageData);
+
     }
 }

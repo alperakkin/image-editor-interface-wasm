@@ -5,7 +5,7 @@
 [x] move print functions outside of the histogram in editor.c
 [x] add color palette
 [x] filter
-[] opacity
+[x] opacity
 [x] make features as components
 [] crop
 [] rotate

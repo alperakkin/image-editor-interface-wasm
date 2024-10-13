@@ -22,6 +22,7 @@ EXPORTED_FUNCTIONS = [\
 	'_histogram_wrapper',\
 	'_filter_wrapper',\
 	'_opacity_wrapper',\
+	'_crop_wrapper',\
 	'_malloc'\
 	]
 

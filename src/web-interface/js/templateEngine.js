@@ -10,7 +10,7 @@ function loadComponent(template) {
         .then(response => response.text())
         .then(html => {
             template.innerHTML = html;
-            let subTemplates = template.getElementsByClassName('templates');
+            let subTemplates = template.getElementsByClassName('template');
             loadTemplates(subTemplates);
         }).then(async () => {
             if (!template.getAttribute('class').includes('html-only')) {
@@ -31,7 +31,7 @@ function loadComponent(template) {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    const templates = document.getElementsByClassName("templates");
+    const templates = document.getElementsByClassName("template");
     loadTemplates(templates);
 
 })
