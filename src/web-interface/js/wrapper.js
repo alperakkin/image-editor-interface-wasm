@@ -1,6 +1,6 @@
 function applyFilter(fn) {
     return function (imageInfo, ...args) {
-
+        console.log(imageInfo.newHeight, imageInfo.newWidth)
         let imageData = imageInfo.imageData;
         let pixels = imageData.data;
         let inputSize = imageData.width * imageData.height;
@@ -26,6 +26,7 @@ function applyFilter(fn) {
         let result = new Uint8Array(Module.memory.buffer, 0, outputSize * 4);
         let pixelArray = new Uint8ClampedArray(result.length);
         pixelArray.set(result, 0);
+
         return new ImageData(pixelArray, imageInfo.newWidth, imageInfo.newHeight);
     };
 }

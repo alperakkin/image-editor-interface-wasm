@@ -57,10 +57,12 @@ document.addEventListener('mousemove', function (e) {
 
 document.addEventListener('mouseup', function () {
     if (!isDragging) return;
-    console.log(mouseX, mouseY);
+
     currentX = Math.max(0, Math.min(mouseX, cropCanvas.width));
     currentY = Math.max(0, Math.min(mouseY, cropCanvas.height));
-    document.getElementById('cropRegion').value = `${startX}:${startY}:${currentX}:${currentY}`;
+    document.getElementById('cropRegion').value =
+        `{"left": ${startX}, "top":${startY},` +
+        `"right":${currentX}, "bottom":${currentY}}`;
     isDragging = false;
     completed = true;
     cropCanvas.style.display = "none";

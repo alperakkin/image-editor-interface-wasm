@@ -215,23 +215,25 @@ export default class Editor {
     }
 
     crop(canvasBefore, canvasAfter, contextBefore, contextAfter) {
-        let coords = []
         let cropRegion = document.getElementById('cropRegion').value
 
-        Array.from(cropRegion.split(":")).forEach(item => coords.push(parseInt(item)));
-
+        cropRegion = JSON.parse(cropRegion);
         let imageData = this.getLatestImageData(contextBefore, canvasBefore);
 
-        console.log(coords);
+        let left = cropRegion.left;
+        let right = imageData.width - cropRegion.right;
+        let top = cropRegion.top;
+        let bottom = imageData.height - cropRegion.bottom;
+
 
         let info = {
             'imageData': imageData,
-            'newWidth': coords[2] - coords[0],
-            'newHeight': coords[3] - coords[1]
-
+            'newWidth': cropRegion.right - cropRegion.left,
+            'newHeight': cropRegion.bottom - cropRegion.top
         }
 
-        let newImageData = wrapper.crop(info);
+        let newImageData = wrapper.crop(info, left, right, top, bottom);
+
         this.displayResult(newImageData);
 
     }

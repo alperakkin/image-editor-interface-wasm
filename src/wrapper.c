@@ -1,8 +1,6 @@
 #include <emscripten.h>
 #include <stdint.h>
 #include "editor.h"
-int debug_width;
-int debug_height;
 
 void flatten_pixels(Image image, uint8_t *pixels)
 {
@@ -134,9 +132,9 @@ void opacity_wrapper(uint8_t *pixels, int width, int height, float factor)
   flatten_pixels(img, pixels);
 }
 
-void crop_wrapper(uint8_t *pixels, int width, int height)
+void crop_wrapper(uint8_t *pixels, int width, int height, int left, int right, int top, int bottom)
 {
   Image img = create_image(pixels, width, height);
-
+  img = crop(img, left, right, top, bottom);
   flatten_pixels(img, pixels);
 }
