@@ -138,3 +138,19 @@ void crop_wrapper(uint8_t *pixels, int width, int height, int left, int right, i
   img = crop(img, left, right, top, bottom);
   flatten_pixels(img, pixels);
 }
+
+EM_JS(void, consoleLog, (const char *message), {
+  console.log(Module.UTF8ToString(message));
+});
+
+void rotate_wrapper(uint8_t *pixels, int width, int height, double angle)
+{
+  char message[100];
+  sprintf(message, "Angle: %f\n", angle);
+  consoleLog(message);
+  Image img = create_image(pixels, width, height);
+  img = rotate_image(img, angle);
+  sprintf(message, "Image Width: %d Image Height: %d\n", img.width, img.height);
+  consoleLog(message);
+  flatten_pixels(img, pixels);
+}

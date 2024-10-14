@@ -10,8 +10,10 @@ function listenInputs() {
         function (elem) {
             elem.addEventListener('input',
                 function (event) {
-                    editor.displayResult(canvasBefore, canvasAfter,
-                        contextBefore, contextAfter);
+
+                    let imageData = editor.execute(elem.id);
+                    editor.displayResult(imageData);
+
 
                 }
 

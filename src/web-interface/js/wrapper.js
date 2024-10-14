@@ -1,6 +1,5 @@
 function applyFilter(fn) {
     return function (imageInfo, ...args) {
-        console.log(imageInfo.newHeight, imageInfo.newWidth)
         let imageData = imageInfo.imageData;
         let pixels = imageData.data;
         let inputSize = imageData.width * imageData.height;
@@ -43,6 +42,7 @@ export default class ImageWrapper {
         this.filter = applyFilter(Module.filter_wrapper);
         this.opacity = applyFilter(Module.opacity_wrapper);
         this.crop = applyFilter(Module.crop_wrapper);
+        this.rotate = applyFilter(Module.rotate_wrapper);
 
 
     }

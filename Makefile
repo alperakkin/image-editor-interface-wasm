@@ -23,6 +23,7 @@ EXPORTED_FUNCTIONS = [\
 	'_filter_wrapper',\
 	'_opacity_wrapper',\
 	'_crop_wrapper',\
+	'_rotate_wrapper',\
 	'_malloc'\
 	]
 
@@ -34,7 +35,7 @@ MEM_FLAGS = \
 
 LIBRARIES = -sUSE_LIBPNG=1
 
-RUNTIME_METHODS = -s EXPORTED_RUNTIME_METHODS='["cwrap", "ccall"]'
+RUNTIME_METHODS = -s EXPORTED_RUNTIME_METHODS='["cwrap", "ccall", "UTF8ToString"]'
 
 FLAGS = \
 -O0 \

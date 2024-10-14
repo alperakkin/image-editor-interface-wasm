@@ -7,8 +7,8 @@
 [x] filter
 [x] opacity
 [x] make features as components
-[] crop
-[] rotate
+[x] crop
+[x] rotate
 [] invert
 [] add border
 [] mask
@@ -24,3 +24,4 @@
 [] save edited image
 [] re-calculate histogram after apply
 [] design ui
+[] improve rotate algorithm to get rid of noise and slow computation
