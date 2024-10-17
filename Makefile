@@ -17,8 +17,8 @@ EXPORTED_WRAPPERS = $(shell sed -n 's/^void \([a-zA-Z_]*_wrapper\).*/_\1/p' src/
 FUNCTIONS = $(shell echo $(EXPORTED_WRAPPERS) | awk '{ for (i=1; i<=NF; i++) { printf "\"" $$i "\", " }}' | sed 's/, $$//')
 EXPORTED_FUNCTIONS = [${FUNCTIONS}]
 MEM_FLAGS = \
--sSTACK_SIZE=5MB \
--sINITIAL_MEMORY=128MB \
+-sSTACK_SIZE=50MB \
+-sINITIAL_MEMORY=200MB \
 -sSTACK_OVERFLOW_CHECK \
 
 

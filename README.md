@@ -37,7 +37,7 @@ $ make
 ```
 "editor.wasm" will be created in web-interface/wasm  folder.
 
-
+Note: Stack size is limited up to 50 MB. Therefore biggest image dimensions could be 3500x3500 pixels
 
 
 ## QUICK START
