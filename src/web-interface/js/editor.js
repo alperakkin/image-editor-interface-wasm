@@ -36,7 +36,11 @@ export default class Editor {
         },
         "rotate": (...args) => {
             return;
-        }
+        },
+        "invert": (...args) => {
+            let imageData = editor.execute('invert');
+            editor.displayResult(imageData);;
+        },
     }
 
     getLatestImageData() {
@@ -236,5 +240,10 @@ export default class Editor {
 
         let rotatedData = getRotatedSize(data);
         return wrapper.rotate(rotatedData, rotatedData.angle);
+    }
+
+    invert(data) {
+        return wrapper.invert(data);
+
     }
 }

@@ -9,7 +9,7 @@
 [x] make features as components
 [x] crop
 [x] rotate
-[] invert
+[x] invert
 [] add border
 [] mask
 [] edge

@@ -24,6 +24,7 @@ EXPORTED_FUNCTIONS = [\
 	'_opacity_wrapper',\
 	'_crop_wrapper',\
 	'_rotate_wrapper',\
+	'_invert_wrapper',\
 	'_malloc'\
 	]
 

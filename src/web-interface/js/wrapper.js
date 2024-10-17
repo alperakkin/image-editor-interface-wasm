@@ -43,12 +43,23 @@ export default class ImageWrapper {
         this.opacity = applyFilter(Module.opacity_wrapper);
         this.crop = applyFilter(Module.crop_wrapper);
         this.rotate = applyFilter(Module.rotate_wrapper);
+        this.invert = applyFilter(Module.invert_wrapper);
 
+        Object.getOwnPropertyNames(this).forEach(
+            item => {
+                const opt = document.getElementById('options')
+                const choice = document.createElement("option");
+                choice.setAttribute("id", item);
+                choice.setAttribute("style", "text-transform: capitalize;");
+                choice.textContent = item;
+                opt.appendChild(choice);
 
+            })
     }
-
-
 }
+
+
+
 
 
 
