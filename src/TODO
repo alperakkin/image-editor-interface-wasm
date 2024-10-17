@@ -26,3 +26,4 @@
 [] re-calculate histogram after apply
 [] design ui
 [] improve rotate algorithm to get rid of noise and slow computation
+[] fix crop canvas while working with big pictures

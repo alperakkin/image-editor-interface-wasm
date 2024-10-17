@@ -1,6 +1,7 @@
 import { displayHistogram } from './graph.js';
 import { displayCropCanvas } from './components/features/crop.js';
 import { getRotatedSize } from './components/features/rotate.js';
+import { setColorPointer } from './utils.js';
 export default class Editor {
     constructor() {
         this.stack = [];
@@ -41,6 +42,9 @@ export default class Editor {
             let imageData = editor.execute('invert');
             editor.displayResult(imageData);;
         },
+        "add_border": (...args) => {
+            return;
+        }
     }
 
     getLatestImageData() {
@@ -97,6 +101,7 @@ export default class Editor {
         });
 
         Array.from(itemIDs).forEach(itemID => {
+            console.log(itemIDs);
             let element = document.getElementById(itemID);
             if (element) element.style.display = "block";
         })
@@ -182,28 +187,10 @@ export default class Editor {
     }
 
     filter(data) {
-        let imageSize = data.imageData.width * data.imageData.height * 4;
-
-
-        let colorHex = document.getElementById('color').value;
-        let colorAscii = []
-
-        Array.from(colorHex).forEach(item => {
-            colorAscii.push(item.charCodeAt(0))
-        });
-
-        colorAscii.push(0); // char* termination
-        let color_ptr = imageSize;
-        let color = new Uint8Array(
-            Module.memory.buffer,
-            color_ptr,
-            colorAscii.length
-        );
-
-        color.set(colorAscii);
+        let colorPtr = setColorPointer('filterColor', data.imageData);
         let strength = parseFloat(document.getElementById('strength').value / 100);
 
-        return wrapper.filter(data, color_ptr, strength);
+        return wrapper.filter(data, colorPtr, strength);
 
     }
 
@@ -244,6 +231,13 @@ export default class Editor {
 
     invert(data) {
         return wrapper.invert(data);
+
+    }
+    add_border(data) {
+        let colorPtr = setColorPointer('borderColor', data.imageData);
+        let width = parseInt(document.getElementById('borderWidth').value);
+
+        return wrapper.add_border(data, colorPtr, width);
 
     }
 }

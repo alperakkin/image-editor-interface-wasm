@@ -38,15 +38,14 @@ export default class ImageWrapper {
         })
 
 
-
         Object.getOwnPropertyNames(this).forEach(
             item => {
                 const opt = document.getElementById('options')
                 const choice = document.createElement("option");
                 choice.setAttribute("value", item);
-                choice.textContent = item.split()
+                choice.textContent = item.split("_")
                     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join();
+                    .join(" ");
                 opt.appendChild(choice);
 
             })
