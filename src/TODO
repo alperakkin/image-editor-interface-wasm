@@ -10,7 +10,8 @@
 [x] crop
 [x] rotate
 [x] invert
-[] add border
+[x] add border
+[x] dynamic wrappers
 [] mask
 [] edge
 [] match template

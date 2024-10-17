@@ -32,18 +32,12 @@ function applyFilter(fn) {
 
 export default class ImageWrapper {
     constructor() {
+        Object.getOwnPropertyNames(Module).forEach(item => {
+            if (item.includes('_wrapper'))
+                this[item.slice(0, -8)] = applyFilter(Module[item]);
+        })
 
-        this.contrast = applyFilter(Module.contrast_wrapper);
-        this.grayscale = applyFilter(Module.grayscale_wrapper);
-        this.brightness = applyFilter(Module.brightness_wrapper);
-        this.gaussian = applyFilter(Module.gaussian_wrapper);
-        this.resize = applyFilter(Module.resize_wrapper);
-        this.histogram = applyFilter(Module.histogram_wrapper);
-        this.filter = applyFilter(Module.filter_wrapper);
-        this.opacity = applyFilter(Module.opacity_wrapper);
-        this.crop = applyFilter(Module.crop_wrapper);
-        this.rotate = applyFilter(Module.rotate_wrapper);
-        this.invert = applyFilter(Module.invert_wrapper);
+
 
         Object.getOwnPropertyNames(this).forEach(
             item => {

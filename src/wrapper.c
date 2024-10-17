@@ -157,3 +157,10 @@ void invert_wrapper(uint8_t *pixels, int width, int height)
   img = invert(img);
   flatten_pixels(img, pixels);
 }
+
+void add_border_wrapper(uint8_t *pixels, int width, int height, char *color, int size)
+{
+  Image img = create_image(pixels, width, height);
+  img = add_border(img, color, size);
+  flatten_pixels(img, pixels);
+}

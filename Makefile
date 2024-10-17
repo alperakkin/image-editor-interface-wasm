@@ -13,21 +13,9 @@ IMAGE_EDITOR =\
 
 OUTPUT = src/web-interface/wasm/editor.wasm
 
-EXPORTED_FUNCTIONS = [\
-	'_grayscale_wrapper',\
-	'_contrast_wrapper',\
-	'_gaussian_wrapper',\
-	'_brightness_wrapper',\
-	'_resize_wrapper',\
-	'_histogram_wrapper',\
-	'_filter_wrapper',\
-	'_opacity_wrapper',\
-	'_crop_wrapper',\
-	'_rotate_wrapper',\
-	'_invert_wrapper',\
-	'_malloc'\
-	]
-
+EXPORTED_WRAPPERS = $(shell sed -n 's/^void \([a-zA-Z_]*_wrapper\).*/_\1/p' src/wrapper.c)
+FUNCTIONS = $(shell echo $(EXPORTED_WRAPPERS) | awk '{ for (i=1; i<=NF; i++) { printf "\"" $$i "\", " }}' | sed 's/, $$//')
+EXPORTED_FUNCTIONS = [${FUNCTIONS}]
 MEM_FLAGS = \
 -sSTACK_SIZE=5MB \
 -sINITIAL_MEMORY=128MB \
