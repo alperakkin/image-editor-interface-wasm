@@ -12,7 +12,8 @@
 [x] invert
 [x] add border
 [x] dynamic wrappers
-[] mask
+[x] mask
+[x] bugfix - free memory after processing image
 [] edge
 [] match template
 [] check color

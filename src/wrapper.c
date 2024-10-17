@@ -23,6 +23,7 @@ void flatten_pixels(Image image, uint8_t *pixels)
       index += 4;
     }
   }
+  free_image(image);
 }
 
 Image create_image(uint8_t *pixels, int width, int height)
@@ -162,5 +163,12 @@ void add_border_wrapper(uint8_t *pixels, int width, int height, char *color, int
 {
   Image img = create_image(pixels, width, height);
   img = add_border(img, color, size);
+  flatten_pixels(img, pixels);
+}
+
+void mask_wrapper(uint8_t *pixels, int width, int height, char *color, float threshold)
+{
+  Image img = create_image(pixels, width, height);
+  img = mask(img, color, threshold);
   flatten_pixels(img, pixels);
 }

@@ -44,6 +44,9 @@ export default class Editor {
         },
         "add_border": (...args) => {
             return;
+        },
+        "mask": (...args) => {
+            return;
         }
     }
 
@@ -101,7 +104,6 @@ export default class Editor {
         });
 
         Array.from(itemIDs).forEach(itemID => {
-            console.log(itemIDs);
             let element = document.getElementById(itemID);
             if (element) element.style.display = "block";
         })
@@ -238,6 +240,13 @@ export default class Editor {
         let width = parseInt(document.getElementById('borderWidth').value);
 
         return wrapper.add_border(data, colorPtr, width);
+
+    }
+    mask(data) {
+        let colorPtr = setColorPointer('maskColor', data.imageData);
+        let threshold = parseFloat(document.getElementById('maskThreshold').value / 200);
+
+        return wrapper.mask(data, colorPtr, threshold);
 
     }
 }
