@@ -13,8 +13,8 @@ function loadComponent(template) {
             let subTemplates = template.getElementsByClassName('template');
             loadTemplates(subTemplates);
         }).then(async () => {
-            if (!template.getAttribute('class').includes('html-only')) {
 
+            if (!template.getAttribute('class').includes('html-only')) {
                 import(`../js/${path}.js`);
             }
 

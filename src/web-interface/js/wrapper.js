@@ -49,9 +49,10 @@ export default class ImageWrapper {
             item => {
                 const opt = document.getElementById('options')
                 const choice = document.createElement("option");
-                choice.setAttribute("id", item);
-                choice.setAttribute("style", "text-transform: capitalize;");
-                choice.textContent = item;
+                choice.setAttribute("value", item);
+                choice.textContent = item.split()
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join();
                 opt.appendChild(choice);
 
             })
