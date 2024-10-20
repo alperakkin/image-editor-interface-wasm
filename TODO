@@ -15,9 +15,9 @@
 [x] mask
 [x] bugfix - free memory after processing image
 [x] check color
-[] vignette
-[] match template
+[x] vignette
 [] edge
+[] match template
 [] display image info
 [] add layer
 [] add layer system

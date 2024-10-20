@@ -186,3 +186,10 @@ void vignette_wrapper(uint8_t *pixels, int width, int height, float ratio)
   img = vignette(img, ratio);
   flatten_pixels(img, pixels);
 }
+
+void edge_wrapper(uint8_t *pixels, int width, int height, int high_threshold, int low_threshold)
+{
+  Image img = create_image(pixels, width, height);
+  img = edge(img, high_threshold, low_threshold);
+  flatten_pixels(img, pixels);
+}

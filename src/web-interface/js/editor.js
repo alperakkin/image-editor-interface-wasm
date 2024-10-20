@@ -54,6 +54,9 @@ export default class Editor {
         },
         "vignette": (...args) => {
             return;
+        },
+        "edge": (...args) => {
+            return;
         }
 
     }
@@ -267,7 +270,13 @@ export default class Editor {
 
     vignette(data) {
         let ratio = 1 - parseFloat(document.getElementById('vignetteRatio').value / 200);
-        console.log(ratio);
+
         return wrapper.vignette(data, ratio);
+    }
+
+    edge(data) {
+        let highThreshold = parseInt(document.getElementById('highThreshold').value);
+        let lowThreshold = parseInt(document.getElementById('lowThreshold').value);
+        return wrapper.edge(data, highThreshold, lowThreshold);
     }
 }
