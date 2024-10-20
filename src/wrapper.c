@@ -179,3 +179,10 @@ float check_color_wrapper(uint8_t *pixels, int width, int height, char *color, f
   float ratio = check_color(img, color, threshold);
   return ratio;
 }
+
+void vignette_wrapper(uint8_t *pixels, int width, int height, float ratio)
+{
+  Image img = create_image(pixels, width, height);
+  img = vignette(img, ratio);
+  flatten_pixels(img, pixels);
+}

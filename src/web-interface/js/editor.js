@@ -51,6 +51,9 @@ export default class Editor {
         ,
         "check_color": (...args) => {
             return;
+        },
+        "vignette": (...args) => {
+            return;
         }
 
     }
@@ -260,5 +263,11 @@ export default class Editor {
         let ratio = wrapper.check_color(data, colorPtr, threshold);
         let element = document.getElementById('checkColor.label');
         element.textContent = ratio.toFixed(3) * 100 + "%";
+    }
+
+    vignette(data) {
+        let ratio = 1 - parseFloat(document.getElementById('vignetteRatio').value / 200);
+        console.log(ratio);
+        return wrapper.vignette(data, ratio);
     }
 }

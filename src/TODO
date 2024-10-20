@@ -14,7 +14,7 @@
 [x] dynamic wrappers
 [x] mask
 [x] bugfix - free memory after processing image
-[] check color
+[x] check color
 [] vignette
 [] match template
 [] edge
