@@ -13,7 +13,7 @@ IMAGE_EDITOR =\
 
 OUTPUT = src/web-interface/wasm/editor.wasm
 
-EXPORTED_WRAPPERS = $(shell sed -n 's/^void \([a-zA-Z_]*_wrapper\).*/_\1/p' src/wrapper.c)
+EXPORTED_WRAPPERS = $(shell grep -E '^(void|float) ' src/wrapper.c | sed -n 's/.* \([a-zA-Z_]*_wrapper\).*/_\1/p')
 FUNCTIONS = $(shell echo $(EXPORTED_WRAPPERS) | awk '{ for (i=1; i<=NF; i++) { printf "\"" $$i "\", " }}' | sed 's/, $$//')
 EXPORTED_FUNCTIONS = [${FUNCTIONS}]
 MEM_FLAGS = \

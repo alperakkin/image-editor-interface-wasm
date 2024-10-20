@@ -172,3 +172,10 @@ void mask_wrapper(uint8_t *pixels, int width, int height, char *color, float thr
   img = mask(img, color, threshold);
   flatten_pixels(img, pixels);
 }
+
+float check_color_wrapper(uint8_t *pixels, int width, int height, char *color, float threshold)
+{
+  Image img = create_image(pixels, width, height);
+  float ratio = check_color(img, color, threshold);
+  return ratio;
+}

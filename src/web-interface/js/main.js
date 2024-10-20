@@ -12,6 +12,8 @@ function listenInputs() {
                 function (event) {
 
                     let imageData = editor.execute(elem.id);
+
+                    if (imageData === undefined) return;
                     editor.displayResult(imageData);
 
 

@@ -12,7 +12,7 @@ export default class Editor {
         },
         "grayscale": (...args) => {
             let imageData = editor.execute('grayscale');
-            editor.displayResult(imageData);;
+            editor.displayResult(imageData);
         },
         "brightness": (...args) => {
             return;
@@ -48,6 +48,11 @@ export default class Editor {
         "mask": (...args) => {
             return;
         }
+        ,
+        "check_color": (...args) => {
+            return;
+        }
+
     }
 
     getLatestImageData() {
@@ -248,5 +253,12 @@ export default class Editor {
 
         return wrapper.mask(data, colorPtr, threshold);
 
+    }
+    check_color(data) {
+        let colorPtr = setColorPointer('checkColor', data.imageData);
+        let threshold = 1 - parseFloat(document.getElementById('checkColorThreshold').value / 200);
+        let ratio = wrapper.check_color(data, colorPtr, threshold);
+        let element = document.getElementById('checkColor.label');
+        element.textContent = ratio.toFixed(3) * 100 + "%";
     }
 }

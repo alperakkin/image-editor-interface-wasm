@@ -14,10 +14,10 @@
 [x] dynamic wrappers
 [x] mask
 [x] bugfix - free memory after processing image
-[] edge
-[] match template
 [] check color
 [] vignette
+[] match template
+[] edge
 [] display image info
 [] add layer
 [] add layer system
