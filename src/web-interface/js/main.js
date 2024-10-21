@@ -59,7 +59,7 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
             contextBefore.drawImage(img, 0, 0, canvasBefore.width, canvasBefore.height);
 
             let imageData = editor.getLatestImageData(contextBefore, canvasBefore);
-
+            document.getElementById('imageInfo.Size').textContent = `Width: ${imageData.width} Height: ${imageData.height}`
             editor.histogram(
                 {
                     'imageData': imageData,

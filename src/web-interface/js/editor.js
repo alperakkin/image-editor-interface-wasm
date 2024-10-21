@@ -264,7 +264,7 @@ export default class Editor {
         let colorPtr = setColorPointer('checkColor', data.imageData);
         let threshold = 1 - parseFloat(document.getElementById('checkColorThreshold').value / 200);
         let ratio = wrapper.check_color(data, colorPtr, threshold);
-        let element = document.getElementById('checkColor.label');
+        let element = document.getElementById('imageInfo.Color');
         element.textContent = ratio.toFixed(3) * 100 + "%";
     }
 
