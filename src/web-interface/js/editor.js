@@ -1,7 +1,7 @@
-import { displayHistogram } from './graph.js';
+import { displayHistogram } from './libs/graph.js';
 import { displayCropCanvas } from './components/features/crop.js';
 import { getRotatedSize } from './components/features/rotate.js';
-import { setColorPointer } from './utils.js';
+import { setColorPointer } from './libs/utils.js';
 export default class Editor {
     constructor() {
         this.stack = [];

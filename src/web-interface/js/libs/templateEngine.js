@@ -15,7 +15,7 @@ function loadComponent(template) {
         }).then(async () => {
 
             if (!template.getAttribute('class').includes('html-only')) {
-                import(`../js/${path}.js`);
+                import(`./../${path}.js`);
             }
 
 

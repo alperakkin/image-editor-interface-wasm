@@ -1,5 +1,5 @@
-import ImageWrapper from './wrapper.js';
-import Editor from './editor.js';
+import ImageWrapper from './../wrapper.js';
+import Editor from './../editor.js';
 
 function UTF8ToString(ptr) {
     let maxLength = 100
@@ -57,7 +57,7 @@ const importObject = {
 
 
 
-WebAssembly.instantiateStreaming(fetch("wasm/editor.wasm"), importObject)
+WebAssembly.instantiateStreaming(fetch("../wasm/editor.wasm"), importObject)
     .then(
         (obj) => {
             console.log(obj);
