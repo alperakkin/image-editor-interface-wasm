@@ -43,23 +43,21 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
         editor.stack = [];
         const img = new Image();
 
-        let width;
-        let height;
         img.src = e.target.result;
 
 
         img.onload = function () {
-            width = img.width;
-            height = img.height;
 
-            canvasBefore.width = img.width;
-            canvasBefore.height = img.height;
+
 
             contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
-            contextBefore.drawImage(img, 0, 0, canvasBefore.width, canvasBefore.height);
+            contextBefore.drawImage(img,
+                0, 0,
+                canvasBefore.width, canvasBefore.height);
 
             let imageData = editor.getLatestImageData(contextBefore, canvasBefore);
-            document.getElementById('imageInfo.Size').textContent = `Width: ${imageData.width} Height: ${imageData.height}`
+            document.getElementById("histogram").style.display = "flex";
+            document.getElementById('imageInfo.Size').textContent = `Width: ${img.width} Height: ${img.height}`
             editor.histogram(
                 {
                     'imageData': imageData,

@@ -1,7 +1,7 @@
 
-const width = 300;
-const height = 300;
-const margin = { top: 50, bottom: 50, left: 50, right: 50 };
+const width = 150;
+const height = 150;
+const margin = { top: 15, bottom: 15, left: 15, right: 15 };
 
 
 
@@ -12,7 +12,7 @@ function createOrGetSvg() {
             .append('svg')
             .attr('height', height)
             .attr('width', width)
-            .attr('viewBox', [0, 0, width, height]);
+            .attr('viewBox', [0, 0, width + margin.bottom + margin.top, height]);
     }
     return d3.select('#container').select('svg');
 
