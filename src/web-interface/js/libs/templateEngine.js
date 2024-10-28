@@ -9,14 +9,26 @@ function loadComponent(template) {
     fetch(`${path}.html`)
         .then(response => response.text())
         .then(html => {
-            template.innerHTML = html;
-            let subTemplates = template.getElementsByClassName('template');
+
+            activeTemplate = document.querySelector(`[path="${path}"]`);
+            activeTemplate.parentElement.innerHTML += html;
+
+
+            let subTemplates = activeTemplate.getElementsByClassName('template');
             loadTemplates(subTemplates);
+            activeTemplate.remove();
+
+
         }).then(async () => {
 
             if (!template.getAttribute('class').includes('html-only')) {
                 import(`./../${path}.js`);
+
             }
+
+            activeTemplate = document.querySelector(`[path="${path}"]`).remove();
+
+
 
 
 
@@ -31,7 +43,8 @@ function loadComponent(template) {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    const templates = document.getElementsByClassName("template");
+    let templates = Array.from(document.getElementsByClassName("template"));
     loadTemplates(templates);
+
 
 })

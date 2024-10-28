@@ -1,8 +1,3 @@
-window.canvasBefore = document.getElementById('imageCanvasBefore');
-window.canvasAfter = document.getElementById('imageCanvasAfter');
-window.contextBefore = canvasBefore.getContext('2d', { willReadFrequently: true });
-window.contextAfter = canvasAfter.getContext('2d', { willReadFrequently: true });
-
 
 
 function listenInputs() {
@@ -27,48 +22,62 @@ function listenInputs() {
 
 
 
+function uploadImage(event) {
 
-
-document.getElementById('imageUploader').addEventListener('change', function (event) {
     listenInputs();
     const file = event.target.files[0];
-
     if (!file) return;
+
 
     const reader = new FileReader();
 
 
     reader.onload = function (e) {
+        canvasBefore = document.getElementById('imageCanvasBefore');
+        canvasAfter = document.getElementById('imageCanvasAfter');
+        contextBefore = canvasBefore.getContext('2d', { willReadFrequently: true });
+        contextAfter = canvasAfter.getContext('2d', { willReadFrequently: true });
+
+
+
+        contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
         contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
         editor.stack = [];
         const img = new Image();
 
         img.src = e.target.result;
 
-
         img.onload = function () {
-
-
-
             contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
-            contextBefore.drawImage(img,
-                0, 0,
-                canvasBefore.width, canvasBefore.height);
+            contextBefore.drawImage(img, 0, 0, canvasBefore.width, canvasBefore.height);
+        };
+        img.onerror = function () {
+            console.error("Görüntü yüklenirken bir hata oluştu.");
+        };
 
-            let imageData = editor.getLatestImageData(contextBefore, canvasBefore);
-            document.getElementById("histogram").style.display = "flex";
-            document.getElementById('imageInfo.Size').textContent = `Width: ${img.width} Height: ${img.height}`
-            editor.histogram(
-                {
-                    'imageData': imageData,
-                    'newWidth': imageData.width,
-                    'newHeight': imageData.height
-                },
-                "red", "green", "blue"
-            )
+        // img.onload = function () {
 
 
-        }
+        //     contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
+        //     contextBefore.drawImage(img,
+        //         0, 0,
+        //         canvasBefore.width, canvasBefore.height);
+
+        //     let imageData = editor.getLatestImageData(contextBefore, canvasBefore);
+
+        //     // document.getElementById("histogram").style.display = "flex";
+        //     // document.getElementById('imageInfo.Size').textContent = `Width: ${img.width} Height: ${img.height}`
+        //     // editor.histogram(
+        //     //     {
+        //     //         'imageData': imageData,
+        //     //         'newWidth': imageData.width,
+        //     //         'newHeight': imageData.height
+        //     //     },
+        //     //     "red", "green", "blue"
+        //     // )
+
+
+        // }
 
 
 
@@ -76,7 +85,15 @@ document.getElementById('imageUploader').addEventListener('change', function (ev
 
 
     };
+    reader.onerror = function () {
+        console.error("Dosya okunurken bir hata oluştu.");
+    };
 
 
     reader.readAsDataURL(file);
+}
+
+document.getElementById('imageUploader').addEventListener('change', function (event) {
+
 });
+
