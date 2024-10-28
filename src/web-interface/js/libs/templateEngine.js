@@ -1,32 +1,39 @@
-function loadTemplates(templates) {
+var updated_templates = []
+function loadTemplates() {
+    let templates = Array.from(document.querySelectorAll('[class^="template"]'));
     Array.from(templates).forEach(template => {
-        loadComponent(template);
+
+        if (!updated_templates.includes(template.getAttribute('path')))
+            loadComponent(template);
     })
 }
 
 function loadComponent(template) {
     const path = template.getAttribute('path');
+    updated_templates.push(path);
+
     fetch(`${path}.html`)
         .then(response => response.text())
         .then(html => {
+            var activeTemplate = document.querySelector(`[path="${path}"]`);
+            if (activeTemplate)
+                activeTemplate.parentElement.innerHTML += html;
 
-            activeTemplate = document.querySelector(`[path="${path}"]`);
-            activeTemplate.parentElement.innerHTML += html;
 
 
-            let subTemplates = activeTemplate.getElementsByClassName('template');
-            loadTemplates(subTemplates);
-            activeTemplate.remove();
 
 
         }).then(async () => {
 
-            if (!template.getAttribute('class').includes('html-only')) {
+            activeTemplate = document.querySelector(`[path="${path}"]`);
+            if (!activeTemplate.getAttribute('class').includes('html-only')) {
                 import(`./../${path}.js`);
 
             }
 
-            activeTemplate = document.querySelector(`[path="${path}"]`).remove();
+            document.querySelector(`[path="${path}"]`).remove();
+
+            loadTemplates();
 
 
 
@@ -36,15 +43,13 @@ function loadComponent(template) {
 
 
         })
-        .catch(error => console.error('Component could not be imported:',
-            error, template.id));
+        .catch(error =>
+            console.error(
+                `Component [${template.getAttribute('path')}]could not be imported: ${error}`));
 }
 
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    let templates = Array.from(document.getElementsByClassName("template"));
-    loadTemplates(templates);
-
-
+    loadTemplates();
 })
