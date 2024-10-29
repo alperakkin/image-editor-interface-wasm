@@ -239,7 +239,8 @@ export default class Editor {
     rotate(data) {
 
         let rotatedData = getRotatedSize(data);
-        return wrapper.rotate(rotatedData, rotatedData.angle);
+
+        return wrapper.rotate(rotatedData, rotatedData.newWidth, rotatedData.newHeight, rotatedData.angle);
     }
 
     invert(data) {

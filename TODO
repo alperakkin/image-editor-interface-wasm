@@ -18,6 +18,7 @@
 [x] vignette
 [x] edge
 [x] display image info
+[x] improve rotate algorithm to get rid of noise and slow computation
 [] add layer
 [] add layer system
 [] match template
@@ -26,7 +27,9 @@
 [] save edited image
 [] re-calculate histogram after apply
 [] design ui
-[] improve rotate algorithm to get rid of noise and slow computation
 [] fix crop canvas while working with big pictures
 [] add selection (rectangular, circular, mouse path)
 [] add filters to selection
+[] zoom
+[] pan
+[] flip image

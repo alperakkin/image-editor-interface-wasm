@@ -144,10 +144,11 @@ void crop_wrapper(uint8_t *pixels, int width, int height, int left, int right, i
   flatten_pixels(img, pixels);
 }
 
-void rotate_wrapper(uint8_t *pixels, int width, int height, double angle)
+void rotate_wrapper(uint8_t *pixels, int width, int height, int new_width, int new_height, double angle)
 {
   Image img = create_image(pixels, width, height);
   img = rotate_image(img, angle);
+  img = resize(img, new_width, new_height);
 
   flatten_pixels(img, pixels);
 }
