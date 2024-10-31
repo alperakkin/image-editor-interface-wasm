@@ -239,8 +239,18 @@ export default class Editor {
     rotate(data) {
 
         let rotatedData = getRotatedSize(data);
+        let widthPtr = 3000000;
+        let heightPtr = widthPtr + 1;
+        let width = new Uint8Array(Module.memory.buffer, widthPtr, 1);
+        let height = new Uint8Array(Module.memory.buffer, heightPtr, 1);
+        wrapper.rotate(rotatedData, widthPtr, heightPtr, rotatedData.angle);
 
-        return wrapper.rotate(rotatedData, rotatedData.newWidth, rotatedData.newHeight, rotatedData.angle);
+        let result = new Uint8Array(Module.memory.buffer, 0, width[0] * height[0] * 4);
+        let pixelArray = new Uint8ClampedArray(result.length);
+        pixelArray.set(result, 0);
+
+        return new ImageData(pixelArray, width[0], height[0]);
+
     }
 
     invert(data) {
