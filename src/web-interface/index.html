@@ -11,9 +11,9 @@
         <script  src="js/libs/templateEngine.js" defer></script>
         <script type="module" src="js/libs/wasm.js" defer></script>
         <script  src="js/main.js" defer></script>
-        <div id="app" class="container min-vh-100">
+        <div id="app" class="container-fluid min-vh-100">
             <div class="row min-vh-100">
-                <div class="drawingArea col-9" style="background: #4a4a4a;">
+                <div class="drawingArea col-10" style="background: #4a4a4a;">
                     <label id="label"></label>
                     <a class="btn btn-warning" type = "button" value = "Choose image"
                         onclick ="javascript:document.getElementById('imageUploader').click();"><div class="template html-only" path="components/icons/upload"></div></a>
@@ -44,7 +44,7 @@
                     </div>
 
                 </div>
-                <div class="EditingArea col-3 d-flex flex-column align-items-center" style="background-color: rgb(45, 44, 44);">
+                <div class="EditingArea col-2 d-flex flex-column align-items-center" style="background-color: rgb(45, 44, 44);">
                     <div class="row">
                         <div class="d-flex flex-column" id="title" style="width: 100%;">
                             <div style="color: aliceblue; text-align: center; font-weight: bold;">Image Info</div>
@@ -60,6 +60,7 @@
                         <hr class="hr hr-blurry" style="color: aliceblue;" />
 
                     </div>
+                    <div class="template row d-flex flex-row" path="components/layers"></div>
 
 
                 </div>

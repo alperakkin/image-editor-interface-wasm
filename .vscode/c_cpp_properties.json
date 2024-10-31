@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/Users/alperakkin/Documents/alper/emsdk/upstream/emscripten/system/include/emscripten",
+                "/Users/alperakkin/Documents/alper/emsdk/upstream/emscripten/system/include"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-x64",
+            "browse": {
+                "path": [
+                    "/Users/alperakkin/Documents/alper/emsdk/upstream/emscripten/system/include"
+                ]
+            }
+        }
+    ],
+    "version": 4
+}

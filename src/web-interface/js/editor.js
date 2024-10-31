@@ -239,7 +239,7 @@ export default class Editor {
     rotate(data) {
 
         let rotatedData = getRotatedSize(data);
-        let widthPtr = 3000000;
+        let widthPtr = data.newHeight * data.newHeight * 4 * 2;
         let heightPtr = widthPtr + 1;
         let width = new Uint8Array(Module.memory.buffer, widthPtr, 1);
         let height = new Uint8Array(Module.memory.buffer, heightPtr, 1);
