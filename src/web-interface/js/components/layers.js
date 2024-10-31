@@ -4,9 +4,9 @@ class Layers {
         this.selectedCanvas = undefined;
     }
 
-    addLayer(name) {
+    addLayer(name, index) {
         const newLayer = new LayerCanvas(name);
-        newLayer.fetchHtml(name);
+        newLayer.fetchHtml(name, index);
         this.canvasStack.push(newLayer);
     }
 
@@ -35,13 +35,13 @@ class LayerCanvas {
         this.imageData = imageData;
     }
 
-    fetchHtml(name) {
+    fetchHtml(name, index) {
 
         fetch('components/utils/layer.html')
             .then(response => response.text())
             .then(html => {
                 const layers = document.getElementById('layers');
-                html = html.replace("name", `name="${name}"`)
+                html = html.replace("data-index", `data-index=${index}`)
                 html = html.replace("{LayerName}", name)
                 layers.innerHTML += html;
 
@@ -51,37 +51,8 @@ class LayerCanvas {
 
 let layers = new Layers();
 let test = ["layer1", "layer2", "layer3"]
-for (let i of test) {
-    layers.addLayer(i);
+for (let i in test) {
+    layers.addLayer(test[i], i);
+
 }
 
-layers = document.querySelectorAll('.layer');
-let draggedElement = null;
-
-layers.forEach(layer => {
-
-    layer.addEventListener('dragstart', (event) => {
-        draggedElement = layer;
-        event.dataTransfer.effectAllowed = "move";
-    });
-
-    layer.addEventListener('dragover', (event) => {
-        event.preventDefault();
-        layer.classList.add("drag-over");
-    });
-
-    layer.addEventListener('dragleave', () => {
-        layer.classList.remove("drag-over");
-    });
-
-    layer.addEventListener('drop', (event) => {
-        event.preventDefault();
-        layer.classList.remove("drag-over");
-
-
-        if (draggedElement !== layer) {
-            const container = document.querySelector('.layers');
-            container.insertBefore(draggedElement, layer.nextSibling);
-        }
-    });
-});
