@@ -1,13 +1,27 @@
-class Layers {
+export default class Layers {
     constructor() {
         this.canvasStack = [];
-        this.selectedCanvas = undefined;
+        this.selectedCanvasName = undefined;
+        this.addLayer("main");
     }
 
-    addLayer(name, index) {
+    addLayer(name) {
+        if (!name) {
+            let nameElement = document.getElementById("layerNameInput")
+            name = nameElement.value;
+            nameElement.value = "";
+        }
         const newLayer = new LayerCanvas(name);
-        newLayer.fetchHtml(name, index);
-        this.canvasStack.push(newLayer);
+        let index = this.canvasStack.length;
+        let timeout = 0
+        if (this.canvasStack.length == 0) {
+            timeout = 200;
+        }
+        setTimeout(() => {
+            newLayer.createLayerElement(name, index);
+            this.canvasStack.push(newLayer);
+        }, timeout);
+
     }
 
     deleteLayer(name) {
@@ -20,6 +34,12 @@ class Layers {
         this.canvasStack = Array.from(this.canvasStack).splice(toIndex, 0, movedItem);
 
     }
+
+
+
+
+
+
 }
 
 class LayerCanvas {
@@ -35,24 +55,79 @@ class LayerCanvas {
         this.imageData = imageData;
     }
 
-    fetchHtml(name, index) {
+    createLayerElement(name, index) {
 
-        fetch('components/utils/layer.html')
-            .then(response => response.text())
-            .then(html => {
-                const layers = document.getElementById('layers');
-                html = html.replace("data-index", `data-index=${index}`)
-                html = html.replace("{LayerName}", name)
-                layers.innerHTML += html;
+        const layerContainer = document.getElementById('layer-container');
 
-            })
+
+        const layerDiv = document.createElement('div');
+        layerDiv.className = 'd-flex flex-row justify-content-between';
+        layerDiv.setAttribute('id', `layer_${index}`);
+        layerDiv.setAttribute('name', 'layer');
+        layerDiv.setAttribute('draggable', 'true');
+        layerDiv.setAttribute('data-index', index);
+        layerDiv.style.color = 'aliceblue';
+        layerDiv.style.minWidth = '100%';
+        layerDiv.style.borderStyle = 'inset';
+        layerDiv.style.borderRadius = '8px';
+        layerDiv.style.display = 'flex';
+
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'd-flex flex-column';
+        canvas.style.width = '25px';
+        canvas.style.height = '25px';
+        canvas.style.background = 'white';
+        canvas.style.margin = '4px';
+
+
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'd-flex flex-column col-11 text-center';
+        nameDiv.textContent = name;
+
+
+        layerDiv.appendChild(canvas);
+        layerDiv.appendChild(nameDiv);
+
+
+        layerContainer.appendChild(layerDiv);
+        layerDiv.addEventListener("dragstart", dragStart);
+        layerDiv.addEventListener("dragover", dragOver);
+        layerDiv.addEventListener("drop", drop);
     }
 }
 
-let layers = new Layers();
-let test = ["layer1", "layer2", "layer3"]
-for (let i in test) {
-    layers.addLayer(test[i], i);
 
+function dragStart(event) {
+
+    event.dataTransfer.setData("text/plain", event.target.id);
 }
 
+
+function dragOver(event) {
+    event.preventDefault();
+}
+
+
+function drop(event) {
+    event.preventDefault();
+    const draggedElementId = event.dataTransfer.getData("text/plain");
+
+    const draggedElement = document.getElementById(draggedElementId);
+    const dropTarget = event.target.closest('[draggable]');
+
+
+    if (dropTarget && dropTarget !== draggedElement) {
+        const layers = document.getElementById('layer-container');
+        const allItems = Array.from(layers.children);
+        const draggedIndex = allItems.indexOf(draggedElement);
+        const targetIndex = allItems.indexOf(dropTarget);
+
+        if (draggedIndex < targetIndex) {
+            layers.insertBefore(draggedElement, dropTarget.nextSibling);
+        } else {
+            layers.insertBefore(draggedElement, dropTarget);
+        }
+
+    }
+}

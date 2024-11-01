@@ -1,5 +1,6 @@
 import ImageWrapper from './../wrapper.js';
 import Editor from './../editor.js';
+import Layers from '../components/layers.js';
 
 function UTF8ToString(ptr) {
     let maxLength = 100
@@ -68,6 +69,7 @@ WebAssembly.instantiateStreaming(fetch("../wasm/editor.wasm"), importObject)
     .then(wasmInstance => {
         window.wrapper = new ImageWrapper();
         window.editor = new Editor();
+        window.layers = new Layers();
     }
     );
 
