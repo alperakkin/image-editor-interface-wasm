@@ -19,17 +19,18 @@
 [x] edge
 [x] display image info
 [x] improve rotate algorithm to get rid of noise and slow computation
-[] add layer
+[x] add layer
+[] design ui
 [] add layer system
 [] match template
 [] add drawing in canvas
 [] add text
 [] save edited image
 [] re-calculate histogram after apply
-[] design ui
 [] fix crop canvas while working with big pictures
 [] add selection (rectangular, circular, mouse path)
 [] add filters to selection
 [] zoom
 [] pan
 [] flip image
+[] fix aspect ratio of original picture on preview mode
