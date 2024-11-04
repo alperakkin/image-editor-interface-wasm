@@ -1,3 +1,4 @@
 src/web-interface/wasm/*.wasm
 
 external/image-editor
+.vscode

@@ -1,7 +1,7 @@
 export default class Layers {
     constructor() {
         this.canvasStack = [];
-        this.selectedCanvasName = undefined;
+        this.selected = undefined;
         this.addLayer("main");
     }
 
@@ -61,12 +61,13 @@ class LayerCanvas {
 
 
         const layerDiv = document.createElement('div');
-        layerDiv.className = 'd-flex flex-row justify-content-between';
+        layerDiv.className = 'layer d-flex flex-row justify-content-between';
         layerDiv.setAttribute('id', `layer_${index}`);
-        layerDiv.setAttribute('name', 'layer');
+        layerDiv.setAttribute('name', name);
         layerDiv.setAttribute('draggable', 'true');
         layerDiv.setAttribute('data-index', index);
         layerDiv.style.color = 'aliceblue';
+        layerDiv.style.background = '#5c5c5c';
         layerDiv.style.minWidth = '100%';
         layerDiv.style.borderStyle = 'inset';
         layerDiv.style.borderRadius = '8px';
@@ -79,24 +80,46 @@ class LayerCanvas {
         canvas.style.height = '25px';
         canvas.style.background = 'white';
         canvas.style.margin = '4px';
-
+        canvas.style.alignSelf = "center";
 
         const nameDiv = document.createElement('div');
-        nameDiv.className = 'd-flex flex-column col-11 text-center';
+        nameDiv.className = 'd-flex flex-column col-6 text-center';
         nameDiv.textContent = name;
+        nameDiv.style.alignSelf = "center";
+
+        const icon = document.createElement('i');
+        icon.className = "d-flex flex-column col-2 bi bi-eye-fill";
+        icon.style.alignSelf = "center";
+        icon.onclick = function () {
+            swapEye(icon, canvas);
+        };
+
 
 
         layerDiv.appendChild(canvas);
         layerDiv.appendChild(nameDiv);
+        layerDiv.appendChild(icon);
 
 
         layerContainer.appendChild(layerDiv);
         layerDiv.addEventListener("dragstart", dragStart);
         layerDiv.addEventListener("dragover", dragOver);
         layerDiv.addEventListener("drop", drop);
+        layerDiv.addEventListener('click', selectLayer);
     }
 }
 
+function swapEye(icon, canvas) {
+
+    if (icon.className.includes('bi-eye-fill')) {
+        icon.className = 'd-flex flex-column col-2 bi-eye-slash';
+        canvas.style.background = "#ffffff00";
+    } else {
+        icon.className = 'd-flex flex-column col-2 bi-eye-fill';
+        canvas.style.background = "#ffffffff";
+    }
+
+}
 
 function dragStart(event) {
 
@@ -130,4 +153,19 @@ function drop(event) {
         }
 
     }
+}
+
+function selectLayer(event) {
+    const layerElements = document.querySelectorAll('[class^="layer"]');
+
+
+    layerElements.forEach(element => {
+        element.className = element.className.replace(" border border-3 border-warning", "");
+    });
+
+    let selected = event.target.closest('[class^="layer"]')
+    window.layers.selected = selected.getAttribute('name');
+    selected.className += " border border-3 border-warning";
+
+
 }
