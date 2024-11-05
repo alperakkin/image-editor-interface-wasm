@@ -33,6 +33,8 @@ export default class Layers {
         let name = this.selected;
         if (name == "main" || name == undefined) {
             let info = document.getElementById("layerAlert");
+
+            document.getElementById("alertHeader").textContent = "Layer Error";
             document.getElementById("layerMessage").textContent = "Deleting main layer is not allowed";
             info.style.display = "block";
             fadeOut(info, 2000);
