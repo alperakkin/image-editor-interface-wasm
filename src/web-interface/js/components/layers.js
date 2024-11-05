@@ -24,8 +24,25 @@ export default class Layers {
 
     }
 
-    deleteLayer(name) {
+    getLayer(name) {
+        let layers = this.canvasStack.filter(item => item.name == name);
+        if (layers.length > 0) return layers[0];
+    }
+
+    deleteLayer() {
+        let name = this.selected;
+        if (name == "main" || name == undefined) {
+            let info = document.getElementById("layerAlert");
+            document.getElementById("layerMessage").textContent = "Deleting main layer is not allowed";
+            info.style.display = "block";
+            fadeOut(info, 2000);
+            return;
+
+        }
+        let layer = this.getLayer(name);
+        document.getElementById(`layer_${layer.index}`).remove();
         this.canvasStack = Array.from(this.canvasStack).filter(item => item.name != name);
+
     }
 
     moveLayer(name, toIndex) {
@@ -47,6 +64,7 @@ class LayerCanvas {
         this.name = name;
         this.imageData = undefined;
         this.isActive = true;
+        this.index = -1;
 
 
     }
@@ -56,6 +74,7 @@ class LayerCanvas {
     }
 
     createLayerElement(name, index) {
+        this.index = index;
 
         const layerContainer = document.getElementById('layer-container');
 
@@ -108,6 +127,29 @@ class LayerCanvas {
         layerDiv.addEventListener('click', selectLayer);
     }
 }
+
+
+function fadeOut(element, duration = 1000) {
+    let opacity = 1;
+    const interval = 50;
+    const decrement = interval / duration;
+    setTimeout(() => {
+        const fadeEffect = setInterval(() => {
+            opacity -= decrement;
+            if (opacity <= 0) {
+                element.style.display = "none";
+                clearInterval(fadeEffect);
+            }
+            element.style.opacity = opacity;
+        }, interval);
+
+    }, 1000);
+
+
+
+}
+
+
 
 function swapEye(icon, canvas) {
 

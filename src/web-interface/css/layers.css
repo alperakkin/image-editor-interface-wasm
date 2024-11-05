@@ -1,0 +1,16 @@
+.btn {
+    padding: 4px 1px 4px 1px;
+    margin-right: 1px;
+    min-height: 12px;
+
+}
+
+.alert {
+    position:absolute;
+    width: 300px;
+    height: 100px;
+    margin-right: 39%;
+    margin-top: 2%;
+    display: none;
+    background: #ffce11;
+}
