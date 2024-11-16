@@ -6,9 +6,9 @@
      <div class="d-flex flex-row align-items-center justify-content-left" style="min-width: 100%;
      border-block-width: inherit;border-radius: 4px;padding: 5px 2px;display: flex;"
       id="layer-buttons">
-      <a class="btn btn-warning d-flex col-2 justify-content-center" type = "button" value = "Choose image" onclick ="javascript:document.getElementById('imageUploader').click();"><i class="bi bi-folder2-open"></i></a>
-        <a class="btn btn-warning d-flex col-2 justify-content-center" type = "button" data-bs-toggle="modal" data-bs-target="#layerName" ><i class="bi bi-layers"></i></a>
-        <a class="btn btn-warning d-flex col-2 justify-content-center" type = "button" onclick="layers.deleteLayer();" ><i class="bi bi-trash"></i></a>
+      <a class="btn btn-warning d-flex col-2 justify-content-center" type = "button" data-toggle="tooltip" data-placement="top" title="Add Image" value = "Choose image" onclick ="javascript:document.getElementById('imageUploader').click();"><i class="bi bi-folder2-open"></i></a>
+        <a class="btn btn-warning d-flex col-2 justify-content-center" type = "button" data-toggle="tooltip" data-placement="top" title="New Layer" data-bs-toggle="modal" data-bs-target="#layerName" ><i class="bi bi-layers"></i></a>
+        <a class="btn btn-warning d-flex col-2 justify-content-center" type = "button" data-toggle="tooltip" data-placement="top" title="Delete Layer" onclick="layers.deleteLayer();" ><i class="bi bi-trash"></i></a>
      </div>
 
     </div>

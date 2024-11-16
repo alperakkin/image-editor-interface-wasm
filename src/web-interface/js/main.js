@@ -90,3 +90,8 @@ function uploadImage(event) {
 document.getElementById('imageUploader').addEventListener('change', function (event) {
 
 });
+
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})

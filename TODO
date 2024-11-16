@@ -21,7 +21,7 @@
 [x] improve rotate algorithm to get rid of noise and slow computation
 [x] add layer
 [x] add layer system
-[] select new layer automatically
+[x] select new layer automatically
 [] add tooltips to buttons
 [] execute filters & actions on related layer canvas
 [] render image after each action (on editor canvas)
