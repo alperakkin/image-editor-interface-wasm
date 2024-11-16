@@ -111,6 +111,12 @@ export default class Editor {
 
     }
 
+    clearImage(canvas) {
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    }
+
     displayItems(...itemIDs) {
         let options = document.getElementsByClassName('arguments');
 

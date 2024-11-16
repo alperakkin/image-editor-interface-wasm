@@ -66,6 +66,7 @@ export default class Layers {
 
         const canvas = element.childNodes[0];
         window.editor.displayImage(imageData, canvas, false)
+        layer.imageData = imageData;
 
 
     }
@@ -80,10 +81,9 @@ export default class Layers {
 class LayerCanvas {
     constructor(name) {
         this.name = name;
-
         this.isActive = true;
         this.id = undefined;
-
+        this.imageData = undefined;
 
     }
 
@@ -125,7 +125,7 @@ class LayerCanvas {
         icon.className = "d-flex flex-column col-2 bi bi-eye-fill";
         icon.style.alignSelf = "center";
         icon.onclick = function () {
-            swapEye(icon, canvas);
+            swapEye(icon, name);
         };
 
 
@@ -171,14 +171,29 @@ function fadeOut(element, duration = 1000) {
 
 
 
-function swapEye(icon, canvas) {
+function swapEye(icon, name) {
+    let layer = window.layers.getLayer(name);
+    let cnv = document.getElementById(layer.id).children[0];
 
     if (icon.className.includes('bi-eye-fill')) {
         icon.className = 'd-flex flex-column col-2 bi-eye-slash';
-        canvas.style.background = "#ffffff00";
+        cnv.style.background = "#ffffff00";
+        layer.isActive = true;
+
+
+
     } else {
         icon.className = 'd-flex flex-column col-2 bi-eye-fill';
-        canvas.style.background = "#ffffffff";
+        cnv.style.background = "#ffffffff";
+
+        layer.isActive = false;
+
+    }
+
+    if (layer.isActive && layer.imageData) {
+        window.editor.clearImage(cnv);
+    } else if (!layer.isActive && layer.imageData) {
+        window.editor.displayImage(layer.imageData, cnv, false);
     }
 
 }
