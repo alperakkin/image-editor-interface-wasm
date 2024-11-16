@@ -91,18 +91,23 @@ export default class Editor {
 
 
 
-    displayResult(newImageData) {
+    displayImage(newImageData, canvas, fitImage = true) {
 
-        const imgAfter = new Image();
-        imgAfter.src = canvasAfter.toDataURL();
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const img = new Image();
+        img.src = canvas.toDataURL();
 
-        imgAfter.width = newImageData.width;
-        imgAfter.height = newImageData.height;
-        canvasAfter.width = newImageData.width;
-        canvasAfter.height = newImageData.height;
+        img.width = newImageData.width;
+        img.height = newImageData.height;
 
-        contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
-        contextAfter.putImageData(newImageData, 0, 0);
+        if (fitImage) {
+            canvas.width = newImageData.width;
+            canvas.height = newImageData.height;
+        }
+
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.putImageData(newImageData, 0, 0);
 
     }
 

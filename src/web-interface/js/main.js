@@ -65,7 +65,9 @@ function uploadImage(event) {
                     'newHeight': imageData.height
                 },
                 "red", "green", "blue"
-            )
+            );
+
+            window.layers.addImageData(imageData);
         };
 
 

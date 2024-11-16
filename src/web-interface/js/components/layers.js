@@ -19,7 +19,13 @@ export default class Layers {
         }
         setTimeout(() => {
             newLayer.createLayerElement(name, index);
-            this.canvasStack.push(newLayer);
+            if (this.canvasStack.length == 0) {
+                this.canvasStack.push(newLayer);
+            } else {
+
+                this.canvasStack = this.canvasStack.slice(0, 0).concat(newLayer, this.canvasStack.slice(0));
+            }
+
         }, timeout);
 
     }
@@ -42,7 +48,7 @@ export default class Layers {
 
         }
         let layer = this.getLayer(name);
-        document.getElementById(`layer_${layer.index}`).remove();
+        document.getElementById(layer.id).remove();
         this.canvasStack = Array.from(this.canvasStack).filter(item => item.name != name);
 
     }
@@ -51,6 +57,16 @@ export default class Layers {
         const fromIndex = Array.from(this.canvasStack).findIndex(item => item.name === name);
         const [movedItem] = Array.from(this.canvasStack).splice(fromIndex, 1);
         this.canvasStack = Array.from(this.canvasStack).splice(toIndex, 0, movedItem);
+
+    }
+
+    addImageData(imageData) {
+        const layer = this.getLayer(this.selected || 'main');
+        const element = document.getElementById(layer.id);
+
+        const canvas = element.childNodes[0];
+        window.editor.displayImage(imageData, canvas, false)
+
 
     }
 
@@ -64,26 +80,23 @@ export default class Layers {
 class LayerCanvas {
     constructor(name) {
         this.name = name;
-        this.imageData = undefined;
+
         this.isActive = true;
-        this.index = -1;
+        this.id = undefined;
 
 
     }
 
-    updateImageData(imageData) {
-        this.imageData = imageData;
-    }
 
     createLayerElement(name, index) {
-        this.index = index;
+        this.id = `layer_${index}`;
 
         const layerContainer = document.getElementById('layer-container');
 
 
         const layerDiv = document.createElement('div');
         layerDiv.className = 'layer d-flex flex-row justify-content-between';
-        layerDiv.setAttribute('id', `layer_${index}`);
+        layerDiv.setAttribute('id', this.id);
         layerDiv.setAttribute('name', name);
         layerDiv.setAttribute('draggable', 'true');
         layerDiv.setAttribute('data-index', index);
@@ -122,7 +135,12 @@ class LayerCanvas {
         layerDiv.appendChild(icon);
 
 
-        layerContainer.appendChild(layerDiv);
+        if (layerContainer.children.length > 0) {
+            layerContainer.insertBefore(layerDiv, layerContainer.children[0]);
+        } else {
+
+            layerContainer.appendChild(layerDiv);
+        }
         layerDiv.addEventListener("dragstart", dragStart);
         layerDiv.addEventListener("dragover", dragOver);
         layerDiv.addEventListener("drop", drop);
