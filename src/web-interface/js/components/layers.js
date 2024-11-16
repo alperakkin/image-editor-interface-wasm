@@ -26,6 +26,8 @@ export default class Layers {
                 this.canvasStack = this.canvasStack.slice(0, 0).concat(newLayer, this.canvasStack.slice(0));
             }
 
+
+
         }, timeout);
 
     }
@@ -145,6 +147,7 @@ class LayerCanvas {
         layerDiv.addEventListener("dragover", dragOver);
         layerDiv.addEventListener("drop", drop);
         layerDiv.addEventListener('click', selectLayer);
+        layerDiv.click();
     }
 }
 
@@ -185,7 +188,6 @@ function swapEye(icon, name) {
     } else {
         icon.className = 'd-flex flex-column col-2 bi-eye-fill';
         cnv.style.background = "#ffffffff";
-
         layer.isActive = false;
 
     }

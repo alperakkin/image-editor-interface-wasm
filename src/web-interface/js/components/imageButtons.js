@@ -6,8 +6,8 @@ document.getElementById("apply").addEventListener('click',
             editor.stack.push(beforeData);
         }
 
-        const imageData = contextAfter.getImageData(0, 0, canvasAfter.width, canvasAfter.height);
-        contextBefore.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
+        const imageData = contextAfter.getImageData(0, 0, Canvas.width, Canvas.height);
+        contextBefore.clearRect(0, 0, Canvas.width, Canvas.height);
         contextBefore.putImageData(imageData, 0, 0);
 
         if (editor.stack.length <= 5) {

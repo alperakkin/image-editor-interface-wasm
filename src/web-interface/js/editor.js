@@ -12,7 +12,7 @@ export default class Editor {
         },
         "grayscale": (...args) => {
             let imageData = editor.execute('grayscale');
-            editor.displayResult(imageData);
+
         },
         "brightness": (...args) => {
             return;
@@ -40,7 +40,7 @@ export default class Editor {
         },
         "invert": (...args) => {
             let imageData = editor.execute('invert');
-            editor.displayResult(imageData);;
+
         },
         "add_border": (...args) => {
             return;
@@ -223,7 +223,7 @@ export default class Editor {
         return wrapper.opacity(data, factor);
     }
 
-    crop(canvasBefore, canvasAfter, contextBefore, contextAfter) {
+    crop(canvasBefore, Canvas, contextBefore, contextAfter) {
         let cropRegion = document.getElementById('cropRegion').value
 
         cropRegion = JSON.parse(cropRegion);

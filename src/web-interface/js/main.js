@@ -33,14 +33,14 @@ function uploadImage(event) {
 
     reader.onload = function (e) {
         canvasBefore = document.getElementById('imageCanvasBefore');
-        canvasAfter = document.getElementById('imageCanvasAfter');
+        Canvas = document.getElementById('imageCanvas');
         contextBefore = canvasBefore.getContext('2d', { willReadFrequently: true });
-        contextAfter = canvasAfter.getContext('2d', { willReadFrequently: true });
+        contextAfter = Canvas.getContext('2d', { willReadFrequently: true });
 
 
 
         contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
-        contextAfter.clearRect(0, 0, canvasAfter.width, canvasAfter.height);
+        contextAfter.clearRect(0, 0, Canvas.width, Canvas.height);
         editor.stack = [];
         const img = new Image();
 
