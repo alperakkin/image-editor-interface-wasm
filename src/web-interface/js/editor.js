@@ -2,89 +2,24 @@ import { displayHistogram } from './libs/graph.js';
 import { displayCropCanvas } from './components/features/crop.js';
 import { getRotatedSize } from './components/features/rotate.js';
 import { setColorPointer } from './libs/utils.js';
+import Actions from './libs/actions.js';
 export default class Editor {
     constructor() {
-        this.stack = [];
-    }
-    actions = {
-        "contrast": (...args) => {
-            return;
-        },
-        "grayscale": (...args) => {
-            let imageData = editor.execute('grayscale');
-
-        },
-        "brightness": (...args) => {
-            return;
-        },
-        "gaussian": (...args) => {
-            return;
-        },
-        "resize": (...args) => {
-            return;
-        },
-        "filter": (...args) => {
-            return;
-        },
-        "opacity": (...args) => {
-            return;
-        },
-        "crop": (...args) => {
-            displayCropCanvas().then(resp => {
-                this.crop(...args);
-            })
-
-        },
-        "rotate": (...args) => {
-            return;
-        },
-        "invert": (...args) => {
-            let imageData = editor.execute('invert');
-
-        },
-        "add_border": (...args) => {
-            return;
-        },
-        "mask": (...args) => {
-            return;
-        }
-        ,
-        "check_color": (...args) => {
-            return;
-        },
-        "vignette": (...args) => {
-            return;
-        },
-        "edge": (...args) => {
-            return;
-        }
-
+        this.actions = new Actions();
     }
 
-    getLatestImageData() {
-        let imageData;
 
 
-        if (this.stack.length == 0) {
-            imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
-        }
-        else {
-            imageData = this.stack[this.stack.length - 1];
-        }
-        return imageData;
-
-    }
-
-    execute(method) {
-
-        let imageData = this.getLatestImageData(contextBefore, canvasBefore);
-
+    execute(action) {
+        let imageData = window.layers.getLayer(window.layers.selected).imageData;
+        console.log('action', imageData);
         let data = {
             'imageData': imageData,
             'newWidth': imageData.width,
             'newHeight': imageData.height
         }
-        let newImgData = editor[method](data);
+        let newImgData = this.actions.addAction(action, data);
+
         return newImgData;
 
     }

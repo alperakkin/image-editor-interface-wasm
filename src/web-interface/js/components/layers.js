@@ -52,6 +52,7 @@ export default class Layers {
         let layer = this.getLayer(name);
         document.getElementById(layer.id).remove();
         this.canvasStack = Array.from(this.canvasStack).filter(item => item.name != name);
+        window.editor.actions.removeLayerActions(layer);
 
     }
 
@@ -63,13 +64,13 @@ export default class Layers {
     }
 
     addImageData(imageData) {
+        console.log('image to be added', imageData);
         const layer = this.getLayer(this.selected || 'main');
         const element = document.getElementById(layer.id);
 
         const canvas = element.childNodes[0];
-        window.editor.displayImage(imageData, canvas, false)
+        window.editor.displayImage(imageData, canvas, false);
         layer.imageData = imageData;
-
 
     }
 
@@ -86,6 +87,7 @@ class LayerCanvas {
         this.isActive = true;
         this.id = undefined;
         this.imageData = undefined;
+
 
     }
 

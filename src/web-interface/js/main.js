@@ -4,7 +4,6 @@ function listenInputs() {
         function (elem) {
             elem.addEventListener('input',
                 function (event) {
-
                     let imageData = editor.execute(elem.id);
 
                     if (imageData === undefined) return;
@@ -35,12 +34,12 @@ function uploadImage(event) {
         canvasBefore = document.getElementById('imageCanvasBefore');
         Canvas = document.getElementById('imageCanvas');
         contextBefore = canvasBefore.getContext('2d', { willReadFrequently: true });
-        contextAfter = Canvas.getContext('2d', { willReadFrequently: true });
+
 
 
 
         contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
-        contextAfter.clearRect(0, 0, Canvas.width, Canvas.height);
+
         editor.stack = [];
         const img = new Image();
 
@@ -54,7 +53,9 @@ function uploadImage(event) {
                 0, 0,
                 canvasBefore.width, canvasBefore.height);
 
-            let imageData = editor.getLatestImageData(contextBefore, canvasBefore);
+            let imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
+
+
 
             document.getElementById("histogram").style.display = "flex";
             document.getElementById('imageInfo.Size').textContent = `Width: ${img.width} Height: ${img.height}`
