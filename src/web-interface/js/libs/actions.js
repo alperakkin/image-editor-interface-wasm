@@ -3,7 +3,7 @@ export default class Actions {
         this.history = []
         this.actions = {
             "contrast": (...args) => {
-                return;
+                return args[0].imageData;
             },
             "grayscale": (...args) => {
                 let imageData = editor.execute('grayscale');
@@ -11,19 +11,19 @@ export default class Actions {
 
             },
             "brightness": (...args) => {
-                return;
+                return args[0].imageData;
             },
             "gaussian": (...args) => {
-                return;
+                return args[0].imageData;
             },
             "resize": (...args) => {
-                return;
+                return args[0].imageData;
             },
             "filter": (...args) => {
-                return;
+                return args[0].imageData;
             },
             "opacity": (...args) => {
-                return;
+                return args[0].imageData;
             },
             "crop": (...args) => {
                 displayCropCanvas().then(resp => {
@@ -32,27 +32,28 @@ export default class Actions {
 
             },
             "rotate": (...args) => {
-                return;
+                return args[0].imageData;
             },
             "invert": (...args) => {
                 let imageData = editor.execute('invert');
+                return imageData;
 
             },
             "add_border": (...args) => {
-                return;
+                return args[0].imageData;
             },
             "mask": (...args) => {
-                return;
+                return args[0].imageData;
             }
             ,
             "check_color": (...args) => {
-                return;
+                return args[0].imageData;
             },
             "vignette": (...args) => {
-                return;
+                return args[0].imageData;
             },
             "edge": (...args) => {
-                return;
+                return args[0].imageData;
             }
         }
     }
@@ -60,9 +61,18 @@ export default class Actions {
     addAction(action, data) {
         let layer = window.layers.getLayer(window.layers.selected);
         let imageData = this.actions[action](data);
+
         let actionObj = { [`${layer.name}->${action}`]: layer.imageData };
         this.history.push(actionObj);
+        if (this.history.length > 10) {
+            let diff = this.history.length - 10;
+            this.history = Array.from(this.history).splice(diff, this.history.length);
+        }
+
+
         layer.imageData = imageData;
+
+
 
 
     }

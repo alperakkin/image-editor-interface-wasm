@@ -12,7 +12,7 @@ export default class Editor {
 
     execute(action) {
         let imageData = window.layers.getLayer(window.layers.selected).imageData;
-        console.log('action', imageData);
+
         let data = {
             'imageData': imageData,
             'newWidth': imageData.width,

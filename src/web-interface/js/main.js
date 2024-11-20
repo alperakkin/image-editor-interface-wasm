@@ -2,8 +2,11 @@
 function listenInputs() {
     Array.from(document.getElementsByClassName("arguments")).forEach(
         function (elem) {
+
             elem.addEventListener('input',
                 function (event) {
+                    event.stopPropagation();
+
                     let imageData = editor.execute(elem.id);
 
                     if (imageData === undefined) return;
