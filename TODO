@@ -23,7 +23,8 @@
 [x] add layer system
 [x] select new layer automatically
 [x] add tooltips to buttons
-[] create an action system
+[x] create an action system
+[] add action inputs to single events like grayscale (maybe a checkbox can be added)
 [] collect action stack (possibly keep layer.imageData in a stack) to undo actions (up to 2 actions)
 [] execute filters & actions on related layer canvas
 [] render image after each action (on editor canvas)
@@ -42,3 +43,4 @@
 [] fix aspect ratio of original picture on preview mode
 [] design ui
 [] add blending to layers
+[] action inputs ui design (sliders & checkboxes ...etc)

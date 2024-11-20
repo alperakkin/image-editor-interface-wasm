@@ -64,7 +64,6 @@ export default class Layers {
     }
 
     addImageData(imageData) {
-        console.log('image to be added', imageData);
         const layer = this.getLayer(this.selected || 'main');
         const element = document.getElementById(layer.id);
 

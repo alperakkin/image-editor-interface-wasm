@@ -1,5 +1,6 @@
 var updated_templates = []
 function loadTemplates() {
+
     let templates = Array.from(document.querySelectorAll('[class^="template"]'));
     Array.from(templates).forEach(template => {
 
@@ -23,7 +24,7 @@ function loadComponent(template) {
 
 
 
-        }).then(async () => {
+        }).then(() => {
 
             activeTemplate = document.querySelector(`[path="${path}"]`);
             if (!activeTemplate.getAttribute('class').includes('html-only')) {
@@ -50,6 +51,3 @@ function loadComponent(template) {
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadTemplates();
-})

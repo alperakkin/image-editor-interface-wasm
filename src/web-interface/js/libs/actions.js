@@ -6,8 +6,7 @@ export default class Actions {
                 return args[0].imageData;
             },
             "grayscale": (...args) => {
-                let imageData = editor.execute('grayscale');
-                return imageData;
+                return args[0].imageData;
 
             },
             "brightness": (...args) => {
@@ -58,8 +57,7 @@ export default class Actions {
         }
     }
 
-    addAction(action, data) {
-        let layer = window.layers.getLayer(window.layers.selected);
+    addAction(action, data, layer) {
         let imageData = this.actions[action](data);
 
         let actionObj = { [`${layer.name}->${action}`]: layer.imageData };

@@ -11,14 +11,14 @@ export default class Editor {
 
 
     execute(action) {
-        let imageData = window.layers.getLayer(window.layers.selected).imageData;
-
+        const imageData = window.layers.getLayer(window.layers.selected).imageData;
+        const layer = window.layers.getLayer(window.layers.selected);
         let data = {
             'imageData': imageData,
             'newWidth': imageData.width,
             'newHeight': imageData.height
         }
-        let newImgData = this.actions.addAction(action, data);
+        const newImgData = this.actions.addAction(action, data, layer);
 
         return newImgData;
 

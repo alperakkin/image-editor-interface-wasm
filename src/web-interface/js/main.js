@@ -1,5 +1,16 @@
 
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadTemplates();
+
+    setTimeout(() => {
+        listenInputs();
+    }, 1000);
+});
+
+
 function listenInputs() {
+
     Array.from(document.getElementsByClassName("arguments")).forEach(
         function (elem) {
 
@@ -12,10 +23,22 @@ function listenInputs() {
                     if (imageData === undefined) return;
                     editor.displayResult(imageData);
 
-
                 }
 
             )
+        }
+    )
+
+    document.getElementById('options').addEventListener('change',
+        function (event) {
+            event.stopPropagation();
+            const directExecutedActions = ['grayscale', 'invert', 'crop'];
+            if (directExecutedActions.includes(event.target.value)) {
+                let imageData = editor.execute(event.target.value);
+                if (imageData === undefined) return;
+                editor.displayResult(imageData);
+            }
+
         }
     )
 
@@ -25,7 +48,6 @@ function listenInputs() {
 
 function uploadImage(event) {
 
-    listenInputs();
     const file = event.target.files[0];
     if (!file) return;
 
