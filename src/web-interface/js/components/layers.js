@@ -1,6 +1,6 @@
 export default class Layers {
     constructor() {
-        this.canvasStack = [];
+        this.layerStack = [];
         this.selected = undefined;
         this.addLayer("main");
     }
@@ -12,18 +12,18 @@ export default class Layers {
             nameElement.value = "";
         }
         const newLayer = new LayerCanvas(name);
-        let index = this.canvasStack.length;
+        let index = this.layerStack.length;
         let timeout = 0
-        if (this.canvasStack.length == 0) {
+        if (this.layerStack.length == 0) {
             timeout = 200;
         }
         setTimeout(() => {
             newLayer.createLayerElement(name, index);
-            if (this.canvasStack.length == 0) {
-                this.canvasStack.push(newLayer);
+            if (this.layerStack.length == 0) {
+                this.layerStack.push(newLayer);
             } else {
 
-                this.canvasStack = this.canvasStack.slice(0, 0).concat(newLayer, this.canvasStack.slice(0));
+                this.layerStack = this.layerStack.slice(0, 0).concat(newLayer, this.layerStack.slice(0));
             }
 
 
@@ -33,7 +33,7 @@ export default class Layers {
     }
 
     getLayer(name) {
-        let layers = this.canvasStack.filter(item => item.name == name);
+        let layers = this.layerStack.filter(item => item.name == name);
         if (layers.length > 0) return layers[0];
     }
 
@@ -51,15 +51,15 @@ export default class Layers {
         }
         let layer = this.getLayer(name);
         document.getElementById(layer.id).remove();
-        this.canvasStack = Array.from(this.canvasStack).filter(item => item.name != name);
+        this.layerStack = Array.from(this.layerStack).filter(item => item.name != name);
         window.editor.actions.removeLayerActions(layer);
 
     }
 
     moveLayer(name, toIndex) {
-        const fromIndex = Array.from(this.canvasStack).findIndex(item => item.name === name);
-        const [movedItem] = Array.from(this.canvasStack).splice(fromIndex, 1);
-        this.canvasStack = Array.from(this.canvasStack).splice(toIndex, 0, movedItem);
+        const fromIndex = Array.from(this.layerStack).findIndex(item => item.name === name);
+        const [movedItem] = Array.from(this.layerStack).splice(fromIndex, 1);
+        this.layerStack = Array.from(this.layerStack).splice(toIndex, 0, movedItem);
 
     }
 

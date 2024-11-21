@@ -19,6 +19,8 @@ export default class Actions {
 
 
 
+
+
     }
     undoAction() {
         // TODO: remove last action from layer
@@ -26,6 +28,18 @@ export default class Actions {
 
     removeLayerActions(layer) {
         // TODO: remove all action related to the layer
+    }
+
+    updateMainCanvas() {
+        const mainCanvas = document.getElementById("mainCanvas");
+        const mainCtx = mainCanvas.getContext('2d', { willReadFrequently: true });
+        mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+
+        window.layers.layerStack.forEach(layer => {
+            mainCtx.putImageData(layer.imageData, 0, 0);
+
+        });
+
     }
 
 }

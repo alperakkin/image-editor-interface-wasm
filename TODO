@@ -24,17 +24,18 @@
 [x] select new layer automatically
 [x] add tooltips to buttons
 [x] create an action system
-[] add action inputs to single events like grayscale (maybe a checkbox can be added)
-[] collect action stack (possibly keep layer.imageData in a stack) to undo actions (up to 2 actions)
-[] execute filters & actions on related layer canvas
-[] render image after each action (on editor canvas)
-[] display applied action on main canvas
+[x] add action inputs to single events like grayscale (maybe a checkbox can be added)
+[x] collect action stack (possibly keep layer.imageData in a stack) to undo actions
+[x] execute filters & actions on related layer canvas
+[] render image after each action (on main canvas)
+[] undo implementation
 [] match template
 [] add drawing in canvas
 [] add text
 [] save edited image
+[] move opacity filter in layercontainer to adjust opacity
 [] re-calculate histogram after apply
-[] fix crop canvas while working with big pictures
+[] refactor cropping method (implementin crop images without a crop canvas)
 [] add selection (rectangular, circular, mouse path)
 [] add filters to selection
 [] zoom
@@ -44,3 +45,4 @@
 [] design ui
 [] add blending to layers
 [] action inputs ui design (sliders & checkboxes ...etc)
+[] create an empty image to work on it

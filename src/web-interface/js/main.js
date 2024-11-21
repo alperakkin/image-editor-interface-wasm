@@ -21,7 +21,8 @@ function listenInputs() {
                     let imageData = editor.execute(elem.id);
 
                     if (imageData === undefined) return;
-                    editor.displayResult(imageData);
+                    const cnv = window.layers.getLayer(window.layers.selected).getCanvas();
+                    editor.displayImage(imageData, cnv);
 
                 }
 
@@ -57,29 +58,23 @@ function uploadImage(event) {
 
 
     reader.onload = function (e) {
-        canvasBefore = document.getElementById('imageCanvasBefore');
-        Canvas = document.getElementById('imageCanvas');
-        contextBefore = canvasBefore.getContext('2d', { willReadFrequently: true });
-
-
-
-
-        contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
-
-        editor.stack = [];
         const img = new Image();
-
         img.src = e.target.result;
 
-        img.onload = function () {
-            contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
-            contextBefore.drawImage(img, 0, 0, canvasBefore.width, canvasBefore.height);
-            contextBefore.clearRect(0, 0, canvasBefore.width, canvasBefore.height);
-            contextBefore.drawImage(img,
-                0, 0,
-                canvasBefore.width, canvasBefore.height);
+        const originalCnv = document.getElementById('originalCnv');
+        const originalCtx = originalCnv.getContext('2d', { willReadFrequently: true });
 
-            let imageData = contextBefore.getImageData(0, 0, canvasBefore.width, canvasBefore.height);
+        const mainCanvas = document.getElementById('mainCanvas');
+
+        originalCtx.clearRect(0, 0, originalCnv.width, originalCnv.height);
+
+
+
+        img.onload = function () {
+            originalCtx.clearRect(0, 0, originalCnv.width, originalCnv.height);
+            originalCtx.drawImage(img, 0, 0, originalCnv.width, originalCnv.height);
+
+            let imageData = originalCtx.getImageData(0, 0, img.width, img.height);
 
 
 
@@ -95,28 +90,21 @@ function uploadImage(event) {
             );
 
             window.layers.addImageData(imageData);
+            editor.actions.updateMainCanvas();
+
         };
-
-
-
-
-
 
 
 
 
     };
     reader.onerror = function () {
-        console.error("Dosya okunurken bir hata oluştu.");
+        console.error("An error occured while reading image.");
     };
 
 
     reader.readAsDataURL(file);
 }
-
-document.getElementById('imageUploader').addEventListener('change', function (event) {
-
-});
 
 
 $(function () {

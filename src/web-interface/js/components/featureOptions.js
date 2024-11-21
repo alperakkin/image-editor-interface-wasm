@@ -7,8 +7,8 @@ document.getElementById("options").addEventListener('change',
         const action = editor.actions[option];
         if (!action) return;
 
-        action(canvasBefore, Canvas,
-            contextBefore, contextAfter);
+        action(originalCnv, Canvas,
+            originalCtx, contextAfter);
 
     }
 

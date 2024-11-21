@@ -12,7 +12,7 @@ let mouseX, mouseY;
 async function displayCropCanvas() {
     completed = false;
     cropCanvas.style.display = 'block';
-    let pos = canvasBefore.getBoundingClientRect();
+    let pos = originalCnv.getBoundingClientRect();
     cropCanvas.style.left = pos.left + 'px';
     cropCanvas.style.top = pos.top + 'px';
     cropCanvas.style.height = pos.height + 'px';

@@ -19,7 +19,7 @@
                 <div class="drawingArea col-10" style="background: #4a4a4a;">
                     <input  id = "imageUploader" type="file" style='visibility: hidden;' onchange="uploadImage(event)" name="img"/>
                     <div class="images">
-                        <canvas id="imageCanvas"></canvas>
+                        <canvas id="mainCanvas"></canvas>
                         <canvas id="cropCanvas" style="position: absolute; display: none;"></canvas>
 
                     </div>
@@ -52,7 +52,7 @@
                         </div>
                         <div class="template html-only d-flex flex-column row" path="components/imageInfo"></div>
                         <div class="d-flex justify-content-center align-items-center" style="max-width: unset;background: #73737308;border-style: inset;border-color: #161310;">
-                            <canvas id="imageCanvasBefore" style="width: 200px; height: 200px;"></canvas>
+                            <canvas id="originalCnv" style="width: 200px; height: 200px;"></canvas>
                         </div>
 
                     </div>
