@@ -36,7 +36,8 @@ function listenInputs() {
             if (directExecutedActions.includes(event.target.value)) {
                 let imageData = editor.execute(event.target.value);
                 if (imageData === undefined) return;
-                editor.displayResult(imageData);
+                const canvas = window.layers.getLayer(layers.selected).getCanvas();
+                editor.displayImage(imageData, canvas);
             }
 
         }

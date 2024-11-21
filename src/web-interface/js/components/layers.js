@@ -90,6 +90,10 @@ class LayerCanvas {
 
     }
 
+    getCanvas() {
+        return document.getElementById(this.id).children[0];
+    }
+
 
     createLayerElement(name, index) {
         this.id = `layer_${index}`;

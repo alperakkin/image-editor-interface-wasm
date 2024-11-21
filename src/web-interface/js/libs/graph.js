@@ -33,6 +33,14 @@ function setAxis(svg) {
     return x;
 }
 
+function calculateThresholdIQR(arr) {
+    const sorted = [...arr].sort((a, b) => a - b);
+    const Q1 = sorted[Math.floor(sorted.length / 4)];
+    const Q3 = sorted[Math.floor((sorted.length * 3) / 4)];
+    const IQR = Q3 - Q1;
+    return Q3 + 1.5 * IQR;
+}
+
 
 function displayHistogram(data, ...colors) {
     const svg = createOrGetSvg();
@@ -46,12 +54,18 @@ function displayHistogram(data, ...colors) {
         dataValues = dataValues.concat(Object.values(data[color]['values']).flat())
     }
     );
-    const maxValue = d3.max(dataValues);
 
+    const threshold = calculateThresholdIQR(dataValues);
+    dataValues = dataValues.map(value => Math.min(value, threshold));
+
+    const avg = d3.mean(dataValues);
+    const maxValue = d3.max(dataValues);
+    const base = height - margin.bottom;
+    dataValues = dataValues.map(value => value / maxValue);
 
     const y = d3.scaleLinear()
-        .domain([0, maxValue])
-        .range([height - margin.bottom, margin.top]);
+        .domain([0, maxValue * 0.9])
+        .range([base, margin.top + 10]);
 
     Array.from(colors).forEach(color => {
         svg.append('g')

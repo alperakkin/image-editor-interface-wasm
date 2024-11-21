@@ -18,7 +18,8 @@ export default class Editor {
             'newWidth': imageData.width,
             'newHeight': imageData.height
         }
-        const newImgData = this.actions.addAction(action, data, layer);
+        const newImgData = this[action](data);
+        this.actions.addAction(action, newImgData, layer);
 
         return newImgData;
 
@@ -158,27 +159,28 @@ export default class Editor {
         return wrapper.opacity(data, factor);
     }
 
-    crop(canvasBefore, Canvas, contextBefore, contextAfter) {
-        let cropRegion = document.getElementById('cropRegion').value
+    crop(data) {
+        displayCropCanvas().then(resp => {
+            let cropRegion = document.getElementById('cropRegion').value
 
-        cropRegion = JSON.parse(cropRegion);
-        let imageData = this.getLatestImageData(contextBefore, canvasBefore);
+            cropRegion = JSON.parse(cropRegion);
+            let imageData = data.imageData;
 
-        let left = cropRegion.left;
-        let right = imageData.width - cropRegion.right;
-        let top = cropRegion.top;
-        let bottom = imageData.height - cropRegion.bottom;
+            let left = cropRegion.left;
+            let right = imageData.width - cropRegion.right;
+            let top = cropRegion.top;
+            let bottom = imageData.height - cropRegion.bottom;
 
 
-        let data = {
-            'imageData': imageData,
-            'newWidth': cropRegion.right - cropRegion.left,
-            'newHeight': cropRegion.bottom - cropRegion.top
-        }
+            data['newWidth'] = cropRegion.right - cropRegion.left;
+            data['newHeight'] = cropRegion.bottom - cropRegion.top;
 
-        let newImageData = wrapper.crop(data, left, right, top, bottom);
+            let newImageData = wrapper.crop(data, left, right, top, bottom);
 
-        this.displayResult(newImageData);
+            this.displayResult(newImageData);
+
+        })
+
 
     }
 
