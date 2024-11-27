@@ -16,6 +16,8 @@ export default class Actions {
 
         layer.imageData = imgData;
 
+        editor.actions.updateMainCanvas();
+
 
 
 
@@ -35,9 +37,9 @@ export default class Actions {
         const mainCtx = mainCanvas.getContext('2d', { willReadFrequently: true });
         mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
 
-        window.layers.layerStack.forEach(layer => {
-            mainCtx.putImageData(layer.imageData, 0, 0);
-
+        window.layers.layerStack.slice().reverse().forEach(layer => {
+            if (layer.isActive)
+                mainCtx.putImageData(layer.imageData, layer.pos.x, layer.pos.y);
         });
 
     }

@@ -27,7 +27,8 @@
 [x] add action inputs to single events like grayscale (maybe a checkbox can be added)
 [x] collect action stack (possibly keep layer.imageData in a stack) to undo actions
 [x] execute filters & actions on related layer canvas
-[] render image after each action (on main canvas)
+[x] render image after each action (on main canvas)
+[] move selected layer
 [] undo implementation
 [] match template
 [] add drawing in canvas
@@ -46,3 +47,4 @@
 [] add blending to layers
 [] action inputs ui design (sliders & checkboxes ...etc)
 [] create an empty image to work on it
+[] set histogram data into selected layer also display histogram data from layer cache

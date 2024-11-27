@@ -86,6 +86,7 @@ class LayerCanvas {
         this.isActive = true;
         this.id = undefined;
         this.imageData = undefined;
+        this.pos = { x: 0, y: 0 };
 
 
     }
@@ -186,22 +187,24 @@ function swapEye(icon, name) {
     if (icon.className.includes('bi-eye-fill')) {
         icon.className = 'd-flex flex-column col-2 bi-eye-slash';
         cnv.style.background = "#ffffff00";
-        layer.isActive = true;
+        layer.isActive = false;
 
 
 
     } else {
         icon.className = 'd-flex flex-column col-2 bi-eye-fill';
         cnv.style.background = "#ffffffff";
-        layer.isActive = false;
+        layer.isActive = true;
 
     }
 
-    if (layer.isActive && layer.imageData) {
+    if (!layer.isActive && layer.imageData) {
         window.editor.clearImage(cnv);
-    } else if (!layer.isActive && layer.imageData) {
+    } else if (layer.isActive && layer.imageData) {
         window.editor.displayImage(layer.imageData, cnv, false);
     }
+
+    window.editor.actions.updateMainCanvas();
 
 }
 
