@@ -30,6 +30,7 @@
 [x] render image after each action (on main canvas)
 [x] move selected layer
 [x] pan
+[] create an empty cnavas to work on it
 [] fix: rerender canvas after layer order change
 [] undo implementation
 [] match template
@@ -47,5 +48,4 @@
 [] design ui
 [] add blending to layers
 [] action inputs ui design (sliders & checkboxes ...etc)
-[] create an empty image to work on it
 [] set histogram data into selected layer also display histogram data from layer cache

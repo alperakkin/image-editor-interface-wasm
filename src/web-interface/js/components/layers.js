@@ -73,6 +73,46 @@ export default class Layers {
 
     }
 
+    createNewProject() {
+        const projectName = document.getElementById('projectName').value;
+        const projectWidth = document.getElementById('projectWidth').value;
+        const projectHeight = document.getElementById('projectHeight').value;
+
+        if (!projectName) {
+            alert("Please define a project name for your design");
+            return;
+        }
+        if (!projectWidth || !projectHeight) {
+            alert("Please define width & height for your design");
+            return;
+        }
+
+        document.querySelector("title").innerHTML = projectName;
+
+        if (this.getLayer('main').imageData) {
+            if (confirm("Do you want to discard existing work")) {
+                alert("Changes will be affected");
+                // delete layers
+                // clear canvas
+                // clear stack
+                // create empty canvas
+                // clear modal input
+            }
+            else {
+                // clear modal input
+                return;
+            }
+        }
+
+        const disabledButtons = document.querySelectorAll('#layer-buttons .disabled');
+        Array.from(disabledButtons).forEach(element => {
+            element.className = element.className.replace(" disabled", "");
+
+        })
+        //create empty canvas
+        // clear modal input
+    }
+
 
 
 

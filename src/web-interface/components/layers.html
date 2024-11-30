@@ -6,9 +6,10 @@
      <div class="d-flex flex-row align-items-center justify-content-left" style="min-width: 100%;
      border-block-width: inherit;border-radius: 4px;padding: 5px 2px;display: flex;"
       id="layer-buttons">
-      <a class="btn btn-warning d-flex col-2 justify-content-center" type = "button" data-toggle="tooltip" data-placement="top" title="Add Image" value = "Choose image" onclick ="javascript:document.getElementById('imageUploader').click();"><i class="bi bi-folder2-open"></i></a>
-        <a class="btn btn-warning d-flex col-2 justify-content-center" type = "button" data-toggle="tooltip" data-placement="top" title="New Layer" data-bs-toggle="modal" data-bs-target="#layerName" ><i class="bi bi-layers"></i></a>
-        <a class="btn btn-warning d-flex col-2 justify-content-center" type = "button" data-toggle="tooltip" data-placement="top" title="Delete Layer" onclick="layers.deleteLayer();" ><i class="bi bi-trash"></i></a>
+        <a class="btn btn-warning d-flex col-2 justify-content-center" type = "button" data-toggle="tooltip" data-placement="top" title="New Project" value = "New Project" data-bs-toggle="modal" data-bs-target="#newProject"><i class="bi bi-filetype-png"></i></a>
+        <a class="btn btn-warning d-flex col-2 justify-content-center disabled"  type = "button" data-toggle="tooltip" data-placement="top" title="Add Image" value = "Choose image" onclick ="javascript:document.getElementById('imageUploader').click();"><i class="bi bi-folder2-open"></i></a>
+        <a class="btn btn-warning d-flex col-2 justify-content-center disabled"  type = "button" data-toggle="tooltip" data-placement="top" title="New Layer" data-bs-toggle="modal" data-bs-target="#layerName" ><i class="bi bi-layers"></i></a>
+        <a class="btn btn-warning d-flex col-2 justify-content-center disabled"  type = "button" data-toggle="tooltip" data-placement="top" title="Delete Layer" onclick="layers.deleteLayer();" ><i class="bi bi-trash"></i></a>
      </div>
 
     </div>
@@ -33,6 +34,37 @@
         </div>
         <div class="modal-footer">
           <button onclick="layers.addLayer();" class="btn btn-secondary" data-bs-dismiss="modal">Enter</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+<div class="modal" id="newProject" tabindex="-1" role="dialog">
+
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="background:#bfbfbf;">
+        <div class="modal-header justify-content-between">
+          <h5 class="modal-title">New Project</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body d-flex flex-column">
+          <label for="projectName">Project Name</label>
+          <input id="projectName" type="text"/>
+          <hr class="hr hr-blurry" style="color: aliceblue;">
+          <div class="d-flex flex-row justify-content-between">
+            <label for="projectWidth">Size (width x height)</label>
+            <input class="col-2"id="projectWidth" type="number"/>
+            <span style="margin-left: -20%; margin-right: -20%;">x</span>
+            <input class="col-2" id="projectHeight" type="number"/>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button onclick="layers.createNewProject();" class="btn btn-secondary" data-bs-dismiss="modal">Create</button>
         </div>
       </div>
     </div>

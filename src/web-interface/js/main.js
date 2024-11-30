@@ -55,7 +55,7 @@ function activateEvents() {
     )
     document.getElementById('mainCanvas').addEventListener('mousemove',
         function (event) {
-            const dragFactor = 0.2;
+            const dragFactor = 0.15;
             const layer = window.layers.getLayer(window.layers.selected);
 
             if (layerIsDragging && isLayerInBounds(event, layer, layerStartPos)) {
