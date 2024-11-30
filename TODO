@@ -28,7 +28,9 @@
 [x] collect action stack (possibly keep layer.imageData in a stack) to undo actions
 [x] execute filters & actions on related layer canvas
 [x] render image after each action (on main canvas)
-[] move selected layer
+[x] move selected layer
+[x] pan
+[] fix: rerender canvas after layer order change
 [] undo implementation
 [] match template
 [] add drawing in canvas
@@ -40,7 +42,6 @@
 [] add selection (rectangular, circular, mouse path)
 [] add filters to selection
 [] zoom
-[] pan
 [] flip image
 [] fix aspect ratio of original picture on preview mode
 [] design ui

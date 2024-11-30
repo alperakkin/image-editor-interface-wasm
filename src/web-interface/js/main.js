@@ -4,12 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
     loadTemplates();
 
     setTimeout(() => {
-        listenInputs();
+        activateEvents();
     }, 1000);
 });
 
 
-function listenInputs() {
+function activateEvents() {
+    let layerIsDragging = false;
+    let layerStartPos = false;
 
     Array.from(document.getElementsByClassName("arguments")).forEach(
         function (elem) {
@@ -44,8 +46,47 @@ function listenInputs() {
         }
     )
 
+    document.getElementById('mainCanvas').addEventListener('mousedown',
+        function (event) {
+            layerStartPos = { x: event.clientX, y: event.clientY };
+            layerIsDragging = true;
+
+        }
+    )
+    document.getElementById('mainCanvas').addEventListener('mousemove',
+        function (event) {
+            const dragFactor = 0.2;
+            const layer = window.layers.getLayer(window.layers.selected);
+
+            if (layerIsDragging && isLayerInBounds(event, layer, layerStartPos)) {
+                event.target.style.cursor = 'pointer';
+                let xDiff = (event.clientX - layerStartPos.x) * dragFactor;
+                let yDiff = (event.clientY - layerStartPos.y) * dragFactor;
+                layer.pos = { x: layer.pos.x + xDiff, y: layer.pos.y + yDiff };
+                window.editor.actions.updateMainCanvas();
+            }
+
+        }
+    )
+    document.getElementById('mainCanvas').addEventListener('mouseup',
+        function (event) {
+            layerIsDragging = false;
+            event.target.style.cursor = 'default';
+
+        }
+    )
+
 }
 
+
+function isLayerInBounds(event, layer, layerStartPos) {
+    let domRect = event.target.getBoundingClientRect();
+
+    const isXInBounds = layerStartPos.x + domRect.x >= layer.pos.x;
+    const isYInBounds = layerStartPos.y + domRect.y >= layer.pos.y;
+
+    return isXInBounds && isYInBounds;
+}
 
 
 function uploadImage(event) {
