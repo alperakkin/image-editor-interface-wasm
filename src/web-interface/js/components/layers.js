@@ -3,6 +3,7 @@ export default class Layers {
         this.layerStack = [];
         this.selected = undefined;
         this.addLayer("main");
+
     }
 
     addLayer(name) {
@@ -73,6 +74,15 @@ export default class Layers {
 
     }
 
+    getImageData(layer) {
+        const element = document.getElementById(layer.id);
+
+        const canvas = element.childNodes[0];
+        const ctx = canvas.getContext('2d');
+        return ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    }
+
     updateLayers() {
         const layers = document.getElementById('layer-container');
         let tempStack = [];
@@ -99,8 +109,10 @@ export default class Layers {
         }
 
         document.querySelector("title").innerHTML = projectName;
+        const mainLayer = this.getLayer('main');
+        mainLayer.imageData = window.layers.getImageData(mainLayer);
 
-        if (this.getLayer('main').imageData) {
+        if (this.layerStack.length > 1) {
             if (confirm("Do you want to discard existing work")) {
                 alert("Changes will be affected");
                 // delete layers
@@ -108,9 +120,12 @@ export default class Layers {
                 // clear stack
                 // create empty canvas
                 // clear modal input
-            }
-            else {
-                // clear modal input
+
+                mainLayer.imageData = window.layers.getImageData(mainLayer);
+                editor.actions.updateMainCanvas();
+                return;
+            } else {
+                //clear modal input
                 return;
             }
         }
@@ -122,6 +137,7 @@ export default class Layers {
         })
         //create empty canvas
         // clear modal input
+        editor.actions.updateMainCanvas();
     }
 
 
@@ -145,6 +161,7 @@ class LayerCanvas {
     getCanvas() {
         return document.getElementById(this.id).children[0];
     }
+
 
 
     createLayerElement(name, index) {
@@ -205,6 +222,10 @@ class LayerCanvas {
         layerDiv.addEventListener("drop", drop);
         layerDiv.addEventListener('click', selectLayer);
         layerDiv.click();
+
+        emptyBackground(canvas);
+
+
     }
 }
 
@@ -310,4 +331,22 @@ function selectLayer(event) {
     selected.className += " border border-3 border-warning";
 
 
+}
+
+function emptyBackground(canvas) {
+    const ctx = canvas.getContext("2d");
+    const cellSize = 20;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+    for (let y = 0; y < canvas.height; y += cellSize) {
+        for (let x = 0; x < canvas.width; x += cellSize) {
+            if ((x / cellSize + y / cellSize) % 2 === 0) {
+                ctx.fillStyle = "#e0e0e0";
+            } else {
+                ctx.fillStyle = "#ffffff";
+            }
+            ctx.fillRect(x, y, cellSize, cellSize);
+        }
+    }
 }
