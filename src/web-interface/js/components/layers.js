@@ -73,6 +73,17 @@ export default class Layers {
 
     }
 
+    updateLayers() {
+        const layers = document.getElementById('layer-container');
+        let tempStack = [];
+        Array.from(layers.children).forEach(layer => {
+            tempStack.push(this.getLayer(layer.getAttribute('name')));
+        });
+
+        this.layerStack = tempStack;
+
+    }
+
     createNewProject() {
         const projectName = document.getElementById('projectName').value;
         const projectWidth = document.getElementById('projectWidth').value;
@@ -278,6 +289,10 @@ function drop(event) {
         } else {
             layers.insertBefore(draggedElement, dropTarget);
         }
+
+
+        window.layers.updateLayers();
+        editor.actions.updateMainCanvas();
 
     }
 }
