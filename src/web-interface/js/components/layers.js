@@ -78,7 +78,7 @@ export default class Layers {
         const element = document.getElementById(layer.id);
 
         const canvas = element.childNodes[0];
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
         return ctx.getImageData(0, 0, canvas.width, canvas.height);
 
     }
@@ -111,6 +111,9 @@ export default class Layers {
         document.querySelector("title").innerHTML = projectName;
         const mainLayer = this.getLayer('main');
         mainLayer.imageData = window.layers.getImageData(mainLayer);
+        const mainCanvas = document.getElementById('mainCanvas');
+        mainCanvas.width = projectWidth;
+        mainCanvas.height = projectHeight;
 
         if (this.layerStack.length > 1) {
             if (confirm("Do you want to discard existing work")) {
@@ -118,10 +121,8 @@ export default class Layers {
                 // delete layers
                 // clear canvas
                 // clear stack
-                // create empty canvas
                 // clear modal input
 
-                mainLayer.imageData = window.layers.getImageData(mainLayer);
                 editor.actions.updateMainCanvas();
                 return;
             } else {
@@ -135,12 +136,27 @@ export default class Layers {
             element.className = element.className.replace(" disabled", "");
 
         })
-        //create empty canvas
         // clear modal input
         editor.actions.updateMainCanvas();
     }
 
+    emptyBackground(canvas) {
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+        const cellSize = 20;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+
+        for (let y = 0; y < canvas.height; y += cellSize) {
+            for (let x = 0; x < canvas.width; x += cellSize) {
+                if ((x / cellSize + y / cellSize) % 2 === 0) {
+                    ctx.fillStyle = "#e0e0e0";
+                } else {
+                    ctx.fillStyle = "#ffffff";
+                }
+                ctx.fillRect(x, y, cellSize, cellSize);
+            }
+        }
+    }
 
 
 
@@ -223,7 +239,7 @@ class LayerCanvas {
         layerDiv.addEventListener('click', selectLayer);
         layerDiv.click();
 
-        emptyBackground(canvas);
+        window.layers.emptyBackground(canvas);
 
 
     }
@@ -333,20 +349,4 @@ function selectLayer(event) {
 
 }
 
-function emptyBackground(canvas) {
-    const ctx = canvas.getContext("2d");
-    const cellSize = 20;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-
-    for (let y = 0; y < canvas.height; y += cellSize) {
-        for (let x = 0; x < canvas.width; x += cellSize) {
-            if ((x / cellSize + y / cellSize) % 2 === 0) {
-                ctx.fillStyle = "#e0e0e0";
-            } else {
-                ctx.fillStyle = "#ffffff";
-            }
-            ctx.fillRect(x, y, cellSize, cellSize);
-        }
-    }
-}
