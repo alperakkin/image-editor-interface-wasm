@@ -65,7 +65,9 @@ export default class Layers {
     }
 
     addImageData(imageData) {
-        const layer = this.getLayer(this.selected || 'main');
+        const layer = this.getLayer(this.selected);
+        if (layer.name == 'main') return;
+
         const element = document.getElementById(layer.id);
 
         const canvas = element.childNodes[0];

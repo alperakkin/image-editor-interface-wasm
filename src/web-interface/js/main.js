@@ -110,6 +110,7 @@ function uploadImage(event) {
 
 
         img.onload = function () {
+            if (window.layers.layerStack.length == 1) return;
             const canvas = new OffscreenCanvas(img.naturalWidth, img.naturalHeight);
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0);
