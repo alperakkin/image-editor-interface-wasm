@@ -119,16 +119,21 @@ export default class Layers {
 
         if (this.layerStack.length > 1) {
             if (confirm("Do you want to discard existing work")) {
-                alert("Changes will be affected");
-                // delete layers
-                // clear canvas
-                // clear stack
-                // clear modal input
+                this.layerStack = [this.getLayer('main')];
+                const layers = document.getElementById('layer-container');
+                Array.from(layers.children).forEach(layer => {
+                    if (layer.getAttribute('name') != 'main')
+                        layer.remove();
+                }
+                )
+                window.layers.selected = 'main'
 
+                clearProjectModalInputs()
                 editor.actions.updateMainCanvas();
                 return;
             } else {
-                //clear modal input
+                clearProjectModalInputs();
+                editor.actions.updateMainCanvas();
                 return;
             }
         }
@@ -138,7 +143,7 @@ export default class Layers {
             element.className = element.className.replace(" disabled", "");
 
         })
-        // clear modal input
+        clearProjectModalInputs();
         editor.actions.updateMainCanvas();
     }
 
@@ -352,3 +357,8 @@ function selectLayer(event) {
 }
 
 
+function clearProjectModalInputs() {
+    Array.from(document.querySelectorAll('#newProject input')).forEach(
+        element => element.value = ''
+    )
+}
