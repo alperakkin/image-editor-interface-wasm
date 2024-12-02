@@ -36,12 +36,11 @@ export default class Actions {
         const mainCanvas = document.getElementById("mainCanvas");
         const mainCtx = mainCanvas.getContext('2d', { willReadFrequently: true });
         mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
-        if (window.layers.layerStack.length == 1) {
-            window.layers.emptyBackground(mainCanvas);
-            return;
-        }
+
+        window.layers.emptyBackground(mainCanvas);
+
         window.layers.layerStack.slice().reverse().forEach(layer => {
-            if (layer.isActive)
+            if (layer.isActive && layer.name != 'main')
                 mainCtx.putImageData(layer.imageData, layer.pos.x, layer.pos.y);
         });
 

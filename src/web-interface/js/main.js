@@ -105,17 +105,21 @@ function uploadImage(event) {
         const originalCnv = document.getElementById('originalCnv');
         const originalCtx = originalCnv.getContext('2d', { willReadFrequently: true });
 
-        const mainCanvas = document.getElementById('mainCanvas');
-
         originalCtx.clearRect(0, 0, originalCnv.width, originalCnv.height);
 
 
 
         img.onload = function () {
+            const canvas = new OffscreenCanvas(img.naturalWidth, img.naturalHeight);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            const imageData = ctx.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
+
+
             originalCtx.clearRect(0, 0, originalCnv.width, originalCnv.height);
             originalCtx.drawImage(img, 0, 0, originalCnv.width, originalCnv.height);
 
-            let imageData = originalCtx.getImageData(0, 0, img.width, img.height);
+
 
 
 

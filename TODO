@@ -30,8 +30,8 @@
 [x] render image after each action (on main canvas)
 [x] move selected layer
 [x] pan
-[] create an empty cnavas to work on it
-[] fix: rerender canvas after layer order change
+[x] create an empty canvas to work on it
+[x] fix: rerender canvas after layer order change
 [] undo implementation
 [] match template
 [] add drawing in canvas
