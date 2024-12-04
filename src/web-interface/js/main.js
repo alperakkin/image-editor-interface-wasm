@@ -13,25 +13,6 @@ function activateEvents() {
     let layerIsDragging = false;
     let layerStartPos = false;
 
-    Array.from(document.getElementsByClassName("arguments")).forEach(
-        function (elem) {
-
-            elem.addEventListener('input',
-                function (event) {
-                    event.stopPropagation();
-
-                    let imageData = editor.execute(elem.id);
-
-                    if (imageData === undefined) return;
-                    const cnv = window.layers.getLayer(window.layers.selected).getCanvas();
-                    editor.displayImage(imageData, cnv);
-
-                }
-
-            )
-        }
-    )
-
     document.getElementById('options').addEventListener('change',
         function (event) {
             event.stopPropagation();
@@ -45,6 +26,46 @@ function activateEvents() {
 
         }
     )
+
+    Array.from(document.querySelectorAll('.arguments input:not(.slider)')).forEach(
+        function (elem) {
+            const action = elem.parentElement.id
+            elem.addEventListener('input',
+                function (event) {
+                    event.stopPropagation();
+
+                    let imageData = editor.execute(action);
+
+                    if (imageData === undefined) return;
+                    const cnv = window.layers.getLayer(window.layers.selected).getCanvas();
+                    editor.displayImage(imageData, cnv);
+
+                }
+
+            )
+        }
+    )
+
+    Array.from(document.querySelectorAll('.arguments input.slider')).forEach(
+        function (elem) {
+            const action = elem.parentElement.id
+            elem.addEventListener('mouseup',
+                function (event) {
+                    event.stopPropagation();
+
+                    let imageData = editor.execute(action);
+
+                    if (imageData === undefined) return;
+                    const cnv = window.layers.getLayer(window.layers.selected).getCanvas();
+                    editor.displayImage(imageData, cnv);
+
+                }
+
+            )
+        }
+    )
+
+
 
     document.getElementById('mainCanvas').addEventListener('mousedown',
         function (event) {

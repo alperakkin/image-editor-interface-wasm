@@ -26,6 +26,7 @@ export default class Actions {
     }
     undoAction() {
         // TODO: remove last action from layer
+        console.log(this.history);
     }
 
     removeLayerActions(layer) {

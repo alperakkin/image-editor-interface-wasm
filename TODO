@@ -32,6 +32,7 @@
 [x] pan
 [x] create an empty canvas to work on it
 [x] fix: rerender canvas after layer order change
+[x] fix: do not push unfinished actions (ex: every contrast change affected)
 [] undo implementation
 [] match template
 [] add drawing in canvas
