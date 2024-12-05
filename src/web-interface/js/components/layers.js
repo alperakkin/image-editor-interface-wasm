@@ -53,7 +53,7 @@ export default class Layers {
         let layer = this.getLayer(name);
         document.getElementById(layer.id).remove();
         this.layerStack = Array.from(this.layerStack).filter(item => item.name != name);
-        window.editor.actions.removeLayerActions(layer);
+        window.editor.actions.removeLayerActions(name);
 
     }
 

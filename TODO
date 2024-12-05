@@ -33,7 +33,7 @@
 [x] create an empty canvas to work on it
 [x] fix: rerender canvas after layer order change
 [x] fix: do not push unfinished actions (ex: every contrast change affected)
-[] removeLayer actions after deleting layer
+[x] removeLayer actions after deleting layer
 [] reset select action options
 [] undo implementation
 [] match template

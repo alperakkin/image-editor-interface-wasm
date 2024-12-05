@@ -39,7 +39,14 @@ export default class Actions {
     }
 
     removeLayerActions(layerName) {
-        console.log('removelayers');
+        let newLayer = [];
+        Array.from(this.history).forEach(item => {
+            if (!Object.keys(item)[0].startsWith(layerName + '->'))
+                newLayer.push(item);
+        }
+        )
+        this.history = newLayer;
+        this.updateMainCanvas();
     }
 
     updateMainCanvas() {
