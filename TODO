@@ -33,6 +33,8 @@
 [x] create an empty canvas to work on it
 [x] fix: rerender canvas after layer order change
 [x] fix: do not push unfinished actions (ex: every contrast change affected)
+[] removeLayer actions after deleting layer
+[] reset select action options
 [] undo implementation
 [] match template
 [] add drawing in canvas
@@ -50,3 +52,5 @@
 [] add blending to layers
 [] action inputs ui design (sliders & checkboxes ...etc)
 [] set histogram data into selected layer also display histogram data from layer cache
+[] create an alert if user tries to put an image on main layer
+[] refactor pan image (use a lerp function to minimize over moves)

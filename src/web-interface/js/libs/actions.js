@@ -14,6 +14,7 @@ export default class Actions {
             this.history = Array.from(this.history).splice(diff, this.history.length);
         }
 
+
         layer.imageData = imgData;
 
         editor.actions.updateMainCanvas();
@@ -25,12 +26,20 @@ export default class Actions {
 
     }
     undoAction() {
-        // TODO: remove last action from layer
-        console.log(this.history);
+        const lastAction = this.history[this.history.length - 1];
+        if (lastAction) {
+            const layerName = Object.keys(lastAction)[0].split('->')[0];
+            const imageData = Object.values(lastAction)[0];
+            const layer = window.layers.getLayer(layerName);
+            layer.imageData = imageData;
+            this.updateMainCanvas();
+            this.history = this.history.splice(0, this.history.length - 1);
+
+        }
     }
 
-    removeLayerActions(layer) {
-        // TODO: remove all action related to the layer
+    removeLayerActions(layerName) {
+        console.log('removelayers');
     }
 
     updateMainCanvas() {
