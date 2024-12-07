@@ -97,6 +97,16 @@ function activateEvents() {
         }
     )
 
+
+
+    $('#newProject').on('shown.bs.modal', function () {
+        $('#projectName').trigger('focus');
+    });
+
+    $('#layerName').on('shown.bs.modal', function () {
+        $('#layerNameInput').trigger('focus');
+    });
+
 }
 
 

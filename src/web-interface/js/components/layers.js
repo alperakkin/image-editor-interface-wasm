@@ -4,6 +4,25 @@ export default class Layers {
         this.selected = undefined;
         this.addLayer("main");
 
+        document.addEventListener('keypress',
+            (e) => {
+                const modals = document.getElementsByClassName('modal');
+
+
+                if (e.key === "Enter") {
+
+                    Array.from(modals).forEach(modal => {
+
+                        if (modal.className == "modal show") {
+                            modal.querySelector('button.btn.btn-secondary').click();
+
+                        }
+                    })
+
+                }
+
+            })
+
     }
 
     addLayer(name) {
@@ -111,6 +130,7 @@ export default class Layers {
         }
 
         document.querySelector("title").innerHTML = projectName;
+
         const mainLayer = this.getLayer('main');
         mainLayer.imageData = window.layers.getImageData(mainLayer);
         const mainCanvas = document.getElementById('mainCanvas');

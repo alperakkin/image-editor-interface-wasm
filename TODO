@@ -36,6 +36,7 @@
 [x] removeLayer actions after deleting layer
 [x] undo implementation
 [x] reset select action options
+[x] listen enter key for the modals
 [] add drawing in canvas
 [] add text
 [] save edited image
@@ -53,4 +54,3 @@
 [] set histogram data into selected layer also display histogram data from layer cache
 [] create an alert if user tries to put an image on main layer
 [] refactor pan image (use a lerp function to minimize over moves)
-[] listen enter key for the modals
