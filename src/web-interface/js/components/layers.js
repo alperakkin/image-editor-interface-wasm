@@ -53,6 +53,8 @@ export default class Layers {
     }
 
     getLayer(name) {
+        if (name == '<selected>' || name == undefined)
+            name = windows.layers.selected;
         let layers = this.layerStack.filter(item => item.name == name);
         if (layers.length > 0) return layers[0];
     }
@@ -196,6 +198,7 @@ class LayerCanvas {
         this.isActive = true;
         this.id = undefined;
         this.imageData = undefined;
+        this.drawingMode = false;
         this.pos = { x: 0, y: 0 };
 
 

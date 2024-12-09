@@ -20,12 +20,6 @@ function loadComponent(template) {
             if (activeTemplate)
                 activeTemplate.insertAdjacentHTML('afterend', html);
 
-
-
-
-
-
-
         }).then(() => {
 
             activeTemplate = document.querySelector(`[path="${path}"]`);
