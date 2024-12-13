@@ -59,9 +59,11 @@ Open a browser and type localhost:8000 to address bar
 
 You can play with the implemented features as shown below:
 
-![](https://github.com/alperakkin/image-editor-interface-wasm/blob/main/resources/example.png)
+![](https://github.com/alperakkin/image-editor-interface-wasm/blob/main/resources/editing.png)
 
+![](https://github.com/alperakkin/image-editor-interface-wasm/blob/main/resources/newproject.png)
 
+![](https://github.com/alperakkin/image-editor-interface-wasm/blob/main/resources/newlayer.png)
 
 # References
 https://github.com/alperakkin/image-editor

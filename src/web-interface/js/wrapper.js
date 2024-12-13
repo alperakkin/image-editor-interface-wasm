@@ -39,20 +39,6 @@ export default class ImageWrapper {
                 this[item.slice(0, -8)] = applyFilter(Module[item]);
         })
 
-        setTimeout(() => {
-            Object.getOwnPropertyNames(this).forEach(
-                item => {
-                    const opt = document.getElementById('options')
-                    const choice = document.createElement("option");
-                    choice.setAttribute("value", item);
-                    choice.textContent = item.split("_")
-                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                        .join(" ");
-                    opt.appendChild(choice);
-
-                })
-        }, 100);
-
     }
 }
 

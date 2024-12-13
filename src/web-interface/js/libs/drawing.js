@@ -15,11 +15,12 @@ export default class Draw {
         main.addEventListener('mouseup', () => {
             const layer = window.layers.getLayer('<selected>');
             if (layer.drawingMode == true) {
-                this.stopDrawing();
+                this.stopDrawing(layer);
             }
         })
 
         main.addEventListener('mousemove', (e) => {
+            console.log(`Drawing x: ${e.clientX} y: ${e.clientY}`);
 
         })
 
@@ -34,10 +35,11 @@ export default class Draw {
 
     }
 
-    stopDrawing() {
+    stopDrawing(layer) {
         this.canvas = undefined;
         this.ctx = undefined;
         this.isDrawing = false;
+        console.log("Drawing finished layer imageData will be updated layer->", layer);
     }
 
 

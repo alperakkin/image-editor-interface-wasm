@@ -160,7 +160,7 @@ export default class Layers {
             }
         }
 
-        const disabledButtons = document.querySelectorAll('#layer-buttons .disabled');
+        const disabledButtons = document.querySelectorAll('a.btn.disabled');
         Array.from(disabledButtons).forEach(element => {
             element.className = element.className.replace(" disabled", "");
 

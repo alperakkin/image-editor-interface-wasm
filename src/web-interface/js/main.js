@@ -13,20 +13,6 @@ function activateEvents() {
     let layerIsDragging = false;
     let layerStartPos = false;
 
-    document.getElementById('options').addEventListener('change',
-        function (event) {
-            event.stopPropagation();
-            const directExecutedActions = ['grayscale', 'invert', 'crop'];
-            if (directExecutedActions.includes(event.target.value)) {
-                let imageData = editor.execute(event.target.value);
-                if (imageData === undefined) return;
-                const canvas = window.layers.getLayer(layers.selected).getCanvas();
-                editor.displayImage(imageData, canvas);
-            }
-
-        }
-    )
-
     Array.from(document.querySelectorAll('.arguments input:not(.slider)')).forEach(
         function (elem) {
             const action = elem.parentElement.id
