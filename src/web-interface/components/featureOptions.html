@@ -25,7 +25,7 @@
                 title="Draw Circle"
                 aria-expanded="false"
                 style="margin:2px;"
-                onclick="layers.getLayer('<selected>').drawingMode=true">
+                onclick="window.draw.setMode('circle');">
                 <i class="bi bi-circle-fill"></i>
                 </a>
                 <a class="btn btn-warning  disabled"
@@ -34,7 +34,8 @@
                 data-placement="top"
                 title="Draw Square"
                 aria-expanded="false"
-                style="margin:2px;">
+                style="margin:2px;"
+                onclick="window.draw.setMode('square');">
                 <i class="bi bi-square-fill"></i>
                 </a>
             </div>
