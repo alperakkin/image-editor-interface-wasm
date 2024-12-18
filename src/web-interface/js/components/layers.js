@@ -54,7 +54,7 @@ export default class Layers {
 
     getLayer(name) {
         if (name == '<selected>' || name == undefined)
-            name = windows.layers.selected;
+            name = window.layers.selected;
         let layers = this.layerStack.filter(item => item.name == name);
         if (layers.length > 0) return layers[0];
     }

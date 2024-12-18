@@ -55,8 +55,11 @@ function activateEvents() {
 
     document.getElementById('mainCanvas').addEventListener('mousedown',
         function (event) {
-            layerStartPos = { x: event.clientX, y: event.clientY };
-            layerIsDragging = true;
+            const layer = window.layers.getLayer(window.layers.selected);
+            if (layer.drawingMode == false) {
+                layerStartPos = { x: event.clientX, y: event.clientY };
+                layerIsDragging = true;
+            }
 
         }
     )
@@ -92,6 +95,7 @@ function activateEvents() {
     $('#layerName').on('shown.bs.modal', function () {
         $('#layerNameInput').trigger('focus');
     });
+
 
 }
 

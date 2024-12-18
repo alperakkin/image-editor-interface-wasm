@@ -54,3 +54,4 @@
 [] set histogram data into selected layer also display histogram data from layer cache
 [] create an alert if user tries to put an image on main layer
 [] refactor pan image (use a lerp function to minimize over moves)
+[] store project objects in cache (refresh page should not affect the work)

@@ -1,4 +1,4 @@
-export default class Draw {
+export class Draw {
     constructor() {
         this.isDrawing = false;
         this.canvas = undefined;
@@ -20,7 +20,10 @@ export default class Draw {
         })
 
         main.addEventListener('mousemove', (e) => {
-            console.log(`Drawing x: ${e.clientX} y: ${e.clientY}`);
+            const layer = window.layers.getLayer('<selected>');
+            if (layer.drawingMode == true && this.isDrawing == true) {
+                console.log(`Drawing x: ${e.clientX} y: ${e.clientY}`);
+            }
 
         })
 
@@ -39,6 +42,7 @@ export default class Draw {
         this.canvas = undefined;
         this.ctx = undefined;
         this.isDrawing = false;
+        layer.drawingMode = false;
         console.log("Drawing finished layer imageData will be updated layer->", layer);
     }
 
