@@ -13,8 +13,7 @@ export class Draw {
         this.canvas.style.width = `${this.main.width}px`;
         this.canvas.style.height = `${this.main.height}px`;
         this.canvas.style.position = 'absolute';
-        // this.canvas.style.left = `${rect.left}px`;
-        // this.canvas.style.top = `${rect.top}px`;
+
         this.canvas.style.pointerEvents = 'none';
         this.canvas.style.background = 'transparent';
         document.getElementById("canvasContainer").appendChild(this.canvas);
@@ -55,8 +54,7 @@ export class Draw {
 
     }
 
-    stopDrawing(layer) {
-
+    stopDrawing() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.isDrawing = false;
 
