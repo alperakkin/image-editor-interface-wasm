@@ -1,11 +1,11 @@
 export class Draw {
     constructor() {
         this.isDrawing = false;
-        this.canvas = undefined;
-        this.ctx = undefined;
-        this.drawingMode = undefined;
+        this.canvas = null;
+        this.ctx = null;
+        this.drawingMode = null;
         this.opacity = 1;
-        this.size = 10;
+        this.size = 5;
         this.color = "#000000";
 
         const main = document.getElementById('mainCanvas');
@@ -36,10 +36,19 @@ export class Draw {
 
     startDrawing(main) {
         this.canvas = document.createElement('canvas');
+        const rect = main.getBoundingClientRect();
+        this.canvas.width = rect.width;
+        this.canvas.height = rect.height;
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.left = `${rect.left}px`;
+        this.canvas.style.top = `${rect.top}px`;
+        this.canvas.style.pointerEvents = 'none';
+        this.canvas.style.background = 'transparent';
         document.body.appendChild(this.canvas);
+
         this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
-        this.canvas.width = main.width;
-        this.canvas.height = main.height;
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
         this.isDrawing = true;
 
     }
@@ -47,10 +56,10 @@ export class Draw {
     stopDrawing(layer) {
 
         this.canvas.remove();
-        this.canvas = undefined;
-        this.ctx = undefined;
+        this.canvas = null;
+        this.ctx = null;
         this.isDrawing = false;
-        console.log("Drawing finished layer imageData will be updated layer->", layer);
+
     }
 
     setMode(mode) {
@@ -71,47 +80,68 @@ export class Draw {
         editor.actions.updateMainCanvas();
     }
 
+
     blendImageData(layerImageData, drawingImageData) {
-        if (!layerImageData) return drawingImageData;
+        if (!layerImageData || !layerImageData.data) {
+            return new ImageData(
+                new Uint8ClampedArray(drawingImageData.data),
+                drawingImageData.width,
+                drawingImageData.height
+            );
+        }
 
         const width = layerImageData.width;
         const height = layerImageData.height;
-
 
         const blendedImage = new ImageData(width, height);
 
 
         const data1 = layerImageData.data;
         const data2 = drawingImageData.data;
-        const blendedData = blendedImage.data;
 
-        for (let i = 0; i < blendedData.length; i += 4) {
+        for (let i = 0; i < blendedImage.data.length; i += 4) {
             const r1 = data1[i];
             const g1 = data1[i + 1];
             const b1 = data1[i + 2];
-            const a1 = data1[i + 3] / 255;
+            const a1 = data1[i + 3];
 
             const r2 = data2[i];
             const g2 = data2[i + 1];
             const b2 = data2[i + 2];
-            const a2 = data2[i + 3] / 255;
+            const a2 = data2[i + 3];
 
-            const alphaOut = a1 + a2 * (1 - a1);
-            blendedData[i] = (r1 * a1 + r2 * a2 * (1 - a1)) / alphaOut || 0; // R
-            blendedData[i + 1] = (g1 * a1 + g2 * a2 * (1 - a1)) / alphaOut || 0; // G
-            blendedData[i + 2] = (b1 * a1 + b2 * a2 * (1 - a1)) / alphaOut || 0; // B
-            blendedData[i + 3] = alphaOut * 255; // A
+            if (a2 > 0) {
+                blendedImage.data[i] = r2;
+                blendedImage.data[i + 1] = g2;
+                blendedImage.data[i + 2] = b2;
+                blendedImage.data[i + 3] = a2;
+            } else {
+
+                blendedImage.data[i] = r1;
+                blendedImage.data[i + 1] = g1;
+                blendedImage.data[i + 2] = b1;
+                blendedImage.data[i + 3] = a1;
+            }
         }
 
         return blendedImage;
     }
 
+
+
     drawCircle(e) {
+        const { x, y } = this.getMousePos(e);
         this.ctx.beginPath();
-        this.ctx.arc(e.screenX, e.screenY, this.size, 0, 2 * Math.PI);
+        this.ctx.arc(x, y, this.size, 0, 2 * Math.PI);
         this.ctx.fillStyle = this.color;
         this.ctx.fill();
         this.ctx.closePath();
+    }
+    getMousePos(e) {
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        return { x, y };
     }
 
 }
