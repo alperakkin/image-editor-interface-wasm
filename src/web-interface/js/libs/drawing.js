@@ -1,30 +1,42 @@
 export class Draw {
     constructor() {
         this.isDrawing = false;
-        this.canvas = null;
-        this.ctx = null;
+
         this.drawingMode = null;
         this.opacity = 1;
         this.size = 5;
         this.color = "#000000";
 
-        const main = document.getElementById('mainCanvas');
+        this.main = document.getElementById('mainCanvas');
+        this.canvas = document.createElement('canvas');
+        const rect = this.main.getBoundingClientRect();
+        this.canvas.style.width = `${this.main.width}px`;
+        this.canvas.style.height = `${this.main.height}px`;
+        this.canvas.style.position = 'absolute';
+        // this.canvas.style.left = `${rect.left}px`;
+        // this.canvas.style.top = `${rect.top}px`;
+        this.canvas.style.pointerEvents = 'none';
+        this.canvas.style.background = 'transparent';
+        document.getElementById("canvasContainer").appendChild(this.canvas);
 
-        main.addEventListener('mousedown', () => {
+        this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.main.addEventListener('mousedown', () => {
             const layer = window.layers.getLayer('<selected>');
             if (layer.drawingMode == true) {
-                this.startDrawing(main);
+                this.startDrawing();
             }
         })
 
-        main.addEventListener('mouseup', () => {
+        this.main.addEventListener('mouseup', () => {
             const layer = window.layers.getLayer('<selected>');
             if (layer.drawingMode == true) {
                 this.stopDrawing(layer);
             }
         })
 
-        main.addEventListener('mousemove', (e) => {
+        this.main.addEventListener('mousemove', (e) => {
             const layer = window.layers.getLayer('<selected>');
             if (layer.drawingMode == true && this.isDrawing == true) {
                 this.pen(e, layer);
@@ -34,30 +46,18 @@ export class Draw {
 
     }
 
-    startDrawing(main) {
-        this.canvas = document.createElement('canvas');
-        const rect = main.getBoundingClientRect();
-        this.canvas.width = rect.width;
-        this.canvas.height = rect.height;
-        this.canvas.style.position = 'absolute';
-        this.canvas.style.left = `${rect.left}px`;
-        this.canvas.style.top = `${rect.top}px`;
-        this.canvas.style.pointerEvents = 'none';
-        this.canvas.style.background = 'transparent';
-        document.body.appendChild(this.canvas);
-
-        this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+    startDrawing() {
+        const rect = this.main.getBoundingClientRect();
         this.isDrawing = true;
+        this.canvas.style.width = `${this.main.width}px`;
+        this.canvas.style.height = `${this.main.height}px`;
+        this.canvas.style.position = 'absolute';
 
     }
 
     stopDrawing(layer) {
 
-        this.canvas.remove();
-        this.canvas = null;
-        this.ctx = null;
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.isDrawing = false;
 
     }
@@ -76,19 +76,15 @@ export class Draw {
         }
 
         let drawingImageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+        if (!layer.imageData) {
+            layer.imageData = new ImageData(this.canvas.width, this.canvas.height);
+        }
         layer.imageData = this.blendImageData(layer.imageData, drawingImageData);
         editor.actions.updateMainCanvas();
     }
 
 
     blendImageData(layerImageData, drawingImageData) {
-        if (!layerImageData || !layerImageData.data) {
-            return new ImageData(
-                new Uint8ClampedArray(drawingImageData.data),
-                drawingImageData.width,
-                drawingImageData.height
-            );
-        }
 
         const width = layerImageData.width;
         const height = layerImageData.height;
@@ -139,9 +135,14 @@ export class Draw {
     }
     getMousePos(e) {
         const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        return { x, y };
+
+        const scaleX = this.canvas.width / rect.width;
+        const scaleY = this.canvas.height / rect.height;
+
+        return {
+            x: (e.clientX - rect.left) * scaleX,
+            y: (e.clientY - rect.top) * scaleY
+        };
     }
 
 }
