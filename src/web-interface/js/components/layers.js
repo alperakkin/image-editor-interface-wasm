@@ -1,8 +1,11 @@
+import { Draw } from '../libs/drawing.js';
+
 export default class Layers {
     constructor() {
         this.layerStack = [];
-        this.selected = undefined;
+        this.selected = null;
         this.addLayer("main");
+        this.drawing = null;
 
         document.addEventListener('keypress',
             (e) => {
@@ -167,6 +170,7 @@ export default class Layers {
         })
         clearProjectModalInputs();
         editor.actions.updateMainCanvas();
+        this.drawing = new Draw(mainCanvas);
     }
 
     emptyBackground(canvas) {

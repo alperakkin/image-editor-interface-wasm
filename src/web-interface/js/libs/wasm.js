@@ -71,7 +71,6 @@ WebAssembly.instantiateStreaming(fetch("../wasm/editor.wasm"), importObject)
         window.wrapper = new ImageWrapper();
         window.editor = new Editor();
         window.layers = new Layers();
-        window.draw = new Draw();
     }
     );
 

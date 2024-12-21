@@ -1,5 +1,5 @@
 export class Draw {
-    constructor() {
+    constructor(mainCanvas) {
         this.isDrawing = false;
 
         this.drawingMode = null;
@@ -7,16 +7,11 @@ export class Draw {
         this.size = 5;
         this.color = "#000000";
 
-        this.main = document.getElementById('mainCanvas');
-        this.canvas = document.createElement('canvas');
-        const rect = this.main.getBoundingClientRect();
-        this.canvas.style.width = `${this.main.width}px`;
-        this.canvas.style.height = `${this.main.height}px`;
-        this.canvas.style.position = 'absolute';
+        this.main = mainCanvas
+        this.canvas = new OffscreenCanvas(this.main.width, this.main.height);
 
-        this.canvas.style.pointerEvents = 'none';
-        this.canvas.style.background = 'transparent';
-        document.getElementById("canvasContainer").appendChild(this.canvas);
+        const rect = this.main.getBoundingClientRect();
+
 
         this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -45,20 +40,32 @@ export class Draw {
 
     }
 
-    startDrawing() {
-        const rect = this.main.getBoundingClientRect();
+    startDrawing(e) {
+        const layer = layers.getLayer('<selected>');
+        if (layer.imageData) {
+            this.ctx.putImageData(
+                layer.imageData,
+                Math.round(layer.pos.x),
+                Math.round(layer.pos.y)
+            );
+        }
         this.isDrawing = true;
-        this.canvas.style.width = `${this.main.width}px`;
-        this.canvas.style.height = `${this.main.height}px`;
-        this.canvas.style.position = 'absolute';
-
     }
 
-    stopDrawing() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    stopDrawing(layer) {
+        if (this.isDrawing) {
+            layer.imageData = this.ctx.getImageData(
+                0,
+                0,
+                this.canvas.width,
+                this.canvas.height
+            );
+            editor.actions.updateMainCanvas();
+        }
         this.isDrawing = false;
-
     }
+
 
     setMode(mode) {
         layers.getLayer('<selected>').drawingMode = true;
@@ -73,53 +80,11 @@ export class Draw {
             this.drawSquare(e);
         }
 
-        let drawingImageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-        if (!layer.imageData) {
-            layer.imageData = new ImageData(this.canvas.width, this.canvas.height);
-        }
-        layer.imageData = this.blendImageData(layer.imageData, drawingImageData);
+        layer.imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
         editor.actions.updateMainCanvas();
     }
 
 
-    blendImageData(layerImageData, drawingImageData) {
-
-        const width = layerImageData.width;
-        const height = layerImageData.height;
-
-        const blendedImage = new ImageData(width, height);
-
-
-        const data1 = layerImageData.data;
-        const data2 = drawingImageData.data;
-
-        for (let i = 0; i < blendedImage.data.length; i += 4) {
-            const r1 = data1[i];
-            const g1 = data1[i + 1];
-            const b1 = data1[i + 2];
-            const a1 = data1[i + 3];
-
-            const r2 = data2[i];
-            const g2 = data2[i + 1];
-            const b2 = data2[i + 2];
-            const a2 = data2[i + 3];
-
-            if (a2 > 0) {
-                blendedImage.data[i] = r2;
-                blendedImage.data[i + 1] = g2;
-                blendedImage.data[i + 2] = b2;
-                blendedImage.data[i + 3] = a2;
-            } else {
-
-                blendedImage.data[i] = r1;
-                blendedImage.data[i + 1] = g1;
-                blendedImage.data[i + 2] = b1;
-                blendedImage.data[i + 3] = a1;
-            }
-        }
-
-        return blendedImage;
-    }
 
 
 
@@ -132,15 +97,24 @@ export class Draw {
         this.ctx.closePath();
     }
     getMousePos(e) {
-        const rect = this.canvas.getBoundingClientRect();
+        const rect = this.main.getBoundingClientRect();
 
-        const scaleX = this.canvas.width / rect.width;
-        const scaleY = this.canvas.height / rect.height;
+        const imageWidth = this.canvas.width;
+        const imageHeight = this.canvas.height;
+
+        const scaleX = imageWidth / rect.width;
+        const scaleY = imageHeight / rect.height;
+
+
+        const normalizedX = (e.clientX - rect.left) * scaleX;
+        const normalizedY = (e.clientY - rect.top) * scaleY;
 
         return {
-            x: (e.clientX - rect.left) * scaleX,
-            y: (e.clientY - rect.top) * scaleY
+            x: normalizedX,
+            y: normalizedY,
         };
     }
+
+
 
 }
