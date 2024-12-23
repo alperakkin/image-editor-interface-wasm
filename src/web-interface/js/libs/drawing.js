@@ -10,11 +10,13 @@ export class Draw {
         this.main = mainCanvas
         this.canvas = new OffscreenCanvas(this.main.width, this.main.height);
 
-        const rect = this.main.getBoundingClientRect();
-
-
         this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.drawingCanvas = new OffscreenCanvas(this.main.width, this.main.height);
+
+        this.drawingCtx = this.drawingCanvas.getContext('2d', { willReadFrequently: true });
+        this.drawingCtx.clearRect(0, 0, this.drawingCanvas.width, this.drawingCanvas.height);
 
         this.main.addEventListener('mousedown', () => {
             const layer = window.layers.getLayer('<selected>');
@@ -80,6 +82,7 @@ export class Draw {
             this.drawSquare(e);
         }
 
+        this.ctx.drawImage(this.drawingCanvas, 0, 0);
         layer.imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
         editor.actions.updateMainCanvas();
     }
@@ -90,11 +93,11 @@ export class Draw {
 
     drawCircle(e) {
         const { x, y } = this.getMousePos(e);
-        this.ctx.beginPath();
-        this.ctx.arc(x, y, this.size, 0, 2 * Math.PI);
-        this.ctx.fillStyle = this.color;
-        this.ctx.fill();
-        this.ctx.closePath();
+        this.drawingCtx.beginPath();
+        this.drawingCtx.arc(x, y, this.size, 0, 2 * Math.PI);
+        this.drawingCtx.fillStyle = this.color;
+        this.drawingCtx.fill();
+        this.drawingCtx.closePath();
     }
     getMousePos(e) {
         const rect = this.main.getBoundingClientRect();

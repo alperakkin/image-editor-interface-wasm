@@ -58,7 +58,7 @@ export default class Actions {
         window.layers.emptyBackground(mainCanvas);
 
         window.layers.layerStack.slice().reverse().forEach(layer => {
-            if (layer.isActive && layer.name != 'main' && layer.imageData) {
+            if (layer.isActive && layer.imageData) {
 
                 mainCtx.putImageData(layer.imageData, layer.pos.x, layer.pos.y);
                 const cnv = layer.getCanvas();
