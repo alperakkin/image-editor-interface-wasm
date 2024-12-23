@@ -66,6 +66,7 @@ export class Draw {
             editor.actions.updateMainCanvas();
         }
         this.isDrawing = false;
+        this.drawingCtx.clearRect(0, 0, this.drawingCanvas.width, this.drawingCanvas.height);
     }
 
 
@@ -75,12 +76,20 @@ export class Draw {
     }
 
     pen(e, layer) {
+
+        const { x, y } = this.getMousePos(e);
+        this.drawingCtx.beginPath();
+
+
         if (this.drawingMode == 'circle') {
-            this.drawCircle(e);
+            this.drawingCtx.arc(x, y, this.size, 0, 2 * Math.PI);
         }
         else if (this.drawingMode == 'square') {
-            this.drawSquare(e);
+            this.drawingCtx.rect(x, y, this.size, this.size);
         }
+        this.drawingCtx.fillStyle = this.color;
+        this.drawingCtx.fill();
+        this.drawingCtx.closePath();
 
         this.ctx.drawImage(this.drawingCanvas, 0, 0);
         layer.imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
@@ -89,16 +98,6 @@ export class Draw {
 
 
 
-
-
-    drawCircle(e) {
-        const { x, y } = this.getMousePos(e);
-        this.drawingCtx.beginPath();
-        this.drawingCtx.arc(x, y, this.size, 0, 2 * Math.PI);
-        this.drawingCtx.fillStyle = this.color;
-        this.drawingCtx.fill();
-        this.drawingCtx.closePath();
-    }
     getMousePos(e) {
         const rect = this.main.getBoundingClientRect();
 
