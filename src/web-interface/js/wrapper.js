@@ -1,4 +1,4 @@
-function applyFilter(fn) {
+function executeWrapperFunction(fn) {
     return function (imageInfo, ...args) {
         let imageData = imageInfo.imageData;
         let pixels = imageData.data;
@@ -36,7 +36,7 @@ export default class ImageWrapper {
     constructor() {
         Object.getOwnPropertyNames(Module).forEach(item => {
             if (item.includes('_wrapper'))
-                this[item.slice(0, -8)] = applyFilter(Module[item]);
+                this[item.slice(0, -8)] = executeWrapperFunction(Module[item]);
         })
 
     }
