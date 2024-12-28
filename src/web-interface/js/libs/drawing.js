@@ -17,11 +17,17 @@ export class Draw {
 
         this.drawingCtx = this.drawingCanvas.getContext('2d', { willReadFrequently: true });
         this.drawingCtx.clearRect(0, 0, this.drawingCanvas.width, this.drawingCanvas.height);
+        this.drawingCtx.globalCompositeOperation = "source-over";
+        this.ctx.globalCompositeOperation = "source-over";
+        this.drawingCtx.lineWidth = 0;
 
-        this.main.addEventListener('mousedown', () => {
+        this.drawingCtx.globalAlpha = 0.5;
+
+        this.main.addEventListener('mousedown', (e) => {
             const layer = window.layers.getLayer('<selected>');
             if (layer.drawingMode == true) {
                 this.startDrawing();
+                this.pen(e, layer);
             }
         })
 
@@ -75,25 +81,49 @@ export class Draw {
         this.drawingMode = mode;
     }
 
+    addAlpha(hex, alpha) {
+        hex = hex.replace('#', '');
+        const alphaHex = Math.round(alpha * 255).toString(16).padStart(2, '0');
+        return `#${hex}${alphaHex}`;
+    }
+
     pen(e, layer) {
+        setTimeout(() => {
+            const { x, y } = this.getMousePos(e);
 
-        const { x, y } = this.getMousePos(e);
-        this.drawingCtx.beginPath();
+            const centerX = x;
+            const centerY = y;
 
+            const radius = this.size;
 
-        if (this.drawingMode == 'circle') {
-            this.drawingCtx.arc(x, y, this.size, 0, 2 * Math.PI);
-        }
-        else if (this.drawingMode == 'square') {
-            this.drawingCtx.rect(x, y, this.size, this.size);
-        }
-        this.drawingCtx.fillStyle = this.color;
-        this.drawingCtx.fill();
-        this.drawingCtx.closePath();
+            this.drawingCtx.beginPath();
 
-        this.ctx.drawImage(this.drawingCanvas, 0, 0);
-        layer.imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-        editor.actions.updateMainCanvas();
+            for (let i = -radius; i < radius; i++) {
+                for (let j = -radius; j < radius; j++) {
+
+                    const dx = centerX + i;
+                    const dy = centerY + j;
+
+                    const dist = Math.sqrt((dx - centerX) ** 2 + (dy - centerY) ** 2);
+
+                    if (dist <= radius) {
+                        const alpha = 1 - dist / radius;
+                        const colorWithAlpha = this.addAlpha(this.color, Math.max(alpha * this.opacity, 0)); // Minimum 0 opaklık olmalı
+
+                        this.drawingCtx.fillStyle = colorWithAlpha;
+                        this.drawingCtx.fillRect(dx, dy, 1, 1);
+                    }
+                }
+            }
+
+            this.drawingCtx.fill();
+            this.drawingCtx.closePath();
+
+            this.ctx.drawImage(this.drawingCanvas, 0, 0);
+            this.drawingCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            layer.imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+            editor.actions.updateMainCanvas();
+        }, 16);
     }
 
 
@@ -117,6 +147,11 @@ export class Draw {
         };
     }
 
+    updateSettings() {
+        this.size = document.getElementById('brush-size').value;
+        this.opacity = document.getElementById('brush-opacity').value;
+        this.color = document.getElementById('brush-color-picker').value;
+    }
 
 
 }

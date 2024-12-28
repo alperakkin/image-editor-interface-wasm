@@ -4,46 +4,66 @@
      <div class="d-flex flex-row align-items-center justify-content-left" style="min-width: 100%;
      border-block-width: inherit;border-radius: 4px;padding: 5px 2px;display: flex;"
       id="feature-buttons">
-      <div class="dropdown d-flex col-2 flex-column justify-content-center">
+      <div class="d-flex col-2 flex-column justify-content-center">
         <a  class="btn btn-warning  disabled"
-            id="drawingDropDown"
-            type="button"
-            data-toggle="tooltip"
-            data-bs-toggle="dropdown"
-            data-bs-display="static"
-            data-placement="top"
-            title="Draw"
-            aria-expanded="false" >
-            <i class="bi bi-pencil-fill"></i>
+        type="button"
+        data-toggle="tooltip"
+        data-placement="top"
+        title="Draw"
+        onclick="window.layers.drawing.setMode('circle');">
+
+        <i class="bi bi-pencil-fill"></i>
+    </a>
+      </div>
+
+    <div class="settings d-flex col-2 flex-column justify-content-center">
+        <a  class="btn btn-warning  disabled"
+        type="button"
+        data-toggle="tooltip"
+        data-bs-toggle="modal"
+        data-bs-target="#drawing-settings"
+        data-placement="top"
+        title="Draw"
+        aria-expanded="false" >
+        <i class="bi bi-gear-fill"></i>
         </a>
-        <div class="dropdown-menu dropdown-menu-start" aria-labelledby="drawingDropDown" style="background-color: #302f2f;border-color:#5f6263;">
-            <div class="container d-flex flex-row align-items-center">
-                <a class="btn btn-warning  disabled"
-                type="button"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Draw Circle"
-                aria-expanded="false"
-                style="margin:2px;"
-                onclick="window.layers.drawing.setMode('circle');">
-                <i class="bi bi-circle-fill"></i>
-                </a>
-                <a class="btn btn-warning  disabled"
-                type="button"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="Draw Square"
-                aria-expanded="false"
-                style="margin:2px;"
-                onclick="window.layers.drawing.setMode('square');">
-                <i class="bi bi-square-fill"></i>
-                </a>
+    </div>
+</div>
+     </div>
+
+     <div id="drawing-settings" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background:#bfbfbf;">
+              <div class="modal-header justify-content-between">
+                <h5 class="modal-title">Drawing Settings</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body d-flex flex-column">
+                <div class="d-flex flex-row justify-content-between">
+                    <label class="col-2" for="brush-size">Brush Size</label>
+                    <input class="col-4" type="range" id="brush-size" min="1" max="50" value="10">
+                </div>
+                <div class="d-flex flex-row justify-content-between">
+                    <label class="col-2" for="opacity">Opacity</label>
+                    <input class="col-4" type="range" id="brush-opacity" min="0.1" max="1" step="0.1" value="1">
+                </div>
+                <div class="d-flex flex-row justify-content-between">
+                    <label class="col-2" for="color-picker">Color</label>
+                    <input class="col-4" type="color" id="brush-color-picker" value="#000000">
+                </div>
             </div>
 
-
-        </div>
+            <div class="modal-footer">
+              <button onclick="layers.drawing.updateSettings();" class="btn btn-secondary" data-bs-dismiss="modal">Enter</button>
+            </div>
+              </div>
+            </div>
+          </div>
     </div>
-     </div>
+
+
 
   </div>
 
