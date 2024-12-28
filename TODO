@@ -38,7 +38,7 @@
 [x] reset select action options
 [x] listen enter key for the modals
 [x] add drawing in canvas
-[] add drawing option (strength, size)
+[x] add drawing option (strength, size)
 [] add text
 [] save edited image
 [] move opacity filter in layercontainer to adjust opacity
