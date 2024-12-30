@@ -10,7 +10,7 @@
         data-toggle="tooltip"
         data-placement="top"
         title="Draw"
-        onclick="window.layers.drawing.setMode('circle');">
+        onclick="window.layers.drawing.setMode('drawingMode','circle');">
 
         <i class="bi bi-pencil-fill"></i>
     </a>
@@ -20,11 +20,22 @@
         <a  class="btn btn-warning  disabled"
         type="button"
         data-toggle="tooltip"
+        data-placement="top"
+        title="Text"
+        aria-expanded="false" >
+        <i class="bi bi-cursor-text"></i>
+        </a>
+    </div>
+    <div class="settings d-flex col-2 flex-column justify-content-center">
+        <a  class="btn btn-warning  disabled"
+        type="button"
+        data-toggle="tooltip"
         data-bs-toggle="modal"
         data-bs-target="#drawing-settings"
         data-placement="top"
         title="Draw"
-        aria-expanded="false" >
+        aria-expanded="false"
+        onclick="layers.drawing.setMode('addText', 'text')" >
         <i class="bi bi-gear-fill"></i>
         </a>
     </div>

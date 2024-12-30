@@ -7,6 +7,7 @@ export default class Layers {
         this.addLayer("main");
         this.drawing = null;
 
+
         document.addEventListener('keypress',
             (e) => {
                 const modals = document.getElementsByClassName('modal');
@@ -203,6 +204,7 @@ class LayerCanvas {
         this.id = undefined;
         this.imageData = undefined;
         this.drawingMode = false;
+        this.textMode = false;
         this.pos = { x: 0, y: 0 };
 
 

@@ -1,8 +1,10 @@
 export class Draw {
     constructor(mainCanvas) {
         this.isDrawing = false;
+        this.isWriting = false;
 
         this.drawingMode = null;
+        this.textMode = null;
         this.opacity = 1;
         this.size = 5;
         this.color = "#000000";
@@ -22,12 +24,17 @@ export class Draw {
         this.drawingCtx.lineWidth = 0;
 
         this.drawingCtx.globalAlpha = 0.5;
+        this.textInput = document.createElement('input');
 
         this.main.addEventListener('mousedown', (e) => {
             const layer = window.layers.getLayer('<selected>');
             if (layer.drawingMode == true) {
                 this.startDrawing();
                 this.pen(e, layer);
+            }
+
+            if (layer.addText == true) {
+                this.startWriting(e);
             }
         })
 
@@ -45,6 +52,8 @@ export class Draw {
             }
 
         })
+
+        this.main.addEventListener('key')
 
     }
 
@@ -75,10 +84,25 @@ export class Draw {
         this.drawingCtx.clearRect(0, 0, this.drawingCanvas.width, this.drawingCanvas.height);
     }
 
+    startWriting(e) {
+        const pos = this.getMousePos(e);
+        this.isWriting = true;
+        this.textCursor = pos;
+        this.textInput.style.left = pos.x;
+        this.textInput.style.top = pos.y;
+        this.textInput.style.display = 'block';
+        this.textInput.focus();
+    }
 
-    setMode(mode) {
-        layers.getLayer('<selected>').drawingMode = true;
-        this.drawingMode = mode;
+    stopWriting() {
+        this.isWriting = false;
+    }
+
+
+    setMode(modeName, mode) {
+        const layer = layers.getLayer('<selected>');
+        layer[modeName] = true;
+        this[modeName] = mode;
     }
 
     addAlpha(hex, alpha) {
