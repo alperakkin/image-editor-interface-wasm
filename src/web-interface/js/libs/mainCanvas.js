@@ -11,6 +11,7 @@ export class canvasOperation {
         this.color = "#000000";
 
         this.main = mainCanvas
+        this.main.setAttribute('tabindex', '0');
         this.canvas = new OffscreenCanvas(this.main.width, this.main.height);
 
         this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
@@ -26,7 +27,7 @@ export class canvasOperation {
         this.text = "";
         this.textPosition = null;
 
-        this.drawingCtx.globalAlpha = 0.5;
+
         this.layerIsDragging = false;
         this.layerStartPos = false;
 
@@ -37,7 +38,7 @@ export class canvasOperation {
                 this.pen(e, layer);
             }
 
-            if (layer.addText == true) {
+            if (layer.mode == writingMode) {
                 this.startWriting(e);
             }
         })
@@ -58,17 +59,18 @@ export class canvasOperation {
         })
 
         this.main.addEventListener('keydown', (event) => {
-            console.log(event);
             const layer = window.layers.getLayer('<selected>');
             if (layer.mode == writingMode && this.isWriting) {
-                if (event.key == 'enter') {
-                    this.stopWriting();
+                if (event.key == 'Enter') {
+                    this.stopWriting(layer);
                     return;
                 } else {
                     this.text += event.key;
-                    this.drawText();
+                    this.drawText(layer);
                 }
 
+            } else {
+                this.text = "";
             }
         })
 
@@ -131,18 +133,27 @@ export class canvasOperation {
             editor.actions.updateMainCanvas();
         }
         this.isDrawing = false;
+        this.mode = null;
         this.drawingCtx.clearRect(0, 0, this.drawingCanvas.width, this.drawingCanvas.height);
+
     }
 
     startWriting(e) {
+        this.text = "";
+        this.main.focus();
         this.textPosition = this.getMousePos(e);
         this.isWriting = true;
-        console.log('writing started at', pos);
+
     }
 
-    stopWriting() {
+    stopWriting(layer) {
         this.isWriting = false;
-        console.log('writing stopped');
+        this.mode = null;
+        this.text = "";
+        this.ctx.drawImage(this.drawingCanvas, 0, 0);
+        layer.imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+        editor.actions.updateMainCanvas();
+
     }
 
 
@@ -159,17 +170,20 @@ export class canvasOperation {
         return `#${hex}${alphaHex}`;
     }
 
-    drawText() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.font = '20px Arial';
-        this.ctx.fillStyle = 'black';
+    drawText(layer) {
+        setTimeout(() => {
+            this.drawingCtx.globalAlpha = 1;
+            this.drawingCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.drawingCtx.font = '20px Arial';
+            this.drawingCtx.fillStyle = 'black';
+            this.drawingCtx.fillText(this.text, this.textPosition.x, this.textPosition.y);
 
-        cursorY = 50;
-        this.ctx.fillText(this.text, 10, cursorY);
+        }, 16);
     }
 
     pen(e, layer) {
         setTimeout(() => {
+            this.drawingCtx.globalAlpha = 0.5;
             const { x, y } = this.getMousePos(e);
 
             const centerX = x;
@@ -189,7 +203,7 @@ export class canvasOperation {
 
                     if (dist <= radius) {
                         const alpha = 1 - dist / radius;
-                        const colorWithAlpha = this.addAlpha(this.color, Math.max(alpha * this.opacity, 0)); // Minimum 0 opaklık olmalı
+                        const colorWithAlpha = this.addAlpha(this.color, Math.max(alpha * this.opacity, 0));
 
                         this.drawingCtx.fillStyle = colorWithAlpha;
                         this.drawingCtx.fillRect(dx, dy, 1, 1);
