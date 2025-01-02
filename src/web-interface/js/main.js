@@ -10,8 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function activateEvents() {
-    let layerIsDragging = false;
-    let layerStartPos = false;
 
     Array.from(document.querySelectorAll('.arguments input:not(.slider)')).forEach(
         function (elem) {
@@ -53,38 +51,7 @@ function activateEvents() {
 
 
 
-    document.getElementById('mainCanvas').addEventListener('mousedown',
-        function (event) {
-            const layer = window.layers.getLayer(window.layers.selected);
-            if (layer.drawingMode == false) {
-                layerStartPos = { x: event.clientX, y: event.clientY };
-                layerIsDragging = true;
-            }
 
-        }
-    )
-    document.getElementById('mainCanvas').addEventListener('mousemove',
-        function (event) {
-            const dragFactor = 0.15;
-            const layer = window.layers.getLayer(window.layers.selected);
-
-            if (layerIsDragging && isLayerInBounds(event, layer, layerStartPos)) {
-                event.target.style.cursor = 'pointer';
-                let xDiff = (event.clientX - layerStartPos.x) * dragFactor;
-                let yDiff = (event.clientY - layerStartPos.y) * dragFactor;
-                layer.pos = { x: layer.pos.x + xDiff, y: layer.pos.y + yDiff };
-                window.editor.actions.updateMainCanvas();
-            }
-
-        }
-    )
-    document.getElementById('mainCanvas').addEventListener('mouseup',
-        function (event) {
-            layerIsDragging = false;
-            event.target.style.cursor = 'default';
-
-        }
-    )
 
 
 

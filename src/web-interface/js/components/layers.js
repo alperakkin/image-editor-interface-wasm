@@ -1,11 +1,11 @@
-import { Draw } from '../libs/drawing.js';
+import { canvasOperation } from '../libs/mainCanvas.js';
 
 export default class Layers {
     constructor() {
         this.layerStack = [];
         this.selected = null;
         this.addLayer("main");
-        this.drawing = null;
+        this.mainCanvas = null;
 
 
         document.addEventListener('keypress',
@@ -171,7 +171,7 @@ export default class Layers {
         })
         clearProjectModalInputs();
         editor.actions.updateMainCanvas();
-        this.drawing = new Draw(mainCanvas);
+        this.mainCanvas = new canvasOperation(mainCanvas);
     }
 
     emptyBackground(canvas) {
@@ -203,8 +203,7 @@ class LayerCanvas {
         this.isActive = true;
         this.id = undefined;
         this.imageData = undefined;
-        this.drawingMode = false;
-        this.textMode = false;
+        this.mode = null;
         this.pos = { x: 0, y: 0 };
 
 

@@ -1,10 +1,11 @@
-export class Draw {
+const drawingMode = 'drawingMode';
+const writingMode = 'writingMode';
+const dragMode = 'dragMode';
+export class canvasOperation {
     constructor(mainCanvas) {
         this.isDrawing = false;
         this.isWriting = false;
-
-        this.drawingMode = null;
-        this.textMode = null;
+        this.mode = null;
         this.opacity = 1;
         this.size = 5;
         this.color = "#000000";
@@ -22,13 +23,16 @@ export class Draw {
         this.drawingCtx.globalCompositeOperation = "source-over";
         this.ctx.globalCompositeOperation = "source-over";
         this.drawingCtx.lineWidth = 0;
+        this.text = "";
+        this.textPosition = null;
 
         this.drawingCtx.globalAlpha = 0.5;
-        this.textInput = document.createElement('input');
+        this.layerIsDragging = false;
+        this.layerStartPos = false;
 
         this.main.addEventListener('mousedown', (e) => {
             const layer = window.layers.getLayer('<selected>');
-            if (layer.drawingMode == true) {
+            if (layer.mode == drawingMode) {
                 this.startDrawing();
                 this.pen(e, layer);
             }
@@ -40,21 +44,67 @@ export class Draw {
 
         this.main.addEventListener('mouseup', () => {
             const layer = window.layers.getLayer('<selected>');
-            if (layer.drawingMode == true) {
+            if (layer.mode == drawingMode) {
                 this.stopDrawing(layer);
             }
         })
 
         this.main.addEventListener('mousemove', (e) => {
             const layer = window.layers.getLayer('<selected>');
-            if (layer.drawingMode == true && this.isDrawing == true) {
+            if (layer.mode == drawingMode && this.isDrawing == true) {
                 this.pen(e, layer);
             }
 
         })
 
-        this.main.addEventListener('key')
+        this.main.addEventListener('keydown', (event) => {
+            console.log(event);
+            const layer = window.layers.getLayer('<selected>');
+            if (layer.mode == writingMode && this.isWriting) {
+                if (event.key == 'enter') {
+                    this.stopWriting();
+                    return;
+                } else {
+                    this.text += event.key;
+                    this.drawText();
+                }
 
+            }
+        })
+
+
+        this.main.addEventListener('mousedown',
+            function (event) {
+                const layer = window.layers.getLayer(window.layers.selected);
+                if (layer.mode == dragMode) {
+                    this.layerStartPos = { x: event.clientX, y: event.clientY };
+                    this.layerIsDragging = true;
+                }
+
+            }
+        )
+        this.main.addEventListener('mousemove',
+            function (event) {
+                const dragFactor = 0.15;
+                const layer = window.layers.getLayer(window.layers.selected);
+
+                if (this.layerIsDragging && isLayerInBounds(event, layer, this.layerStartPos)) {
+                    event.target.style.cursor = 'pointer';
+                    let xDiff = (event.clientX - this.layerStartPos.x) * dragFactor;
+                    let yDiff = (event.clientY - this.layerStartPos.y) * dragFactor;
+                    layer.pos = { x: layer.pos.x + xDiff, y: layer.pos.y + yDiff };
+                    window.editor.actions.updateMainCanvas();
+                }
+
+            }
+        )
+        this.main.addEventListener('mouseup',
+            function (event) {
+                this.layerIsDragging = false;
+                event.target.style.cursor = 'default';
+
+            }
+        )
     }
 
     startDrawing(e) {
@@ -85,30 +135,37 @@ export class Draw {
     }
 
     startWriting(e) {
-        const pos = this.getMousePos(e);
+        this.textPosition = this.getMousePos(e);
         this.isWriting = true;
-        this.textCursor = pos;
-        this.textInput.style.left = pos.x;
-        this.textInput.style.top = pos.y;
-        this.textInput.style.display = 'block';
-        this.textInput.focus();
+        console.log('writing started at', pos);
     }
 
     stopWriting() {
         this.isWriting = false;
+        console.log('writing stopped');
     }
 
 
-    setMode(modeName, mode) {
+    setMode(modeName) {
         const layer = layers.getLayer('<selected>');
-        layer[modeName] = true;
-        this[modeName] = mode;
+        layer.mode = modeName;
+        this.mode = modeName;
+
     }
 
     addAlpha(hex, alpha) {
         hex = hex.replace('#', '');
         const alphaHex = Math.round(alpha * 255).toString(16).padStart(2, '0');
         return `#${hex}${alphaHex}`;
+    }
+
+    drawText() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.font = '20px Arial';
+        this.ctx.fillStyle = 'black';
+
+        cursorY = 50;
+        this.ctx.fillText(this.text, 10, cursorY);
     }
 
     pen(e, layer) {

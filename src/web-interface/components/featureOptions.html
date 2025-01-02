@@ -10,7 +10,7 @@
         data-toggle="tooltip"
         data-placement="top"
         title="Draw"
-        onclick="window.layers.drawing.setMode('drawingMode','circle');">
+        onclick="window.layers.mainCanvas.setMode('drawingMode');">
 
         <i class="bi bi-pencil-fill"></i>
     </a>
@@ -22,8 +22,20 @@
         data-toggle="tooltip"
         data-placement="top"
         title="Text"
-        aria-expanded="false" >
+        aria-expanded="false"
+        onclick="window.layers.mainCanvas.setMode('writingMode');">
         <i class="bi bi-cursor-text"></i>
+        </a>
+    </div>
+    <div class="settings d-flex col-2 flex-column justify-content-center">
+        <a  class="btn btn-warning  disabled"
+        type="button"
+        data-toggle="tooltip"
+        data-placement="top"
+        title="Text"
+        aria-expanded="false"
+        onclick="window.layers.mainCanvas.setMode('dragMode');">
+        <i class="bi bi-hand-index-fill"></i>
         </a>
     </div>
     <div class="settings d-flex col-2 flex-column justify-content-center">
@@ -34,13 +46,12 @@
         data-bs-target="#drawing-settings"
         data-placement="top"
         title="Draw"
-        aria-expanded="false"
-        onclick="layers.drawing.setMode('addText', 'text')" >
+        aria-expanded="false">
         <i class="bi bi-gear-fill"></i>
         </a>
     </div>
+  </div>
 </div>
-     </div>
 
      <div id="drawing-settings" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">

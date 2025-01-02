@@ -1,7 +1,7 @@
 import ImageWrapper from './../wrapper.js';
 import Editor from './../editor.js';
 import Layers from '../components/layers.js';
-import { Draw } from './drawing.js';
+
 
 function UTF8ToString(ptr) {
     let maxLength = 100
