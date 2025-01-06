@@ -41,72 +41,58 @@ export class canvasOperation {
             if (layer.mode == writingMode) {
                 this.startWriting(e);
             }
+
+            if (layer.mode == dragMode) {
+                this.layerStartPos = { x: e.clientX, y: e.clientY };
+                this.layerIsDragging = true;
+            }
         })
 
-        this.main.addEventListener('mouseup', () => {
+        this.main.addEventListener('mouseup', (e) => {
             const layer = window.layers.getLayer('<selected>');
             if (layer.mode == drawingMode) {
-                this.stopDrawing(layer);
+                this.stopDrawing(layer, e);
+            }
+
+            if (layer.mode == dragMode) {
+                this.layerIsDragging = false;
+                e.target.style.cursor = 'default';
             }
         })
 
         this.main.addEventListener('mousemove', (e) => {
+            const dragFactor = 0.15;
             const layer = window.layers.getLayer('<selected>');
             if (layer.mode == drawingMode && this.isDrawing == true) {
                 this.pen(e, layer);
+            }
+
+
+            if (this.layerIsDragging && isLayerInBounds(e, layer, this.layerStartPos)) {
+                e.target.style.cursor = 'pointer';
+                let xDiff = (e.clientX - this.layerStartPos.x) * dragFactor;
+                let yDiff = (e.clientY - this.layerStartPos.y) * dragFactor;
+                layer.pos = { x: layer.pos.x + xDiff, y: layer.pos.y + yDiff };
+                window.editor.actions.updateMainCanvas();
             }
 
         })
 
         this.main.addEventListener('keydown', (event) => {
             const layer = window.layers.getLayer('<selected>');
+
             if (layer.mode == writingMode && this.isWriting) {
                 if (event.key == 'Enter') {
-                    this.stopWriting(layer);
+                    this.stopWriting(event);
                     return;
                 } else {
                     this.text += event.key;
-                    this.drawText(layer);
+                    this.drawText();
                 }
-
-            } else {
-                this.text = "";
             }
+
         })
 
-
-        this.main.addEventListener('mousedown',
-            function (event) {
-                const layer = window.layers.getLayer(window.layers.selected);
-                if (layer.mode == dragMode) {
-                    this.layerStartPos = { x: event.clientX, y: event.clientY };
-                    this.layerIsDragging = true;
-                }
-
-            }
-        )
-        this.main.addEventListener('mousemove',
-            function (event) {
-                const dragFactor = 0.15;
-                const layer = window.layers.getLayer(window.layers.selected);
-
-                if (this.layerIsDragging && isLayerInBounds(event, layer, this.layerStartPos)) {
-                    event.target.style.cursor = 'pointer';
-                    let xDiff = (event.clientX - this.layerStartPos.x) * dragFactor;
-                    let yDiff = (event.clientY - this.layerStartPos.y) * dragFactor;
-                    layer.pos = { x: layer.pos.x + xDiff, y: layer.pos.y + yDiff };
-                    window.editor.actions.updateMainCanvas();
-                }
-
-            }
-        )
-        this.main.addEventListener('mouseup',
-            function (event) {
-                this.layerIsDragging = false;
-                event.target.style.cursor = 'default';
-
-            }
-        )
     }
 
     startDrawing(e) {
@@ -122,7 +108,7 @@ export class canvasOperation {
     }
 
 
-    stopDrawing(layer) {
+    stopDrawing(layer, e) {
         if (this.isDrawing) {
             layer.imageData = this.ctx.getImageData(
                 0,
@@ -135,25 +121,27 @@ export class canvasOperation {
         this.isDrawing = false;
         this.mode = null;
         this.drawingCtx.clearRect(0, 0, this.drawingCanvas.width, this.drawingCanvas.height);
+        e.target.style.cursor = 'default';
+        this.text = ""
 
     }
 
     startWriting(e) {
-        this.text = "";
         this.main.focus();
         this.textPosition = this.getMousePos(e);
         this.isWriting = true;
+        e.target.style.cursor = 'text';
+        this.text = "";
+
+
 
     }
 
-    stopWriting(layer) {
+    stopWriting(event) {
         this.isWriting = false;
         this.mode = null;
+        event.target.style.cursor = 'default';
         this.text = "";
-        this.ctx.drawImage(this.drawingCanvas, 0, 0);
-        layer.imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
-        editor.actions.updateMainCanvas();
-
     }
 
 
@@ -170,13 +158,24 @@ export class canvasOperation {
         return `#${hex}${alphaHex}`;
     }
 
-    drawText(layer) {
+    drawText() {
+
         setTimeout(() => {
+            if (!this.textPosition || !this.text) {
+                return;
+            }
+
+            const layer = layers.getLayer('<selected>');
             this.drawingCtx.globalAlpha = 1;
             this.drawingCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.drawingCtx.font = '20px Arial';
             this.drawingCtx.fillStyle = 'black';
             this.drawingCtx.fillText(this.text, this.textPosition.x, this.textPosition.y);
+            this.ctx.drawImage(this.drawingCanvas, 0, 0);
+            layer.imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+            editor.actions.updateMainCanvas();
+
 
         }, 16);
     }
