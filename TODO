@@ -39,8 +39,8 @@
 [x] listen enter key for the modals
 [x] add drawing in canvas
 [x] add drawing option (strength, size)
-[] add text
-[] save edited image
+[x] add text
+[x] save edited image
 [] move opacity filter in layercontainer to adjust opacity
 [] re-calculate histogram after apply
 [] refactor cropping method (implementin crop images without a crop canvas)

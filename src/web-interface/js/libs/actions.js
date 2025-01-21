@@ -71,5 +71,22 @@ export default class Actions {
 
     }
 
+    saveImage() {
+        const projectName = document.querySelector("title").innerText;
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+
+
+
+        canvas.toBlob(blob => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = projectName + '.png';
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }, 'image/png');
+
+    }
+
 }
 
