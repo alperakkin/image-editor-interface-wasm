@@ -33,6 +33,7 @@ export class canvasOperation {
 
         this.main.addEventListener('mousedown', (e) => {
             const layer = window.layers.getLayer('<selected>');
+
             if (layer.mode == drawingMode) {
                 this.startDrawing();
                 this.pen(e, layer);
@@ -135,18 +136,26 @@ export class canvasOperation {
 
 
 
+
+
+
+
     }
 
     stopWriting(event) {
         this.isWriting = false;
         this.mode = null;
         event.target.style.cursor = 'default';
+        const textLayer = layers.getLayer();
+        textLayer.name = this.text;
+        layers.selected = textLayer.name;
         this.text = "";
     }
 
 
     setMode(modeName) {
         const layer = layers.getLayer('<selected>');
+
         layer.mode = modeName;
         this.mode = modeName;
 
