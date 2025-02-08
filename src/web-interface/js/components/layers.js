@@ -191,6 +191,19 @@ export default class Layers {
         }
     }
 
+    applyFilter(action) {
+        let featureOptions = document.getElementById("feature-options");
+        featureOptions.innerHTML = "";
+
+        fetch(`components/features/${action}.html`)
+            .then(response => response.text())
+            .then(html => {
+
+                featureOptions.insertAdjacentHTML('afterbegin', html);
+            })
+
+    }
+
 
 
 
