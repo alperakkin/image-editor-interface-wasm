@@ -1,4 +1,4 @@
-<div class="col-6 arguments" id="mask" style="color: aliceblue;">
+<div class="arguments" id="mask" style="color: aliceblue;">
     <div class="row">
         <label for="maskColor">Color</label>
         <input id="maskColor" type="color" style="width: 50px;">
@@ -6,5 +6,8 @@
     <div class="row">
         <label for="maskThreshold">Threshold</label>
         <input id="maskThreshold"  type="range" min="0" max="200" value="0" class="slider">>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <a class="btn btn-warning" type="button" onclick="editor.execute('mask')">Apply</a>
     </div>
 </div>

@@ -1,4 +1,4 @@
-<div class="col-6 arguments" id="check_color" style="display: none;">
+<div class="arguments" id="check_color" style="display: none;">
     <div class="row">
         <label for="checkColor">Color</label>
         <input id="checkColor" type="color" style="width: 50px;">
@@ -6,6 +6,9 @@
     <div class="row">
         <label for="checkColorThreshold">Threshold</label>
         <input id="checkColorThreshold"  type="range" min="0" max="200" value="200" class="slider">>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <a class="btn btn-warning" type="button" onclick="editor.execute('check_color')">Apply</a>
     </div>
 
 </div>

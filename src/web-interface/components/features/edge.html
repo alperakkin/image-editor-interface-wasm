@@ -1,4 +1,4 @@
-<div class="col-6 arguments" id="edge" style="color: aliceblue;">
+<div class="arguments" id="edge" style="color: aliceblue;">
     <div class="row">
         <label for="highThreshold">High Threshold</label>
         <input id="highThreshold"  type="range" min="0" max="255" value="0" class="slider">>
@@ -6,5 +6,8 @@
     <div class="row">
         <label for="lowThreshold">Low Threshold</label>
         <input id="lowThreshold"  type="range" min="0" max="255" value="0" class="slider">>
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <a class="btn btn-warning" type="button" onclick="editor.execute('edge')">Apply</a>
     </div>
 </div>

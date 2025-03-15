@@ -18,7 +18,6 @@ export default class Actions {
         layer.imageData = imgData;
 
         editor.actions.updateMainCanvas();
-        document.getElementById("options").value = "";
 
 
 

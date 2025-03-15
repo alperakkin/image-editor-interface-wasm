@@ -1,4 +1,4 @@
-<div class="col-6 arguments" id="gaussian" style="color: aliceblue;">
+<div class="arguments" id="gaussian" style="color: aliceblue;">
     <div class="row">
         <label for="kernel_size">Kernel Size</label>
         <input id="kernel_size" type="range" min="1" max="50" value="3" class="slider">
@@ -6,6 +6,9 @@
     <div class="row">
         <label for="sigma">Sigma</label>
         <input id="sigma" type="range" min="0" max="200" value="10" class="slider">
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <a class="btn btn-warning" type="button" onclick="editor.execute('gaussian')">Apply</a>
     </div>
 
 </div>

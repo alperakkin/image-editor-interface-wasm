@@ -1,4 +1,4 @@
-<div class="col-6 arguments" id="add_border" style="color: aliceblue;">
+<div class="arguments" id="add_border" style="color: aliceblue;">
     <div class="row">
         <label for="borderColor">Color</label>
         <input id="borderColor" type="color" style="width: 50px;">
@@ -6,5 +6,8 @@
     <div class="row">
         <label for="borderWidth">Width</label>
         <input id="borderWidth"  type="range" min="0" max="20" value="0" class="slider">
+    </div>
+    <div class="row" style="margin-top: 5px;">
+        <a class="btn btn-warning" type="button" onclick="editor.execute('add_border')">Apply</a>
     </div>
 </div>
